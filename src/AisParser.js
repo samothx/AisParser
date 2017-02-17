@@ -22,7 +22,7 @@ export type Context = { [id : string] : { idx : number, aisStr: string } };
 const DEBUG = false;
 const MOD_NAME = 'AisParser';
 
-export default class AisParser {
+class AisParser {
   _context : Context;
   _options : ParseOptions;
 
@@ -155,3 +155,4 @@ export default class AisParser {
     }
   }
 }
+module.exports = AisParser;

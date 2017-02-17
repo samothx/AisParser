@@ -1,1 +1,1 @@
-module exports require('./lib/AisParser'); 
+module.exports = require('./lib/AisParser'); 
