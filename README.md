@@ -1,11 +1,14 @@
 # AisParser
 A Parser for NMEA0183  AIS messages.
-The parser is written using [flow](https://flowtype.org/). It can be run from the src directory with babel-node or in the transpiled version from the index.js file or the lib directory. The code should get transpiled into the lib diretory at install (I am working on that currently). Otherwise it can be transpiled calling ```npm install``` and ```npm run-script prepublish```.
-
+The parser is written using [flow](https://flowtype.org/). It can be run from the src directory with babel-node or in the transpiled version from the index.js file or the lib directory. The code should get transpiled into the lib diretory at install (I am working on that currently). Otherwise it can be transpiled calling
+```
+npm install
+npm run-script prepublish
+```
 The modules approach to parsing AIS messages is 'on demand'. A message is merely stored and only parsed partially when data is requested. For instance when the aisType is read only one byte of the message is actually translated and parsed. So it makes sense to only read the values that are really needed. Although some common values are cached in the result object once they have been requested, most values are not - meaning that they are parsed every time they are requested.
 
 The result object obtained from the parse function has a variable **supportedValues** which returns an array of valid field names that can be retrieved from the result object.
-The instance variables of the result object are actually implemented as getter functions: The parsing is done while using these functions and they throw exceptions when parsing fails. Therefore it is important to use a try catch block around the data retrieval to catch parse exceptions.   
+The instance variables of the result object are actually implemented as getter functions: The parsing is done while using these instance variables are accessed and they can throw exceptions when parsing fails. Therefore it is important to use a try catch block around the data retrieval to catch parse exceptions.   
 
 ## API
 
@@ -40,12 +43,7 @@ The function returns a result object that can be used to retrieve the status of 
 ## The Result Object
 
 
-
-
-
-
-
-
+## Testing
 
 
 
@@ -68,11 +66,16 @@ sentences.forEach(function(sentence) {
   switch(result.valid) {
     case 'VALID':
       console.log('values for message:' + sentence);
-      result.supportedValues.forEach(
-        function(field) {
-          console.log(' ' + field + ':' + result[field] +
-                      ' ' + result.getUnit(field));
-        });
+      try {
+        result.supportedValues.forEach(
+          function(field) {
+            console.log(' ' + field + ':' + result[field] +
+                      ' / ' + result.getUnit(field));
+          });
+        } catch(error) {
+          console.log('parsing failed for' + sentence +
+                      ' error:' + error);
+        }
       break;
     case 'UNSUPPORTED':
       console.log('unsupported message :' + sentence);
@@ -88,6 +91,3 @@ sentences.forEach(function(sentence) {
     }
   });
 ```
-
-
-Test:
