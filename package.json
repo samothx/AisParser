@@ -4,13 +4,15 @@
   "private": false,
   "description" : "parser for NMEA0183 AIS messages",
   "keywords" : "parser AIS NMEA NMEA0183",
-  "bugs" : { "email" : "support@etnur.net" },
+  "repository" : "https://github.com/samothx/AisParser.git",
+  "bugs" : {
+    "url" : "https://github.com/samothx/AisParser/issues",
+    "email" : "support@etnur.net" },
   "license": "Apache-2.0",
   "main" : "index.js",
   "engines" : {"node" : ">=6.4.0"},
   "scripts": {
     "prepublish" : "cd src;babel -d ../lib *.js;cd ..",
-    "preinstall" : "cd src;babel -d ../lib *.js;cd ..",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "devDependencies": {
