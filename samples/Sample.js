@@ -23,11 +23,16 @@ sentences.forEach(function(sentence) {
   switch(result.valid) {
     case 'VALID':
       console.log('values for message:' + sentence);
-      result.supportedValues.forEach(
-        function(field) {
-          console.log(' ' + field + ':' + result[field] +
+      try {
+        result.supportedValues.forEach(
+          function(field) {
+            console.log(' ' + field + ':' + result[field] +
                       ' ' + result.getUnit(field));
-        });
+          });
+        } catch(error) {
+          console.log('parsing failed for' + sentence +
+                      ' error:' + error);
+        } 
       break;
     case 'UNSUPPORTED':
       console.log('unsupported message :' + sentence);
