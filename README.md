@@ -1,8 +1,6 @@
 # AisParser
 A Parser for NMEA0183  AIS messages.
-The parser is written using flow. It is transpiled on install to the lib directory.
-The Parser needs to keep a context to ber able to process multi line messages therefore it is implemented as a class.
-The class mainly holds the context for the parse function.
+The parser is written using flow. It is transpiled on install to the lib directory. If not call ```npm run-script prepublish```.
 
 Usage:
 ```javascript
