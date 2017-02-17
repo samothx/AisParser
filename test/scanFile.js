@@ -4,8 +4,8 @@
 import fs from 'fs';
 import {Transform} from 'stream';
 
-import AisMessage from './AisMessage';
-import AISParser from './AISParser';
+import AisMessage from '../src/AisMessage';
+import AisParser from '../src/AisParser';
 
 const TMP_FILE_NAME = 'tmp.out';
 const MOD_NAME = 'scanFile';
@@ -29,11 +29,11 @@ class Parser extends Transform {
   _parseDuration : number;
   _readDuration : number;
   _remaining : string;
-  _aisParser : AISParser;
+  _aisParser : AisParser;
 
   constructor(failStream : Object,sigkType : boolean) {
     super();
-    this._aisParser = new AISParser({checksum : true});
+    this._aisParser = new AisParser({checksum : true});
     this._fields = { 'lineNo': 0 };
     this._fieldCount = 1;
     this._fieldNames = ['lineNo'];

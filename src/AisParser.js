@@ -11,8 +11,9 @@ import Ais21Msg from './Ais21Msg';
 import Ais24Msg from './Ais24Msg';
 
 // TODO:  Parser currently rejects multipart messages, if the padbit is != 0 in
-//        any but the last part. In a AisHub scan 2 messages where encountered
-//        that did this.
+//        any but the last part. In an AisHub scan 2 messages where encountered
+//        that where built like that but they were invalid in other ways too,
+//        so I am hoping to get away like this.
 
 export type ParseOptions = { checksum? : boolean; };
 
@@ -59,7 +60,7 @@ export default class AisParser {
     return chkSumStr === sentence.substr(idx + 1);
   }
 
-// !AIVDM,1,1,,B,14`c;d002grD>PH50hr7RVE000SG,0*74
+  // !AIVDM,1,1,,B,14`c;d002grD>PH50hr7RVE000SG,0*74
   parse(sentence : string,options : ParseOptions = {}) : AisMessage {
     /* checksum not working yet */
     if(sentence.startsWith('!AIVDO') || sentence.startsWith('!AIVDM')) {
@@ -118,7 +119,7 @@ export default class AisParser {
           }
         }
       } else {
-        if(msgId !== 1) {
+        if(msgIdx !== 1) {
           return AisMessage.fromError('INVALID','invalid message index !=1 in non partial message:[' + sentence + ']');
         }
       }
