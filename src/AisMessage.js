@@ -265,7 +265,7 @@ export default class AisMessage {
     return msg;
   }
 
-  static getUnit(field : string) : ?string {
+  getUnit(field : string) : ?string {
     return UNITS[field];
   }
 
