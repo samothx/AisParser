@@ -1,5 +1,22 @@
 // @flow
 
+/*
+ * AisParser: A parser for NMEA0183 AIS messages.
+ * Copyright (C) 2017 Thomas Runte <coding@etnur.net>.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Apache License Version 2.0 as published by
+ * Apache Software foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the Apache License Version 2.0
+ * along with this program.  If not, see <https://www.apache.org/licenses/LICENSE-2.0/>.
+ */
+
 import AisBitField from './AisBitField';
 
 export type UtcTsStatus = 'VALID' | 'INVALID' | 'NA' | 'MANUAL' | 'ESTIMATED' | 'INOPERATIVE';
