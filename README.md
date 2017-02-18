@@ -1,19 +1,24 @@
 # AisParser
 A Parser for NMEA0183  AIS messages.
-The parser is written using [flow](https://flowtype.org/). It can be run from the src directory with babel-node or in the transpiled version from the index.js file or the lib directory. The code should get transpiled into the lib diretory at install (I am working on that currently). Otherwise it can be transpiled calling
+
+## Installation
+The parser is written using [flow](https://flowtype.org/). It can be run from the src directory with babel-node or in the transpiled version from the index.js file or the lib directory. If you are using the NPM package you do not have to worry about transpiling, it has been done for you allready. If you are using the github package you will need to take care of transpiling by calling the following commands:
 ```
+cd <package-dir>
 npm install
 npm run-script prepublish
 ```
-The modules approach to parsing AIS messages is 'on demand'. A message is merely stored and only parsed partially when data is requested. For instance when the aisType is read only one byte of the message is actually translated and parsed. So it makes sense to only read the values that are really needed. Although some common values are cached in the result object once they have been requested, most values are not - meaning that they are parsed every time they are requested.
+
+## How it works
+The modules approach to parsing AIS messages is 'on demand'. A message is merely stored and some basic checks are done by the **parse** function. When data is requested only as much of the message is parsed as is needed to decode the requested data. For instance when the aisType is read only one byte of the message is actually translated and parsed. So it makes sense to only read the values that are really needed. Although some common values are cached in the result object once they have been requested, most values are not - meaning that they are parsed every time they are requested.
 
 The Module parses AIS messages of types 1,2,3.4.5,18,19,21 and 24. These are the common message types, most other types are related to inter vessel or vessel to shore communication.
 
-The author takes no responsability for the correctness of returned values. Please always keep a good watch and an eye on the traffic while commanding a vessel.
+Although the parser has been thoroughly checked against AIS logs from AISHub and AIS recordings from the Panama Canal, the author takes no responsibility for the correctness of returned values. Please always keep a good watch and an eye on the traffic while commanding a vessel.
 
-The result object obtained from the parse function has a variable **supportedValues** which returns an array of valid field names that can be retrieved from the result object. The list is specific to the message type, it list values that may be present in the message. Retrieving these values may still return NaN or '' values, if value is set to empty or undefined in the actual message.
+The result object obtained from the parse function has a variable **supportedValues** which returns an array of valid field names that can be retrieved from the result object. The list is specific to the message type, it lists values that may be present in the message. Retrieving these values may still return NaN or '' values, if the value is set to empty or undefined in the actual message.
 
-The instance variables of the result object are implemented as getter functions: The parsing is done while the instance variables are accessed and they can throw exceptions when parsing fails. This should only happen when badly maformed (too short) messages are being processed. Having the checksum checked should make sure that this does not happen as long as the device producing the messages does not emmit faulty messages. Otherwise use a try catch block around the data retrieval to catch parse exceptions.   
+The instance variables of the result object are implemented as getter functions: The parsing is done while the instance variables are accessed and they can throw exceptions when parsing fails. This should only happen when maformed (too short) messages are being processed. Having the checksum checked should make sure that this does not happen as long as the device producing the messages does not emmit faulty messages. Otherwise use a try catch block around the data retrieval to catch parse exceptions.   
 
 ## API
 

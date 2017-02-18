@@ -43,7 +43,7 @@ sentences.forEach(function(sentence) {
       console.log('error message: :' + result.errMsg);
       break;
     case 'INCOMPLETE':
-      console.log('incomlete message, waiting for more');
+      console.log('incomplete message, waiting for more');
       break;
     }
   });
