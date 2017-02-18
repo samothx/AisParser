@@ -80,7 +80,7 @@ There is a file scanFile.js and test data in output1000.txt in the test folder. 
 
 The command will scan the file output1000.txt print all errors to the screen. There will plenty of errors because the file contains not only AIS messages and several unsupported AIS messages. All errors should be of type UNSUPPORTED.
 After executing the command the file output1000.csv should contain comma separated values data with the content of the parsed messages. It can be opened with excel or Libreoffice Calc. The file output1000.fail will contain all failed AIS messages.
-The last parameter delivers the type of data to be read. When set to sigk it will try to parse a format delivered by the signalk-node-server that puts a timestamp and a source tag in fromt of every line.  
+The last parameter delivers the type of data to be read. When set to sigk it will try to parse a format delivered by the signalk-node-server that puts a timestamp and a source tag in front of every line.  
 
 ## Usage: (as in samples/Sample.js)
 ```javascript

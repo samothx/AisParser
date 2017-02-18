@@ -325,11 +325,19 @@ export default class AisMessage {
   }
 
   get repeatInd() : number {
-    return this._bitField.getInt(6,2,true);
+    if(this._bitField && (this._bitField.bits >= 8)) {
+      return this._bitField.getInt(6,2,true);
+    } else {
+      return NaN;
+    }
   }
 
   _getMmsi() : number {
-    return this._bitField.getInt(8,30,true);
+    if(this._bitField && (this._bitField.bits >= 38)) {
+      return this._bitField.getInt(8,30,true);
+    } else {
+      return NaN;
+    }
   }
 
   get mmsi() : number {

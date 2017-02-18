@@ -63,7 +63,12 @@ const SUPPORTED_VALUES = [
 export default class Ais18Msg extends AisMessage {
   constructor(aisType : number,bitField : AisBitField, channel : string) {
     super(aisType,bitField,channel);
-    this._valid = 'VALID';
+    if(bitField.bits >= 167) {
+      this._valid = 'VALID';
+    } else {
+      this._valid = 'INVALID';
+      this._errMsg = 'invalid bitcount for type 18 msg:' + bitField.bits;
+    }
   }
 
   get supportedValues() : Array<string> {

@@ -68,7 +68,16 @@ export default class Ais24Msg extends AisMessage {
 
   constructor(aisType : number,bitField : AisBitField, channel : string) {
     super(aisType,bitField,channel);
-    this._valid = 'VALID';
+    if(bitField.bits >= 39) {
+      this._partNo = this._bitField.getInt(38,2,true) ? 1 : 0;
+
+      if(((this._partNo === 0) && (bitField.bits >= 159)) || (bitField.bits >= 161)) {
+        this._valid = 'VALID';
+        return;
+      }
+    } 
+    this._valid = 'INVALID';
+    this._errMsg = 'invalid bitcount for type 24 msg:' + bitField.bits;
   }
 
   get supportedValues() : Array<string> {

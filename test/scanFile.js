@@ -193,8 +193,8 @@ class Parser extends Transform {
 }
 
 
-if(process.argv.length < 6) {
-  console.log('USAGE: <input file> <output file> <failed file> <type:sigk|plain>');
+if(process.argv.length < 5) {
+  console.log('USAGE: <input file> <output file> <failed file> [sigk]');
 } else {
   if(fs.existsSync(process.argv[2])) {
     let iStream = fs.createReadStream(process.argv[2]);

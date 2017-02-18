@@ -55,7 +55,12 @@ TODO:
 export default class AisCNBMsg extends AisMessage {
   constructor(aisType : number,bitField : AisBitField, channel : string) {
     super(aisType,bitField,channel);
-    this._valid = 'VALID';
+    if(bitField.bits >= 167) {
+      this._valid = 'VALID';
+    } else {
+      this._valid = 'INVALID';
+      this._errMsg = 'invalid bitcount for type CNB msg:' + bitField.bits;
+    }
   }
 
   get class() : string {
