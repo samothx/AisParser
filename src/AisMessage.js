@@ -2,7 +2,7 @@
 
 import AisBitField from './AisBitField';
 
-export type UtcStatus = 'VALID' | 'INVALID' | 'NA' | 'MANUAL' | 'ESTIMATED' | 'INOPERATIVE';
+export type UtcTsStatus = 'VALID' | 'INVALID' | 'NA' | 'MANUAL' | 'ESTIMATED' | 'INOPERATIVE';
 export type RotStatus = 'NONE' | 'RIGHT' | 'LEFT' | 'NA';
 export type SogStatus = 'HIGH' | 'VALID' | 'INVALID' | 'NA';
 
@@ -197,8 +197,9 @@ const UNITS = {
   'channel'           : 'string',
   'repeatInd'         : 'number',
   'mmsi'              : 'number',
-  'latitude'          : 'degrees',
-  'longitude'         : 'degrees',
+  'class'             : 'string',
+  'latitude'          : 'deg',
+  'longitude'         : 'deg',
   'posAccuracy'       : 'boolean',
   'navStatus'         : 'index',
   'navStatusStr'      : 'string',
@@ -228,19 +229,23 @@ const UNITS = {
   'etaMinute'         : 'min',
   'draught'           : 'm',
   'destination'       : 'string',
-  'heading'           : 'degrees',
+  'heading'           : 'deg',
   'sogStatus'         : 'string',
   'sog'               : 'kn',
-  'cog'               : 'degrees',
-  'latitude'          : 'degrees',
-  'longitude'         : 'degrees',
+  'cog'               : 'deg',
+  'latitude'          : 'deg',
+  'longitude'         : 'deg',
   'utcTsSec'          : 's',
-  'utcStatus'         : 'string',
+  'utcTsStatus'         : 'string',
   'partNo'            : 'number',
   'vendorId'          : 'string',
   'mothershipMmsi'    : 'string',
   'rotStatus'         : 'string',
-  'rot'               : 'degrees/min',
+  'rot'               : 'deg/min',
+  'offPosInd'         : 'string',
+  'aidType'           : 'index',
+  'aidTypeStr'        : 'string',
+  'nameExt'           : 'string'
  }
 
 
@@ -475,7 +480,7 @@ export default class AisMessage {
     return (this._utcSec < 60) ? this._utcSec : NaN;
   }
 
-  get utcStatus() : UtcStatus {
+  get utcTsStatus() : UtcTsStatus {
     if(!(typeof this._utcSec === 'number')) {
       this._utcSec = this._getUtcSec();
     }

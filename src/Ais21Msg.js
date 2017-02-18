@@ -50,7 +50,7 @@ const SUPPORTED_VALUES = [
   'epfd',
   'epfdStr',
   'utcTsSec',
-  'utcStatus',
+  'utcTsStatus',
   'offPosInd',
   'aidType',
   'aidTypeStr',

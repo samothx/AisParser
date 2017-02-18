@@ -50,7 +50,7 @@ const SUPPORTED_VALUES = [
   'longitude',
   'posAccuracy',
   'utcTsSec',
-  'utcStatus',
+  'utcTsStatus',
   'name',
   'shipType',
   'shipTypeStr',
