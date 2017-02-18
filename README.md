@@ -9,10 +9,11 @@ The modules approach to parsing AIS messages is 'on demand'. A message is merely
 
 The Module parses AIS messages of types 1,2,3.4.5,18,19,21 and 24. These are the common message types, most other types are related to inter vessel or vessel to shore communication.
 
-The author takes no responsability for the correctnes of returned values. Please always keep a good watch and an eye on the traffic while commanding a vessel.
+The author takes no responsability for the correctness of returned values. Please always keep a good watch and an eye on the traffic while commanding a vessel.
 
-The result object obtained from the parse function has a variable **supportedValues** which returns an array of valid field names that can be retrieved from the result object.
-The instance variables of the result object are actually implemented as getter functions: The parsing is done while using these instance variables are accessed and they can throw exceptions when parsing fails. Therefore it is important to use a try catch block around the data retrieval to catch parse exceptions.   
+The result object obtained from the parse function has a variable **supportedValues** which returns an array of valid field names that can be retrieved from the result object. The list is specific to the message type, it list values that may be present in the message. Retrieving these values may still return NaN or '' values, if value is set to empty or undefined in the actual message.
+
+The instance variables of the result object are implemented as getter functions: The parsing is done while the instance variables are accessed and they can throw exceptions when parsing fails. This should only happen when badly maformed (too short) messages are being processed. Having the checksum checked should make sure that this does not happen as long as the device producing the messages does not emmit faulty messages. Otherwise use a try catch block around the data retrieval to catch parse exceptions.   
 
 ## API
 
@@ -26,7 +27,7 @@ When supplied currently only one parameter ```checksum``` of type boolean is sup
 ```var parser = new AisParser({ checksum : true })```
 
 ### Function checksumValid(message)
-The function calculates and compares the checksum and returns true if the value matches or false if not. The function also does some basic checks and returns false if the message is obviously not valid.
+The function calculates and compares the checksum and returns true if the value matches or false if not. The function also does some basic checks and returns false if the message is obviously not valid otherwise.
 
 #### Parameters
 The function takes one string parameter:
@@ -39,7 +40,7 @@ The function takes one string parameter:
 ### Function parse(message,options)
 The Function takes two parameters:
 - The parameter message supplies the AIS message to be parsed.
-- The second parameter can be left out. It has thesame content as the constructors option parameter the values given there.
+- The second parameter can be left out. It has the same content as the constructors option parameter. When given it overrides the options given in the constructor.
 
 #### Return Value
 The function returns a result object that can be used to retrieve the status of the parse process and the messages values when parsing was successful.
@@ -51,7 +52,7 @@ The result object contains the semi parsed message and a status of the parse pro
 - **UNSUPPORTED** - the message was either of unsupported aisType or not an AIS message. Further information can be optained by reading the **errMsg** variable.
 - **INCOMPLETE** - the message is part of a sequence of messages. Only when the last message of the sequence has been parsed will results be returned.
 
-Generally all possible values can be queried on a valid or invalid result object. Numerical values will result in **NaN** string values in the **empty string** when not part of the message. Only available values will actually be parsed. If errors occurr during parsing you will receive an exception, so it is important to secure the reading code with a try catch block.
+Generally all possible values can be queried on a valid or invalid result object. Numerical values will result in **NaN**, string values in the **empty string** when not part of the message. Only available values will actually be parsed. If errors occurr during parsing you will receive an exception, so it is important to secure the reading code with a try catch block.
 
 The **supportedValues** variable supplies an array of strings that contains the variable names that are supported by the parsed message.
 
@@ -59,12 +60,13 @@ The function ***getUnit(fieldName)*** returns the type of value for a field.
 For numeric values following return values are possible:
 - 'number' - a plain number.
 - 'index' - an index into a list or enum. These values often have an accompanying field to get the string associated with the numberic value eg. epfd -> index, epfdStr returns the string.
+- 'string' - a string value.
 - unit - a unit name like 'm', 'deg','rad'.
-For strings the value 'string' is returned
+
 
 The following variables are available for all message types:
  - ***aisType*** - the ais message type.
- - ***channel*** - the channel on which the message was sent, either 'A', 'B' or '-'.
+ - ***channel*** - the channel on which the message was sent, either 'A', 'B' or ''.
  - ***repeatInd*** - The Repeat Indicator is a directive to an AIS transceiver that this
 message should be rebroadcast.
  - ***mmsi*** - the Maritime Mobile Service Identity.
@@ -72,6 +74,13 @@ message should be rebroadcast.
 
 ## Testing
 
+There is a file scanFile.js and test data in output1000.txt in the test folder. When AisParser is installed via NPM install it can be run with babel-node.
+
+```babel-node scanFile.js output.txt output.csv output.fail plain```
+
+The command will scan the file output1000.txt print all errors to the screen. There will plenty of errors because the file contains not only AIS messages and several unsupported AIS messages. All errors should be of type UNSUPPORTED.
+After executing the command the file output1000.csv should contain comma separated values data with the content of the parsed messages. It can be opened with excel or Libreoffice Calc. The file output1000.fail will contain all failed AIS messages.
+The last parameter delivers the type of data to be read. When set to sigk it will try to parse a format delivered by the signalk-node-server that puts a timestamp and a source tag in fromt of every line.  
 
 ## Usage: (as in samples/Sample.js)
 ```javascript
