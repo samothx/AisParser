@@ -22,7 +22,7 @@ import AisBitField from './AisBitField';
 export type UtcTsStatus = 'VALID' | 'INVALID' | 'NA' | 'MANUAL' | 'ESTIMATED' | 'INOPERATIVE';
 export type RotStatus = 'NONE' | 'RIGHT' | 'LEFT' | 'NA';
 export type SogStatus = 'HIGH' | 'VALID' | 'INVALID' | 'NA';
-
+export type SuppValues = { [key : string] : string };
 
 export type Validity = 'VALID' | 'INCOMPLETE' | 'INVALID' | 'UNSUPPORTED';
 
@@ -36,7 +36,7 @@ const MOD_NAME = 'AisMessage';
 const INVALID_LON = 0x6791AC0;
 const INVALID_LAT = 0x3412140;
 
-const SUPPORTED_VALUES = [
+const SUPPORTED_FIELDS = [
   'valid',
   'errMsg',
   'aisType' ];
@@ -265,6 +265,8 @@ const UNITS = {
   'nameExt'           : 'string'
  }
 
+let suppValuesValid = false;
+let suppValues : SuppValues = {};
 
 export default class AisMessage {
   _valid : Validity;
@@ -303,8 +305,18 @@ export default class AisMessage {
     this._errMsg = ''
   }
 
-  get supportedValues() : Array<string> {
-    return SUPPORTED_VALUES;
+  get supportedValues() : SuppValues {
+    if(!suppValuesValid) {
+      SUPPORTED_FIELDS.forEach((field)=>{
+        let unit = AisMessage.getUnit(field);
+        if(unit) {
+          suppValues[field] = unit;
+        } else {
+          console.warn(MOD_NAME + 'field without unit encountered:' + field);
+        }});
+        suppValuesValid = true;
+      }
+    return suppValues;
   }
 
   setResult(valid : Validity,errMsg : string) : void {

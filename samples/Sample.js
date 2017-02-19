@@ -41,15 +41,15 @@ sentences.forEach(function(sentence) {
     case 'VALID':
       console.log('values for message:' + sentence);
       try {
-        result.supportedValues.forEach(
-          function(field) {
-            console.log(' ' + field + ':' + result[field] +
-                      ' / ' + result.getUnit(field));
-          });
-        } catch(error) {
+        var suppValues = result.supportedValues;
+        for(field in suppValues) {
+          console.log(' ' + field + ':' + result[field] +
+                      ' / ' + suppValues[field]);
+        }
+      } catch(error) {
           console.log('parsing failed for' + sentence +
                       ' error:' + error);
-        }
+      }
       break;
     case 'UNSUPPORTED':
       console.log('unsupported message :' + sentence);

@@ -19,9 +19,11 @@
 
 import AisBitField from './AisBitField';
 import AisMessage from './AisMessage';
+import type {SuppValues} from './AisMessage';
 
 const MOD_NAME = 'Ais18Msg';
 const DEBUG = false;
+
 
 /*
 |==============================================================================
@@ -60,7 +62,7 @@ TODO:
 |==============================================================================
 */
 
-const SUPPORTED_VALUES = [
+const SUPPORTED_FIELDS = [
   'aisType',
   'channel',
   'repeatInd',
@@ -75,6 +77,8 @@ const SUPPORTED_VALUES = [
   'utcTsSec',
   'utcTsStatus',
  ];
+ let suppValuesValid = false;
+ let suppValues : SuppValues = {};
 
 
 export default class Ais18Msg extends AisMessage {
@@ -88,8 +92,19 @@ export default class Ais18Msg extends AisMessage {
     }
   }
 
-  get supportedValues() : Array<string> {
-    return SUPPORTED_VALUES;
+
+  get supportedValues() : SuppValues {
+    if(!suppValuesValid) {
+      SUPPORTED_FIELDS.forEach((field)=>{
+        let unit = AisMessage.getUnit(field);
+        if(unit) {
+          suppValues[field] = unit;
+        } else {
+          console.warn(MOD_NAME + 'field without unit encountered:' + field);
+        }});
+        suppValuesValid = true;
+      }
+    return suppValues;
   }
 
   get class() : string {

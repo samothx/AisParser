@@ -2,7 +2,7 @@
 A Parser for NMEA0183  AIS messages.
 
 ## Installation
-The parser is written using [flow](https://flowtype.org/). It can be run from the src directory with babel-node or in the transpiled version from the index.js file or the lib directory. If you are using the NPM package ( add "aisparser" :">=0.0.4" to your package.json dependencies) you do not have to worry about transpiling, it has been done for you allready. If you are using the github package you will need to take care of transpiling by calling the following commands:
+The parser is written using [flow](https://flowtype.org/). It can be run from the src directory with babel-node or in the transpiled version from the index.js file or the lib directory. If you are using the NPM package ( add "aisparser" :">=0.0.5" to your package.json dependencies) you do not have to worry about transpiling, it has been done for you allready. If you are using the github package you will need to take care of transpiling by calling the following commands:
 ```
 cd <package-dir>
 npm install
@@ -16,7 +16,19 @@ The Module parses AIS messages of types 1,2,3.4.5,18,19,21 and 24. These are the
 
 Although the parser has been thoroughly checked against AIS logs from AISHub and AIS recordings from the Panama Canal, the author takes no responsibility for the correctness of returned values. Please always keep a good watch and an eye on the traffic while commanding a vessel.
 
-The result object obtained from the parse function has a variable **supportedValues** which returns an array of valid field names that can be retrieved from the result object. The list is specific to the message type, it lists values that may be present in the message. Retrieving these values may still return NaN or '' values, if the value is set to empty or undefined in the actual message.
+The result object obtained from the parse function has a variable **supportedValues** which returns an object containing the field names that can be retrieved from the result object associated with their type or unit. The list may look something like this:
+```json
+{
+  "aisType" : "number",
+  "mmsi" : "number",
+  "name" : "string",
+  "longitude" : "deg",
+  "latitude" : "deg",
+  "sog" : "kn"
+  ...
+}
+```
+The list is specific to the message type, it lists values that may be present in the message. Retrieving the values may still return NaN or "" values, if the value is set to empty or undefined in the actual message.
 
 The instance variables of the result object are implemented as getter functions: The parsing is done while the instance variables are accessed and they can throw exceptions when parsing fails. This should only happen when maformed (too short) messages are being processed. Having the checksum checked should make sure that this does not happen as long as the device producing the messages does not emmit faulty messages. Otherwise use a try catch block around the data retrieval to catch parse exceptions.   
 
@@ -59,7 +71,7 @@ The result object contains the semi parsed message and a status of the parse pro
 
 Generally all possible values can be queried on a valid or invalid result object. Numerical values will result in **NaN**, string values in the **empty string** when not part of the message. Only available values will actually be parsed. If errors occurr during parsing you will receive an exception, so it is important to secure the reading code with a try catch block.
 
-The **supportedValues** variable supplies an array of strings that contains the variable names that are supported by the parsed message.
+The **supportedValues** variable supplies a dictionary of strings that contains the variable names that are supported by the parsed message associated with their type or value.
 
 The function ***getUnit(fieldName)*** returns the type of value for a field.
 For numeric values following return values are possible:
@@ -79,23 +91,35 @@ message should be rebroadcast.
 
 ## Testing
 
-There is a file scanFile.js and test data in output1000.txt in the test folder. When AisParser is installed via NPM install it can be run with babel-node.
+You will find the files scanFile.js testdata.tgz in the test directory.
+When AisParser is installed via NPM install it can be run with babel-node.
 
-```babel-node scanFile.js output.txt output.csv output.fail plain```
+```shell
+tar -xzf testdata.tgz
+babel-node scanFile.js output.txt output.csv output.fail plain
+```
 
-The command will scan the file output1000.txt print all errors to the screen. There will plenty of errors because the file contains not only AIS messages and several unsupported AIS messages. All errors should be of type UNSUPPORTED.
+The command will scan the file output1000.txt print all errors to the screen. There will plenty of errors because the file contains about 1000 NMEA messages from the Panama Canal which are not all AIS messages- There are also several unsupported AIS messages in the file. With all supplied test files all errors should be of type UNSUPPORTED and refer to message types other than 1,2,3,4,5,18,19,21,24.
 After executing the command the file output1000.csv should contain comma separated values data with the content of the parsed messages. It can be opened with excel or Libreoffice Calc. The file output1000.fail will contain all failed AIS messages.
 The last parameter delivers the type of data to be read. When set to sigk it will try to parse a format delivered by the signalk-node-server that puts a timestamp and a source tag in front of every line.  
 
 ## Usage: (as in samples/Sample.js)
 ```javascript
-var AisParser = require('AisParser');
+var AisParser = require('../index');
+
 var parser = new AisParser({ checksum : true });
 
 var sentences = [
   '!AIVDM,1,1,,B,14`c;d002grD>PH50hr7RVE000SG,0*74',
+  '!AIVDM,1,1,,B,34hwN60Oh3rCwib56`qJtbL<0000,0*12',
+  '!AIVDM,1,1,,B,15TPq@0Oj0rClEv53P9HWVn<283C,0*51',
+  '!AIVDO,1,1,,,B39i>1000nTu;gQAlBj:wwS5kP06,0*5D',
+  '!AIVDM,1,1,,A,35SrP>5P00rCQAL5:KA8<wv:0000,0*5D',
+  '!AIVDM,1,1,,A,15NMBi;P00rCfhb58C4sLgv<20SG,0*42',
   '$GPVTG,222.30,T,,M,0.30,N,0.6,K,A*09',
   '!AIVDM,1,1,,B,14`a`N001WrD12J4sMnWpV8l2<4`,0*0D',
+  '!AIVDM,1,1,,B,15?P>b0000rCgTH58DU6KpJj0`0>,0*37',
+  '!AIVDO,1,1,,,B39i>1001FTu;bQAlAMscwe5kP06,0*3E',
   '!AIVDM,1,1,,B,15Bs:H8001JCUE852dB<FP1p2PSe,0*54',
   '!AIVDM,1,1,,B,3DSegB1uh2rCs6b54VuG417b0000,0*7C'
 ]
@@ -106,15 +130,15 @@ sentences.forEach(function(sentence) {
     case 'VALID':
       console.log('values for message:' + sentence);
       try {
-        result.supportedValues.forEach(
-          function(field) {
-            console.log(' ' + field + ':' + result[field] +
-                      ' / ' + result.getUnit(field));
-          });
-        } catch(error) {
+        var suppValues = result.supportedValues;
+        for(field in suppValues) {
+          console.log(' ' + field + ':' + result[field] +
+                      ' / ' + suppValues[field]);
+        }
+      } catch(error) {
           console.log('parsing failed for' + sentence +
                       ' error:' + error);
-        }
+      }
       break;
     case 'UNSUPPORTED':
       console.log('unsupported message :' + sentence);
@@ -125,7 +149,7 @@ sentences.forEach(function(sentence) {
       console.log('error message: :' + result.errMsg);
       break;
     case 'INCOMPLETE':
-      console.log('incomlete message, waiting for more');
+      console.log('incomplete message, waiting for more');
       break;
     }
   });

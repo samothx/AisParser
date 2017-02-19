@@ -19,6 +19,7 @@
 
 import AisBitField from './AisBitField';
 import AisMessage from './AisMessage';
+import type {SuppValues} from './AisMessage';
 
 const MOD_NAME = 'Ais21Msg';
 const DEBUG = false;
@@ -53,7 +54,7 @@ const DEBUG = false;
 |308-311  |  4 |Spare                  |             |x|Unused, should be zero
 |==============================================================================
 */
-const SUPPORTED_VALUES = [
+const SUPPORTED_FIELDS = [
   'aisType',
   'channel',
   'repeatInd',
@@ -81,6 +82,9 @@ const SUPPORTED_VALUES = [
   'epfdStr'
  ];
 
+ let suppValuesValid = false;
+ let suppValues : SuppValues = {};
+
 
 export default class Ais19Msg extends AisMessage {
   constructor(aisType : number,bitField : AisBitField, channel : string) {
@@ -93,8 +97,19 @@ export default class Ais19Msg extends AisMessage {
     }
   }
 
-  get supportedValues() : Array<string> {
-    return SUPPORTED_VALUES;
+
+  get supportedValues() : SuppValues {
+    if(!suppValuesValid) {
+      SUPPORTED_FIELDS.forEach((field)=>{
+        let unit = AisMessage.getUnit(field);
+        if(unit) {
+          suppValues[field] = unit;
+        } else {
+          console.warn(MOD_NAME + 'field without unit encountered:' + field);
+        }});
+        suppValuesValid = true;
+      }
+    return suppValues;
   }
 
   get class() : string {

@@ -22,6 +22,7 @@ import fs from 'fs';
 import {Transform} from 'stream';
 
 import AisMessage from '../src/AisMessage';
+import type {SuppValues} from '../src/AisMessage';
 import AisParser from '../src/AisParser';
 
 const TMP_FILE_NAME = 'tmp.out';
@@ -158,10 +159,11 @@ class Parser extends Transform {
         this._parseDuration += dur[0] * 1e9 + dur[1];
         if(msg.valid === 'VALID') {
           let output : Array<any> = new Array(this._fieldCount);
-          let values : Array<string> = msg.supportedValues;
+          let values : SuppValues = msg.supportedValues;
           output[0] = lineNo;
           startTime = process.hrtime();
-          values.forEach((field)=>{
+          let field: string;
+          for(field in values) {
             let fieldIdx : ?number = this._fields[field];
             if(typeof fieldIdx !== 'number') {
               fieldIdx = this._fieldCount++;
@@ -171,7 +173,7 @@ class Parser extends Transform {
             } else {
               output[fieldIdx] = msg[field];
             }
-          });
+          };
           let dur = process.hrtime(startTime);
           this._readDuration += dur[0] * 1e9 + dur[1];
           return this.arrayToCsv(output);

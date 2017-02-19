@@ -19,11 +19,12 @@
 
 import AisBitField from './AisBitField';
 import AisMessage from './AisMessage';
+import type {SuppValues} from './AisMessage';
 
 const MOD_NAME = 'Ais24Msg';
 const DEBUG = false;
 
-const SUPPORTED_VALUES_A = [
+const SUPPORTED_FIELDS_A = [
   'aisType',
   'channel',
   'repeatInd',
@@ -31,7 +32,7 @@ const SUPPORTED_VALUES_A = [
   'partNo',
   'name' ];
 
-const SUPPORTED_VALUES_B_NO_TENDER = [
+const SUPPORTED_FIELDS_B_NO_TENDER = [
   'aisType',
   'channel',
   'repeatInd',
@@ -45,7 +46,7 @@ const SUPPORTED_VALUES_B_NO_TENDER = [
   'dimToPort',
   'dimToStbrd' ];
 
-const SUPPORTED_VALUES_B_TENDER = [
+const SUPPORTED_FIELDS_B_TENDER = [
   'aisType',
   'channel',
   'repeatInd',
@@ -55,6 +56,13 @@ const SUPPORTED_VALUES_B_TENDER = [
   'callSign',
   'vendorId',
   'mothershipMmsi'];
+
+  let suppValuesValidA = false;
+  let suppValuesA : SuppValues = {};
+  let suppValuesValidBNT = false;
+  let suppValuesBT : SuppValues = {};
+  let suppValuesValidBT = false;
+  let suppValuesBNT : SuppValues = {};
 
 /*
 |==============================================================================
@@ -97,17 +105,48 @@ export default class Ais24Msg extends AisMessage {
     this._errMsg = 'invalid bitcount for type 24 msg:' + bitField.bits;
   }
 
-  get supportedValues() : Array<string> {
+  get supportedValues() : SuppValues {
     if(this.partNo === 0) {
-      return SUPPORTED_VALUES_A;
+      if(!suppValuesValidA) {
+        SUPPORTED_FIELDS_A.forEach((field)=>{
+          let unit = AisMessage.getUnit(field);
+          if(unit) {
+            suppValuesA[field] = unit;
+          } else {
+            console.warn(MOD_NAME + 'field without unit encountered:' + field);
+          }});
+          suppValuesValidA = true;
+        }
+      return suppValuesA;
     } else {
       if(this._isTender()) {
-        return SUPPORTED_VALUES_B_TENDER;
+        if(!suppValuesValidBT) {
+          SUPPORTED_FIELDS_B_TENDER.forEach((field)=>{
+            let unit = AisMessage.getUnit(field);
+            if(unit) {
+              suppValuesBT[field] = unit;
+            } else {
+              console.warn(MOD_NAME + 'field without unit encountered:' + field);
+            }});
+            suppValuesValidBT = true;
+          }
+        return suppValuesBT;
       } else {
-        return SUPPORTED_VALUES_B_NO_TENDER;
+        if(!suppValuesValidBNT) {
+          SUPPORTED_FIELDS_B_NO_TENDER.forEach((field)=>{
+            let unit = AisMessage.getUnit(field);
+            if(unit) {
+              suppValuesBNT[field] = unit;
+            } else {
+              console.warn(MOD_NAME + 'field without unit encountered:' + field);
+            }});
+            suppValuesValidBNT = true;
+          }
+        return suppValuesBNT;
       }
     }
   }
+
 
   get partNo() : number {
     if(typeof this._partNo === 'number') {
