@@ -75,8 +75,8 @@ TODO:
 
 export default class AisCNBMsg extends AisMessage {
   constructor(aisType : number,bitField : AisBitField, channel : string) {
-    super(aisType,bitField,channel);
-    if(bitField.bits >= 167) {
+    super(aisType,bitField,channel);    
+    if(bitField.bits >= 144) {
       this._valid = 'VALID';
     } else {
       this._valid = 'INVALID';

@@ -71,7 +71,7 @@ The result object contains the semi parsed message and a status of the parse pro
 
 Generally all possible values can be queried on a valid or invalid result object. Numerical values will result in **NaN**, string values in the **empty string** when not part of the message. Only available values will actually be parsed. If errors occurr during parsing you will receive an exception, so it is important to secure the reading code with a try catch block.
 
-The **supportedValues** variable supplies a dictionary of strings that contains the variable names that are supported by the parsed message associated with their type or value.
+The **supportedValues** variable supplies a dictionary of strings that contains the variable names that are supported by the parsed message associated with their type or unit.
 
 The function ***getUnit(fieldName)*** returns the type of value for a field.
 For numeric values following return values are possible:
@@ -91,8 +91,8 @@ message should be rebroadcast.
 
 ## Testing
 
-You will find the files scanFile.js testdata.tgz in the test directory.
-When AisParser is installed via NPM install it can be run with babel-node.
+You will find the files scanFile.js and testdata.tgz in the test directory.
+When AisParser is installed via 'npm install' it can be run with babel-node.
 
 ```shell
 tar -xzf testdata.tgz
