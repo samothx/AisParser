@@ -55,6 +55,8 @@ const SUPPORTED_FIELDS = [
   'channel',
   'repeatInd',
   'mmsi',
+  'midCountry',
+  'mmsiType',
   'name',
   'latitude',
   'longitude',

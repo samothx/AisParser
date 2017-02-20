@@ -1,2 +1,4 @@
-*.csv
-*.fail
+!*.js
+!testdata.tgz
+*
+

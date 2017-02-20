@@ -88,6 +88,7 @@ The following variables are available for all message types:
 message should be rebroadcast.
  - ***mmsi*** - the Maritime Mobile Service Identity.
 
+A complete list of parameters can be found in SupportedValues.md.
 
 ## Testing
 

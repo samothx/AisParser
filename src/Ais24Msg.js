@@ -29,6 +29,8 @@ const SUPPORTED_FIELDS_A = [
   'channel',
   'repeatInd',
   'mmsi',
+  'midCountry',
+  'mmsiType',
   'partNo',
   'name' ];
 
@@ -37,6 +39,8 @@ const SUPPORTED_FIELDS_B_NO_TENDER = [
   'channel',
   'repeatInd',
   'mmsi',
+  'midCountry',
+  'mmsiType',
   'partNo',
   'shipType',
   'callSign',
@@ -51,6 +55,8 @@ const SUPPORTED_FIELDS_B_TENDER = [
   'channel',
   'repeatInd',
   'mmsi',
+  'midCountry',
+  'mmsiType',
   'partNo',
   'shipType',
   'callSign',

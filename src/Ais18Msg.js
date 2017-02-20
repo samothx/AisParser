@@ -67,6 +67,8 @@ const SUPPORTED_FIELDS = [
   'channel',
   'repeatInd',
   'mmsi',
+  'midCountry',
+  'mmsiType',
   'heading',
   'sogStatus',
   'sog',

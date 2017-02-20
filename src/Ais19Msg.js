@@ -59,6 +59,8 @@ const SUPPORTED_FIELDS = [
   'channel',
   'repeatInd',
   'mmsi',
+  'midCountry',
+  'mmsiType',
   'class',
   'heading',
   'sogStatus',
@@ -76,8 +78,6 @@ const SUPPORTED_FIELDS = [
   'dimToStern',
   'dimToPort',
   'dimToStbrd',
-  'length',
-  'width',
   'epfd',
   'epfdStr'
  ];

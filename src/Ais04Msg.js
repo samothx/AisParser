@@ -28,6 +28,8 @@ const SUPPORTED_FIELDS = [
   'channel',
   'repeatInd',
   'mmsi',
+  'midCountry',
+  'mmsiType',
   'latitude',
   'longitude',
   'posAccuracy',
@@ -83,7 +85,7 @@ export default class Ais04Msg extends AisMessage {
       SUPPORTED_FIELDS.forEach((field)=>{
         let unit = AisMessage.getUnit(field);
         if(unit) {
-          suppValues[field] = unit; 
+          suppValues[field] = unit;
         } else {
           console.warn(MOD_NAME + 'field without unit encountered:' + field);
         }});

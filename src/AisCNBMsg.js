@@ -28,6 +28,8 @@ const SUPPORTED_FIELDS = [
   'channel',
   'repeatInd',
   'mmsi',
+  'midCountry',
+  'mmsiType',
   'class',
   'navStatus',
   'navStatusStr',
@@ -75,7 +77,7 @@ TODO:
 
 export default class AisCNBMsg extends AisMessage {
   constructor(aisType : number,bitField : AisBitField, channel : string) {
-    super(aisType,bitField,channel);    
+    super(aisType,bitField,channel);
     if(bitField.bits >= 144) {
       this._valid = 'VALID';
     } else {
