@@ -29,6 +29,7 @@ const SUPPORTED_FIELDS = [
   'repeatInd',
   'mmsi',
   'midCountry',
+  'midCountryIso',
   'mmsiType',
   'callSign',
   'name',
@@ -37,9 +38,13 @@ const SUPPORTED_FIELDS = [
   'shipType',
   'shipTypeStr',
   'dimToBow',
+  'dimToBowStatus',
   'dimToStern',
+  'dimToSternStatus',
   'dimToPort',
+  'dimToPortStatus',
   'dimToStbrd',
+  'dimToStbrdStatus',
   'length',
   'width',
   'epfd',
@@ -131,19 +136,19 @@ export default class Ais05Msg extends AisMessage {
     return this._bitField.getInt(232,8,true);
   }
 
-  get dimToBow() : number {
+  _getDimToBow() : number {
     return this._bitField.getInt(240,9,true);
   }
 
-  get dimToStern() : number {
+  _getDimToStern() : number {
     return this._bitField.getInt(249,9,true);
   }
 
-  get dimToPort() : number {
+  _getDimToPort() : number {
     return this._bitField.getInt(258,6,true);
   }
 
-  get dimToStbrd() : number {
+  _getDimToStbrd() : number {
     return this._bitField.getInt(264,6,true);
   }
 

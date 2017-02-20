@@ -8,7 +8,9 @@
 |repeatInd|number|Wether or not / how this message should be rebroadcasted | 0,1,2,3 |all|
 |mmsi|number|Maritime Mobile Service Identity |9 digit number|all|
 |midCountry|string|Country extracted from the MMSI|The Country or empty|all|
-|mmsiType|string|The Type of Target extracted from the MMSI|Target type or empty|all||class |string|The Class of AIS Device | A, B empty | all |
+|midCountryIso|string|ISO String of the Country extracted from the MMSI|The ISO String or empty|all|
+|mmsiType|string|The Type of Target extracted from the MMSI|Target type or empty|all|
+|class |string|The Class of AIS Device | A, B empty | all |
 |latitude| deg |The latitude of the Sender | -90-90 |1, 2, 3, 4, 18, 19|
 |longitude| deg |The longitude of the Sender | -180-180 |1, 2, 3, 4, 18, 19|
 |posAccuracy|boolean|Position Accuracy, true = DGPS Quality < 10m, false >10m|true,false|1, 2, 3, 4, 18, 19|
@@ -28,10 +30,14 @@
 |imo|number|IMO Registration Number|9 Digits|5|
 |shipType|index|Ship Type & Cargo||5,19.24|
 |shipTypeStr|string|A String associated with Ship Type & Cargo|-|5, 19, 24|
-|dimToBow|m|Distance of the GPS Receiverfrom the Bow|0=N/A,1-510 length, 511=511 or greater|5, 19, 21, 24|
-|dimToStern|m|Distance of the GPS Receiverfrom the Stern|0=N/A,1-510 length, 511=511 or greater|5, 19, 21, 24|
-|dimToStern|m|Distance of the GPS Receiverfrom the Port|0=N/A,1-62 length, 63=63 or greater|5, 19, 21, 24|
-|dimToPort|m|Distance of the GPS Receiverfrom the Strdbrd|0=N/A,1-62 length, 63=63 or greater|5, 19, 21, 24|
+|dimToBow|m|Distance of the GPS Receiverfrom the Bow|1-510|5, 19, 21, 24|
+|dimToBowStatus|string|Status of DimToBow, HUGE > 511|VALID, NA, HUGE|5, 19, 21, 24|
+|dimToStern|m|Distance of the GPS Receiverfrom the Stern|1-510|5, 19, 21, 24|
+|dimToSternStatus|string|Status of DimToStern, HUGE > 511|VALID, NA, HUGE|5, 19, 21, 24|
+|dimToStbrd|m|Distance of the GPS Receiverfrom the Stardboard Side|1-62|5, 19, 21, 24|
+|dimToStbrdStatus|string|Status of DimToStbrd, HUGE > 63|VALID, NA, HUGE|5, 19, 21, 24|
+|dimToPort|m|Distance of the GPS Receiverfrom the Port Side|1-62|5, 19, 21, 24|
+|dimToPortStatus|string|Status of DimToPort, HUGE > 63|VALID, NA, HUGE|5, 19, 21, 24|
 |etaMonth|month|UTC Month of ETA at Destination|1-12 0=N/A|5|
 |etaDay|day|UTC day of ETA at Destination|1-3 10=N/A|5|
 |etaHour|h|UTC Hour of ETA at Destination|0-59 60=N/A|5|

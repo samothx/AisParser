@@ -29,6 +29,7 @@ const SUPPORTED_FIELDS = [
   'repeatInd',
   'mmsi',
   'midCountry',
+  'midCountryIso',  
   'mmsiType',
   'class',
   'navStatus',

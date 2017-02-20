@@ -68,6 +68,7 @@ const SUPPORTED_FIELDS = [
   'repeatInd',
   'mmsi',
   'midCountry',
+  'midCountryIso',  
   'mmsiType',
   'heading',
   'sogStatus',

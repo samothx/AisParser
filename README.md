@@ -2,7 +2,7 @@
 A Parser for NMEA0183  AIS messages.
 
 ## Installation
-The parser is written using [flow](https://flowtype.org/). It can be run from the src directory with babel-node or in the transpiled version from the index.js file or the lib directory. If you are using the NPM package ( add "aisparser" :">=0.0.6" to your package.json dependencies) you do not have to worry about transpiling, it has been done for you allready. If you are using the github package you will need to take care of transpiling by calling the following commands:
+The parser is written using [flow](https://flowtype.org/). It can be run from the src directory with babel-node or in the transpiled version from the index.js file or the lib directory. If you are using the NPM package ( add "aisparser" :">=0.0.8" to your package.json dependencies) you do not have to worry about transpiling, it has been done for you allready. If you are using the github package you will need to take care of transpiling by calling the following commands:
 ```
 cd <package-dir>
 npm install

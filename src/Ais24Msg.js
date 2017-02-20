@@ -30,6 +30,7 @@ const SUPPORTED_FIELDS_A = [
   'repeatInd',
   'mmsi',
   'midCountry',
+  'midCountryIso',
   'mmsiType',
   'partNo',
   'name' ];
@@ -40,15 +41,21 @@ const SUPPORTED_FIELDS_B_NO_TENDER = [
   'repeatInd',
   'mmsi',
   'midCountry',
+  'midCountryIso',
   'mmsiType',
   'partNo',
   'shipType',
   'callSign',
   'vendorId',
   'dimToBow',
+  'dimToBowStatus',
   'dimToStern',
+  'dimToSternStatus',
   'dimToPort',
-  'dimToStbrd' ];
+  'dimToPortStatus',
+  'dimToStbrd',
+  'dimToStbrdStatus'
+ ];
 
 const SUPPORTED_FIELDS_B_TENDER = [
   'aisType',
@@ -56,6 +63,7 @@ const SUPPORTED_FIELDS_B_TENDER = [
   'repeatInd',
   'mmsi',
   'midCountry',
+  'midCountryIso',  
   'mmsiType',
   'partNo',
   'shipType',
@@ -201,7 +209,7 @@ export default class Ais24Msg extends AisMessage {
     return this._tender;
   }
 
-  get dimToBow() : number {
+  _getDimToBow() : number {
     if((this.partNo === 1) && !this._isTender()) {
       return this._bitField.getInt(132,9,true);
     } else {
@@ -209,7 +217,7 @@ export default class Ais24Msg extends AisMessage {
     }
   }
 
-  get dimToStern() : number {
+  _getDimToStern() : number {
     if((this.partNo === 1) && !this._isTender()) {
       return this._bitField.getInt(141,9,true);
     } else {
@@ -217,7 +225,7 @@ export default class Ais24Msg extends AisMessage {
     }
   }
 
-  get dimToPort() : number {
+  _getDimToPort() : number {
     if((this.partNo === 1) && !this._isTender()) {
       return this._bitField.getInt(150,6,true);
     } else {
@@ -225,7 +233,7 @@ export default class Ais24Msg extends AisMessage {
     }
   }
 
-  get dimToStbrd() : number {
+  _getDimToStbrd() : number {
     if((this.partNo === 1) && !this._isTender()) {
       return this._bitField.getInt(156,6,true);
     } else {

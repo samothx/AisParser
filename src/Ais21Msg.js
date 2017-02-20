@@ -56,15 +56,20 @@ const SUPPORTED_FIELDS = [
   'repeatInd',
   'mmsi',
   'midCountry',
+  'midCountryIso',  
   'mmsiType',
   'name',
   'latitude',
   'longitude',
   'posAccuracy',
   'dimToBow',
+  'dimToBowStatus',
   'dimToStern',
+  'dimToSternStatus',
   'dimToPort',
+  'dimToPortStatus',
   'dimToStbrd',
+  'dimToStbrdStatus',
   'length',
   'width',
   'epfd',
@@ -132,22 +137,22 @@ export default class Ais21Msg extends AisMessage {
   }
 
   // |219-227  | 9  |Dimension to Bow       |to_bow      |u|Meters
-  get dimToBow() : number {
+  _getDimToBow() : number {
     return this._bitField.getInt(219,9,true);
   }
 
   // |228-236  | 9  |Dimension to Stern     |to_stern    |u|Meters
-  get dimToStern() : number {
+  _getDimToStern() : number {
     return this._bitField.getInt(228,9,true);
   }
 
   // |237-242  | 6  |Dimension to Port      |to_port     |u|Meters
-  get dimToPort() : number {
+  _getDimToPort() : number {
     return this._bitField.getInt(237,6,true);
   }
 
   // |243-248  | 6  |Dimension to Starboard |to_starboard|u|Meters
-  get dimToStbrd() : number {
+  _getDimToStbrd() : number {
     return this._bitField.getInt(243,6,true);
   }
 

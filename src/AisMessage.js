@@ -25,6 +25,7 @@ export type SogStatus = 'HIGH' | 'VALID' | 'INVALID' | 'NA';
 export type SuppValues = { [key : string] : string };
 
 export type Validity = 'VALID' | 'INCOMPLETE' | 'INVALID' | 'UNSUPPORTED';
+export type DimStatus = 'VALID' | 'NA' | 'HUGE';
 
 export type ROT = {
   type : 'RIGHT' | 'LEFT' | 'NONE' | 'INVALID';
@@ -164,297 +165,295 @@ const SHIP_TYPE = {
 }
 
 const MID_TO_COUNTRY = {
-  '201' : 'Albania (Republic of)',
-  '202' : 'Andorra (Principality of)',
-  '203' : 'Austria',
-  '204' : 'Azores - Portugal',
-  '205' : 'Belgium',
-  '206' : 'Belarus (Republic of)',
-  '207' : 'Bulgaria (Republic of)',
-  '208' : 'Vatican City State',
-  '209' : 'Cyprus (Republic of)',
-  '210' : 'Cyprus (Republic of)',
-  '211' : 'Germany (Federal Republic of)',
-  '212' : 'Cyprus (Republic of)',
-  '213' : 'Georgia',
-  '214' : 'Moldova (Republic of)',
-  '215' : 'Malta',
-  '216' : 'Armenia (Republic of)',
-  '218' : 'Germany (Federal Republic of)',
-  '219' : 'Denmark',
-  '220' : 'Denmark',
-  '224' : 'Spain',
-  '225' : 'Spain',
-  '226' : 'France',
-  '227' : 'France',
-  '228' : 'France',
-  '229' : 'Malta',
-  '230' : 'Finland',
-  '231' : 'Faroe Islands - Denmark',
-  '232' : 'United Kingdom of Great Britain and Northern Ireland',
-  '233' : 'United Kingdom of Great Britain and Northern Ireland',
-  '234' : 'United Kingdom of Great Britain and Northern Ireland',
-  '235' : 'United Kingdom of Great Britain and Northern Ireland',
-  '236' : 'Gibraltar - United Kingdom of Great Britain and Northern Ireland',
-  '237' : 'Greece',
-  '238' : 'Croatia (Republic of)',
-  '239' : 'Greece',
-  '240' : 'Greece',
-  '241' : 'Greece',
-  '242' : 'Morocco (Kingdom of)',
-  '243' : 'Hungary',
-  '244' : 'Netherlands (Kingdom of the)',
-  '245' : 'Netherlands (Kingdom of the)',
-  '246' : 'Netherlands (Kingdom of the)',
-  '247' : 'Italy',
-  '248' : 'Malta',
-  '249' : 'Malta',
-  '250' : 'Ireland',
-  '251' : 'Iceland',
-  '252' : 'Liechtenstein (Principality of)',
-  '253' : 'Luxembourg',
-  '254' : 'Monaco (Principality of)',
-  '255' : 'Madeira - Portugal',
-  '256' : 'Malta',
-  '257' : 'Norway',
-  '258' : 'Norway',
-  '259' : 'Norway',
-  '261' : 'Poland (Republic of)',
-  '262' : 'Montenegro',
-  '263' : 'Portugal',
-  '264' : 'Romania',
-  '265' : 'Sweden',
-  '266' : 'Sweden',
-  '267' : 'Slovak Republic',
-  '268' : 'San Marino (Republic of)',
-  '269' : 'Switzerland (Confederation of)',
-  '270' : 'Czech Republic',
-  '271' : 'Turkey',
-  '272' : 'Ukraine',
-  '273' : 'Russian Federation',
-  '274' : 'The Former Yugoslav Republic of Macedonia',
-  '275' : 'Latvia (Republic of)',
-  '276' : 'Estonia (Republic of)',
-  '277' : 'Lithuania (Republic of)',
-  '278' : 'Slovenia (Republic of)',
-  '279' : 'Serbia (Republic of)',
-  '301' : 'Anguilla - United Kingdom of Great Britain and Northern Ireland',
-  '303' : 'Alaska (State of) - United States of America',
-  '304' : 'Antigua and Barbuda',
-  '305' : 'Antigua and Barbuda',
-  '306' : 'Curacao, Sint Maarten, Bonaire, Sint Eustatcius and Saba - Netherlands (Kingdom of the)',
-  //	306	Sint Maarten (Dutch part) - Netherlands (Kingdom of the)',
-  //	306	Bonaire, Sint Eustatius and Saba - Netherlands (Kingdom of the)',
-  '307' : 'Aruba - Netherlands (Kingdom of the)',
-  '308' : 'Bahamas (Commonwealth of the)',
-  '309' : 'Bahamas (Commonwealth of the)',
-  '310' : 'Bermuda - United Kingdom of Great Britain and Northern Ireland',
-  '311' : 'Bahamas (Commonwealth of the)',
-  '312' : 'Belize',
-  '314' : 'Barbados',
-  '316' : 'Canada',
-  '319' : 'Cayman Islands - United Kingdom of Great Britain and Northern Ireland',
-  '321' : 'Costa Rica',
-  '323' : 'Cuba',
-  '325' : 'Dominica (Commonwealth of)',
-  '327' : 'Dominican Republic',
-  '329' : 'Guadeloupe (French Department of) - France',
-  '330' : 'Grenada',
-  '331' : 'Greenland - Denmark',
-  '332' : 'Guatemala (Republic of)',
-  '334' : 'Honduras (Republic of)',
-  '336' : 'Haiti (Republic of)',
-  '338' : 'United States of America',
-  '339' : 'Jamaica',
-  '341' : 'Saint Kitts and Nevis (Federation of)',
-  '343' : 'Saint Lucia',
-  '345' : 'Mexico',
-  '347' : 'Martinique (French Department of) - France',
-  '348' : 'Montserrat - United Kingdom of Great Britain and Northern Ireland',
-  '350' : 'Nicaragua',
-  '351' : 'Panama (Republic of)',
-  '352' : 'Panama (Republic of)',
-  '353' : 'Panama (Republic of)',
-  '354' : 'Panama (Republic of)',
-  '355' : 'Puerto Rico - United States of America',
-  '356' : 'Puerto Rico - United States of America',
-  '357' : 'Puerto Rico - United States of America',
-  '358' : 'Puerto Rico - United States of America',
-  '359' : 'El Salvador (Republic of)',
-  '361' : 'Saint Pierre and Miquelon (Territorial Collectivity of) - France',
-  '362' : 'Trinidad and Tobago',
-  '364' : 'Turks and Caicos Islands - United Kingdom of Great Britain and Northern Ireland',
-  '366' : 'United States of America',
-  '367' : 'United States of America',
-  '368' : 'United States of America',
-  '369' : 'United States of America',
-  '370' : 'Panama (Republic of)',
-  '371' : 'Panama (Republic of)',
-  '372' : 'Panama (Republic of)',
-  '373' : 'Panama (Republic of)',
-  '375' : 'Saint Vincent and the Grenadines',
-  '376' : 'Saint Vincent and the Grenadines',
-  '377' : 'Saint Vincent and the Grenadines',
-  '378' : 'British Virgin Islands - United Kingdom of Great Britain and Northern Ireland',
-  '379' : 'United States Virgin Islands - United States of America',
-  '401' : 'Afghanistan',
-  '403' : 'Saudi Arabia (Kingdom of)',
-  '405' : 'Bangladesh (People\'s Republic of)',
-  '408' : 'Bahrain (Kingdom of)',
-  '410' : 'Bhutan (Kingdom of)',
-  '412' : 'China (People\'s Republic of)',
-  '413' : 'China (People\'s Republic of)',
-  '414' : 'China (People\'s Republic of)',
-  '416' : 'Taiwan (Province of China) - China (People\'s Republic of)',
-  '417' : 'Sri Lanka (Democratic Socialist Republic of)',
-  '419' : 'India (Republic of)',
-  '422' : 'Iran (Islamic Republic of)',
-  '423' : 'Azerbaijan (Republic of)',
-  '425' : 'Iraq (Republic of)',
-  '428' : 'Israel (State of)',
-  '431' : 'Japan',
-  '432' : 'Japan',
-  '434' : 'Turkmenistan',
-  '436' : 'Kazakhstan (Republic of)',
-  '437' : 'Uzbekistan (Republic of)',
-  '438' : 'Jordan (Hashemite Kingdom of)',
-  '440' : 'Korea (Republic of)',
-  '441' : 'Korea (Republic of)',
-  '443' : 'State of Palestine (In accordance with Resolution 99 Rev. Guadalajara, 2010)',
-  '445' : 'Democratic People\'s Republic of Korea',
-  '447' : 'Kuwait (State of)',
-  '450' : 'Lebanon',
-  '451' : 'Kyrgyz Republic',
-  '453' : 'Macao (Special Administrative Region of China) - China (People\'s Republic of)',
-  '455' : 'Maldives (Republic of)',
-  '457' : 'Mongolia',
-  '459' : 'Nepal (Federal Democratic Republic of)',
-  '461' : 'Oman (Sultanate of)',
-  '463' : 'Pakistan (Islamic Republic of)',
-  '466' : 'Qatar (State of)',
-  '468' : 'Syrian Arab Republic',
-  '470' : 'United Arab Emirates',
-  '472' : 'Tajikistan (Republic of)',
-  '473' : 'Yemen (Republic of)',
-  '475' : 'Yemen (Republic of)',
-  '477' : 'Hong Kong (Special Administrative Region of China) - China (People\'s Republic of)',
-  '478' : 'Bosnia and Herzegovina',
-  '501' : 'Adelie Land - France',
-  '503' : 'Australia',
-  '506' : 'Myanmar (Union of)',
-  '508' : 'Brunei Darussalam',
-  '510' : 'Micronesia (Federated States of)',
-  '511' : 'Palau (Republic of)',
-  '512' : 'New Zealand',
-  '514' : 'Cambodia (Kingdom of)',
-  '515' : 'Cambodia (Kingdom of)',
-  '516' : 'Christmas Island (Indian Ocean) - Australia',
-  '518' : 'Cook Islands - New Zealand',
-  '520' : 'Fiji (Republic of)',
-  '523' : 'Cocos (Keeling) Islands - Australia',
-  '525' : 'Indonesia (Republic of)',
-  '529' : 'Kiribati (Republic of)',
-  '531' : 'Lao People\'s Democratic Republic',
-  '533' : 'Malaysia',
-  '536' : 'Northern Mariana Islands (Commonwealth of the) - United States of America',
-  '538' : 'Marshall Islands (Republic of the)',
-  '540' : 'New Caledonia - France',
-  '542' : 'Niue - New Zealand',
-  '544' : 'Nauru (Republic of)',
-  '546' : 'French Polynesia - France',
-  '548' : 'Philippines (Republic of the)',
-  '553' : 'Papua New Guinea',
-  '555' : 'Pitcairn Island - United Kingdom of Great Britain and Northern Ireland',
-  '557' : 'Solomon Islands',
-  '559' : 'American Samoa - United States of America',
-  '561' : 'Samoa (Independent State of)',
-  '563' : 'Singapore (Republic of)',
-  '564' : 'Singapore (Republic of)',
-  '565' : 'Singapore (Republic of)',
-  '566' : 'Singapore (Republic of)',
-  '567' : 'Thailand',
-  '570' : 'Tonga (Kingdom of)',
-  '572' : 'Tuvalu',
-  '574' : 'Viet Nam (Socialist Republic of)',
-  '576' : 'Vanuatu (Republic of)',
-  '577' : 'Vanuatu (Republic of)',
-  '578' : 'Wallis and Futuna Islands - France',
-  '601' : 'South Africa (Republic of)',
-  '603' : 'Angola (Republic of)',
-  '605' : 'Algeria (People\'s Democratic Republic of)',
-  '607' : 'Saint Paul and Amsterdam Islands - France',
-  '608' : 'Ascension Island - United Kingdom of Great Britain and Northern Ireland',
-  '609' : 'Burundi (Republic of)',
-  '610' : 'Benin (Republic of)',
-  '611' : 'Botswana (Republic of)',
-  '612' : 'Central African Republic',
-  '613' : 'Cameroon (Republic of)',
-  '615' : 'Congo (Republic of the)',
-  '616' : 'Comoros (Union of the)',
-  '617' : 'Cabo Verde (Republic of)',
-  '618' : 'Crozet Archipelago - France',
-  '619' : 'Côte d\'Ivoire (Republic of)',
-  '620' : 'Comoros (Union of the)',
-  '621' : 'Djibouti (Republic of)',
-  '622' : 'Egypt (Arab Republic of)',
-  '624' : 'Ethiopia (Federal Democratic Republic of)',
-  '625' : 'Eritrea',
-  '626' : 'Gabonese Republic',
-  '627' : 'Ghana',
-  '629' : 'Gambia (Republic of the)',
-  '630' : 'Guinea-Bissau (Republic of)',
-  '631' : 'Equatorial Guinea (Republic of)',
-  '632' : 'Guinea (Republic of)',
-  '633' : 'Burkina Faso',
-  '634' : 'Kenya (Republic of)',
-  '635' : 'Kerguelen Islands - France',
-  '636' : 'Liberia (Republic of)',
-  '637' : 'Liberia (Republic of)',
-  '638' : 'South Sudan (Republic of)',
-  '642' : 'Libya',
-  '644' : 'Lesotho (Kingdom of)',
-  '645' : 'Mauritius (Republic of)',
-  '647' : 'Madagascar (Republic of)',
-  '649' : 'Mali (Republic of)',
-  '650' : 'Mozambique (Republic of)',
-  '654' : 'Mauritania (Islamic Republic of)',
-  '655' : 'Malawi',
-  '656' : 'Niger (Republic of the)',
-  '657' : 'Nigeria (Federal Republic of)',
-  '659' : 'Namibia (Republic of)',
-  '660' : 'Reunion (French Department of) - France',
-  '661' : 'Rwanda (Republic of)',
-  '662' : 'Sudan (Republic of the)',
-  '663' : 'Senegal (Republic of)',
-  '664' : 'Seychelles (Republic of)',
-  '665' : 'Saint Helena - United Kingdom of Great Britain and Northern Ireland',
-  '666' : 'Somalia (Federal Republic of)',
-  '667' : 'Sierra Leone',
-  '668' : 'Sao Tome and Principe (Democratic Republic of)',
-  '669' : 'Swaziland (Kingdom of)',
-  '670' : 'Chad (Republic of)',
-  '671' : 'Togolese Republic',
-  '672' : 'Tunisia',
-  '674' : 'Tanzania (United Republic of)',
-  '675' : 'Uganda (Republic of)',
-  '676' : 'Democratic Republic of the Congo',
-  '677' : 'Tanzania (United Republic of)',
-  '678' : 'Zambia (Republic of)',
-  '679' : 'Zimbabwe (Republic of)',
-  '701' : 'Argentine Republic',
-  '710' : 'Brazil (Federative Republic of)',
-  '720' : 'Bolivia (Plurinational State of)',
-  '725' : 'Chile',
-  '730' : 'Colombia (Republic of)',
-  '735' : 'Ecuador',
-  '740' : 'Falkland Islands (Malvinas) - United Kingdom of Great Britain and Northern Ireland',
-  '745' : 'Guiana (French Department of) - France',
-  '750' : 'Guyana',
-  '755' : 'Paraguay (Republic of)',
-  '760' : 'Peru',
-  '765' : 'Suriname (Republic of)',
-  '770' : 'Uruguay (Eastern Republic of)',
-  '775' : 'Venezuela (Bolivarian Republic of)'
+  "201" : ["Albania (Republic of)","AL"],
+  "202" : ["Andorra (Principality of)","AD"],
+  "203" : ["Austria","AT"],
+  "204" : ["Azores - Portugal","PT"],
+  "205" : ["Belgium","BE"],
+  "206" : ["Belarus (Republic of)","BY"],
+  "207" : ["Bulgaria (Republic of)","BG"],
+  "208" : ["Vatican City State","VA"],
+  "209" : ["Cyprus (Republic of)","CY"],
+  "210" : ["Cyprus (Republic of)","CY"],
+  "211" : ["Germany (Federal Republic of)","DE"],
+  "212" : ["Cyprus (Republic of)","CY"],
+  "213" : ["Georgia","GE"],
+  "214" : ["Moldova (Republic of)","MD"],
+  "215" : ["Malta","MT"],
+  "216" : ["Armenia (Republic of)","AM"],
+  "218" : ["Germany (Federal Republic of)","DE"],
+  "219" : ["Denmark","DK"],
+  "220" : ["Denmark","DK"],
+  "224" : ["Spain","ES"],
+  "225" : ["Spain","ES"],
+  "226" : ["France","FR"],
+  "227" : ["France","FR"],
+  "228" : ["France","FR"],
+  "229" : ["Malta","MT"],
+  "230" : ["Finland","FI"],
+  "231" : ["Faroe Islands - Denmark","FO"],
+  "232" : ["United Kingdom of Great Britain and Northern Ireland","GB"],
+  "233" : ["United Kingdom of Great Britain and Northern Ireland","GB"],
+  "234" : ["United Kingdom of Great Britain and Northern Ireland","GB"],
+  "235" : ["United Kingdom of Great Britain and Northern Ireland","GB"],
+  "236" : ["Gibraltar - United Kingdom of Great Britain and Northern Ireland","GI"],
+  "237" : ["Greece","GR"],
+  "238" : ["Croatia (Republic of)","HR"],
+  "239" : ["Greece","GR"],
+  "240" : ["Greece","GR"],
+  "241" : ["Greece","GR"],
+  "242" : ["Morocco (Kingdom of)","MA"],
+  "243" : ["Hungary","HU"],
+  "244" : ["Netherlands (Kingdom of the)","599"],
+  "245" : ["Netherlands (Kingdom of the)","599"],
+  "246" : ["Netherlands (Kingdom of the)","599"],
+  "247" : ["Italy","IT"],
+  "248" : ["Malta","MT"],
+  "249" : ["Malta","MT"],
+  "250" : ["Ireland","IE"],
+  "251" : ["Iceland","IS"],
+  "252" : ["Liechtenstein (Principality of)","LI"],
+  "253" : ["Luxembourg","LU"],
+  "254" : ["Monaco (Principality of)","MC"],
+  "255" : ["Madeira - Portugal","PT"],
+  "256" : ["Malta","MT"],
+  "257" : ["Norway","NO"],
+  "258" : ["Norway","NO"],
+  "259" : ["Norway","NO"],
+  "261" : ["Poland (Republic of)","PL"],
+  "262" : ["Montenegro","ME"],
+  "263" : ["Portugal","PT"],
+  "264" : ["Romania","RO"],
+  "265" : ["Sweden","SE"],
+  "266" : ["Sweden","SE"],
+  "267" : ["Slovak Republic","SK"],
+  "268" : ["San Marino (Republic of)","SM"],
+  "269" : ["Switzerland (Confederation of)","CH"],
+  "270" : ["Czech Republic","CZ"],
+  "271" : ["Turkey","TR"],
+  "272" : ["Ukraine","UA"],
+  "273" : ["Russian Federation","RU"],
+  "274" : ["The Former Yugoslav Republic of Macedonia","MK"],
+  "275" : ["Latvia (Republic of)","LV"],
+  "276" : ["Estonia (Republic of)","EE"],
+  "277" : ["Lithuania (Republic of)","LT"],
+  "278" : ["Slovenia (Republic of)","SI"],
+  "279" : ["Serbia (Republic of)","RS"],
+  "301" : ["Anguilla - United Kingdom of Great Britain and Northern Ireland","AI"],
+  "303" : ["Alaska (State of) - United States of America","US"],
+  "304" : ["Antigua and Barbuda","AG"],
+  "305" : ["Antigua and Barbuda","AG"],
+  "306" : ["Curacao, Sint Maarten, Bonaire, Sint Eustatcius and Saba - Netherlands (Kingdom of the)","NL"],
+  "307" : ["Aruba - Netherlands (Kingdom of the)","AW"],
+  "308" : ["Bahamas (Commonwealth of the)","BS"],
+  "309" : ["Bahamas (Commonwealth of the)","BS"],
+  "310" : ["Bermuda - United Kingdom of Great Britain and Northern Ireland","BM"],
+  "311" : ["Bahamas (Commonwealth of the)","BS"],
+  "312" : ["Belize","BZ"],
+  "314" : ["Barbados","BB"],
+  "316" : ["Canada","CA"],
+  "319" : ["Cayman Islands - United Kingdom of Great Britain and Northern Ireland","KY"],
+  "321" : ["Costa Rica","CR"],
+  "323" : ["Cuba","CU"],
+  "325" : ["Dominica (Commonwealth of)","DM"],
+  "327" : ["Dominican Republic","DO"],
+  "329" : ["Guadeloupe (French Department of) - France","FR"],
+  "330" : ["Grenada","GD"],
+  "331" : ["Greenland - Denmark","GL"],
+  "332" : ["Guatemala (Republic of)","GT"],
+  "334" : ["Honduras (Republic of)","HN"],
+  "336" : ["Haiti (Republic of)","HT"],
+  "338" : ["United States of America","US"],
+  "339" : ["Jamaica","JM"],
+  "341" : ["Saint Kitts and Nevis (Federation of)","KN"],
+  "343" : ["Saint Lucia","LC"],
+  "345" : ["Mexico","MX"],
+  "347" : ["Martinique (French Department of) - France","FR"],
+  "348" : ["Montserrat - United Kingdom of Great Britain and Northern Ireland","MS"],
+  "350" : ["Nicaragua","NI"],
+  "351" : ["Panama (Republic of)","PA"],
+  "352" : ["Panama (Republic of)","PA"],
+  "353" : ["Panama (Republic of)","PA"],
+  "354" : ["Panama (Republic of)","PA"],
+  "355" : ["Puerto Rico - United States of America","PR"],
+  "356" : ["Puerto Rico - United States of America","PR"],
+  "357" : ["Puerto Rico - United States of America","PR"],
+  "358" : ["Puerto Rico - United States of America","PR"],
+  "359" : ["El Salvador (Republic of)","SV"],
+  "361" : ["Saint Pierre and Miquelon (Territorial Collectivity of) - France","PM"],
+  "362" : ["Trinidad and Tobago","TT"],
+  "364" : ["Turks and Caicos Islands - United Kingdom of Great Britain and Northern Ireland","TC"],
+  "366" : ["United States of America","US"],
+  "367" : ["United States of America","US"],
+  "368" : ["United States of America","US"],
+  "369" : ["United States of America","US"],
+  "370" : ["Panama (Republic of)","PA"],
+  "371" : ["Panama (Republic of)","PA"],
+  "372" : ["Panama (Republic of)","PA"],
+  "373" : ["Panama (Republic of)","PA"],
+  "375" : ["Saint Vincent and the Grenadines","VC"],
+  "376" : ["Saint Vincent and the Grenadines","VC"],
+  "377" : ["Saint Vincent and the Grenadines","VC"],
+  "378" : ["British Virgin Islands - United Kingdom of Great Britain and Northern Ireland","VG"],
+  "379" : ["United States Virgin Islands - United States of America","VI"],
+  "401" : ["Afghanistan","AF"],
+  "403" : ["Saudi Arabia (Kingdom of)","SA"],
+  "405" : ["Bangladesh (People's Republic of)","BD"],
+  "408" : ["Bahrain (Kingdom of)","BH"],
+  "410" : ["Bhutan (Kingdom of)","BT"],
+  "412" : ["China (People's Republic of)","CN"],
+  "413" : ["China (People's Republic of)","CN"],
+  "414" : ["China (People's Republic of)","CN"],
+  "416" : ["Taiwan (Province of China) - China (People's Republic of)","TW"],
+  "417" : ["Sri Lanka (Democratic Socialist Republic of)","LK"],
+  "419" : ["India (Republic of)","Territory"],
+  "422" : ["Iran (Islamic Republic of)","IR"],
+  "423" : ["Azerbaijan (Republic of)","AZ"],
+  "425" : ["Iraq (Republic of)","IQ"],
+  "428" : ["Israel (State of)","IL"],
+  "431" : ["Japan","JP"],
+  "432" : ["Japan","JP"],
+  "434" : ["Turkmenistan","TM"],
+  "436" : ["Kazakhstan (Republic of)","KZ"],
+  "437" : ["Uzbekistan (Republic of)","UZ"],
+  "438" : ["Jordan (Hashemite Kingdom of)","JO"],
+  "440" : ["Korea (Republic of)","KR"],
+  "441" : ["Korea (Republic of)","KR"],
+  "443" : ["State of Palestine (In accordance with Resolution 99 Rev. Guadalajara, 2010)","PS"],
+  "445" : ["Democratic People's Republic of Korea","KP"],
+  "447" : ["Kuwait (State of)","KW"],
+  "450" : ["Lebanon","LB"],
+  "451" : ["Kyrgyz Republic","KG"],
+  "453" : ["Macao (Special Administrative Region of China) - China (People's Republic of)","MO"],
+  "455" : ["Maldives (Republic of)","MV"],
+  "457" : ["Mongolia","MN"],
+  "459" : ["Nepal (Federal Democratic Republic of)","NP"],
+  "461" : ["Oman (Sultanate of)","OM"],
+  "463" : ["Pakistan (Islamic Republic of)","PK"],
+  "466" : ["Qatar (State of)","QA"],
+  "468" : ["Syrian Arab Republic","SY"],
+  "470" : ["United Arab Emirates","AE"],
+  "472" : ["Tajikistan (Republic of)","TJ"],
+  "473" : ["Yemen (Republic of)","YE"],
+  "475" : ["Yemen (Republic of)","YE"],
+  "477" : ["Hong Kong (Special Administrative Region of China) - China (People's Republic of)","HK"],
+  "478" : ["Bosnia and Herzegovina","BA"],
+  "501" : ["Adelie Land - France","FR"],
+  "503" : ["Australia","AU"],
+  "506" : ["Myanmar (Union of)","MM"],
+  "508" : ["Brunei Darussalam","BN"],
+  "510" : ["Micronesia (Federated States of)","FM"],
+  "511" : ["Palau (Republic of)","PW"],
+  "512" : ["New Zealand","NZ"],
+  "514" : ["Cambodia (Kingdom of)","KH"],
+  "515" : ["Cambodia (Kingdom of)","KH"],
+  "516" : ["Christmas Island (Indian Ocean) - Australia","CX"],
+  "518" : ["Cook Islands - New Zealand","CK"],
+  "520" : ["Fiji (Republic of)","FJ"],
+  "523" : ["Cocos (Keeling) Islands - Australia","61"],
+  "525" : ["Indonesia (Republic of)","ID"],
+  "529" : ["Kiribati (Republic of)","KI"],
+  "531" : ["Lao People's Democratic Republic","LA"],
+  "533" : ["Malaysia","MY"],
+  "536" : ["Northern Mariana Islands (Commonwealth of the) - United States of America","MP"],
+  "538" : ["Marshall Islands (Republic of the)","MH"],
+  "540" : ["New Caledonia - France","NC"],
+  "542" : ["Niue - New Zealand","NU"],
+  "544" : ["Nauru (Republic of)","NR"],
+  "546" : ["French Polynesia - France","PF"],
+  "548" : ["Philippines (Republic of the)","PH"],
+  "553" : ["Papua New Guinea","PG"],
+  "555" : ["Pitcairn Island - United Kingdom of Great Britain and Northern Ireland","PN"],
+  "557" : ["Solomon Islands","SB"],
+  "559" : ["American Samoa - United States of America","AS"],
+  "561" : ["Samoa (Independent State of)","AS"],
+  "563" : ["Singapore (Republic of)","SG"],
+  "564" : ["Singapore (Republic of)","SG"],
+  "565" : ["Singapore (Republic of)","SG"],
+  "566" : ["Singapore (Republic of)","SG"],
+  "567" : ["Thailand","TH"],
+  "570" : ["Tonga (Kingdom of)","TO"],
+  "572" : ["Tuvalu","TV"],
+  "574" : ["Viet Nam (Socialist Republic of)","VN"],
+  "576" : ["Vanuatu (Republic of)","VU"],
+  "577" : ["Vanuatu (Republic of)","VU"],
+  "578" : ["Wallis and Futuna Islands - France","WF"],
+  "601" : ["South Africa (Republic of)","ZA"],
+  "603" : ["Angola (Republic of)","AO"],
+  "605" : ["Algeria (People's Democratic Republic of)","DZ"],
+  "607" : ["Saint Paul and Amsterdam Islands - France","FR"],
+  "608" : ["Ascension Island - United Kingdom of Great Britain and Northern Ireland","GB"],
+  "609" : ["Burundi (Republic of)","BI"],
+  "610" : ["Benin (Republic of)","BJ"],
+  "611" : ["Botswana (Republic of)","BW"],
+  "612" : ["Central African Republic","CF"],
+  "613" : ["Cameroon (Republic of)","CM"],
+  "615" : ["Congo (Republic of the)","CD"],
+  "616" : ["Comoros (Union of the)","KM"],
+  "617" : ["Cabo Verde (Republic of)","CV"],
+  "618" : ["Crozet Archipelago - France","FR"],
+  "619" : ["Côte d'Ivoire (Republic of)","CI"],
+  "620" : ["Comoros (Union of the)","KM"],
+  "621" : ["Djibouti (Republic of)","DJ"],
+  "622" : ["Egypt (Arab Republic of)","EG"],
+  "624" : ["Ethiopia (Federal Democratic Republic of)","ET"],
+  "625" : ["Eritrea","ER"],
+  "626" : ["Gabonese Republic","GA"],
+  "627" : ["Ghana","GH"],
+  "629" : ["Gambia (Republic of the)","GM"],
+  "630" : ["Guinea-Bissau (Republic of)","GQ"],
+  "631" : ["Equatorial Guinea (Republic of)","GQ"],
+  "632" : ["Guinea (Republic of)","GQ"],
+  "633" : ["Burkina Faso","BF"],
+  "634" : ["Kenya (Republic of)","KE"],
+  "635" : ["Kerguelen Islands - France","FR"],
+  "636" : ["Liberia (Republic of)","LR"],
+  "637" : ["Liberia (Republic of)","LR"],
+  "638" : ["South Sudan (Republic of)","SS"],
+  "642" : ["Libya","LY"],
+  "644" : ["Lesotho (Kingdom of)","LS"],
+  "645" : ["Mauritius (Republic of)","MU"],
+  "647" : ["Madagascar (Republic of)","MG"],
+  "649" : ["Mali (Republic of)","ML"],
+  "650" : ["Mozambique (Republic of)","MZ"],
+  "654" : ["Mauritania (Islamic Republic of)","MR"],
+  "655" : ["Malawi","MW"],
+  "656" : ["Niger (Republic of the)","NE"],
+  "657" : ["Nigeria (Federal Republic of)","NG"],
+  "659" : ["Namibia (Republic of)","NA"],
+  "660" : ["Reunion (French Department of) - France","RE"],
+  "661" : ["Rwanda (Republic of)","RW"],
+  "662" : ["Sudan (Republic of the)","SS"],
+  "663" : ["Senegal (Republic of)","SN"],
+  "664" : ["Seychelles (Republic of)","SC"],
+  "665" : ["Saint Helena - United Kingdom of Great Britain and Northern Ireland","SH"],
+  "666" : ["Somalia (Federal Republic of)","SO"],
+  "667" : ["Sierra Leone","SL"],
+  "668" : ["Sao Tome and Principe (Democratic Republic of)","ST"],
+  "669" : ["Swaziland (Kingdom of)","SZ"],
+  "670" : ["Chad (Republic of)","TD"],
+  "671" : ["Togolese Republic","TG"],
+  "672" : ["Tunisia","TN"],
+  "674" : ["Tanzania (United Republic of)","TZ"],
+  "675" : ["Uganda (Republic of)","UG"],
+  "676" : ["Democratic Republic of the Congo","CD"],
+  "677" : ["Tanzania (United Republic of)","TZ"],
+  "678" : ["Zambia (Republic of)","ZM"],
+  "679" : ["Zimbabwe (Republic of)","ZW"],
+  "701" : ["Argentine Republic","AR"],
+  "710" : ["Brazil (Federative Republic of)","BR"],
+  "720" : ["Bolivia (Plurinational State of)","BO"],
+  "725" : ["Chile","CL"],
+  "730" : ["Colombia (Republic of)","CO"],
+  "735" : ["Ecuador","EC"],
+  "740" : ["Falkland Islands (Malvinas) - United Kingdom of Great Britain and Northern Ireland","FK"],
+  "745" : ["Guiana (French Department of) - France","GY"],
+  "750" : ["Guyana","GY"],
+  "755" : ["Paraguay (Republic of)","PY"],
+  "760" : ["Peru","PE"],
+  "765" : ["Suriname (Republic of)","SR"],
+  "770" : ["Uruguay (Eastern Republic of)","UY"],
+  "775" : ["Venezuela (Bolivarian Republic of)","VE"]
 }
 
 const AID_TO_NAV = {
@@ -529,9 +528,13 @@ const UNITS = {
   'shipType'          : 'index',
   'shipTypeStr'       : 'string',
   'dimToBow'          : 'm',
+  'dimToBowStatus'    : 'string',
   'dimToStern'        : 'm',
+  'dimToSternStatus'  : 'string',
   'dimToPort'         : 'm',
+  'dimToPortStatus'   : 'string',
   'dimToStbrd'        : 'm',
+  'dimToStbrdStatus'  : 'string',
   'etaMonth'          : 'month',
   'etaDay'            : 'day',
   'etaHour'           : 'h',
@@ -556,6 +559,7 @@ const UNITS = {
   'aidTypeStr'        : 'string',
   'nameExt'           : 'string',
   'midCountry'        : 'string',
+  'midCountryIso'     : 'string',
   'mmsiType'          : 'string'
  }
 
@@ -576,6 +580,10 @@ export default class AisMessage {
   _lat : ?number;
   _lon : ?number;
   _hdg : ?number;
+  _dimToBow : ?number;
+  _dimToStern : ?number;
+  _dimToPort : ?number;
+  _dimToStbrd : ?number;
 
   static fromError(valid : Validity,errMsg : string,aisType : number = 0,channel : string = '') : AisMessage {
     let msg = new AisMessage(aisType,new AisBitField('',0),channel);
@@ -647,18 +655,31 @@ export default class AisMessage {
     return '';
   }
 
-  get midCountry() : string {
+  getMidCountry(short : boolean = false) : string {
     let midStr = String(this.mmsi);
+    let country : Array<string>;
     if((this.mmsi > 200000000) && (this.mmsi < 800000000)) {
-      return MID_TO_COUNTRY[midStr.substr(0,3)] || ''
+      country = MID_TO_COUNTRY[midStr.substr(0,3)];
     } else {
       switch(midStr.substr(0,2)) {
         case '98':
         case '99':
-          return MID_TO_COUNTRY[midStr.substr(2,3)] || ''
+          country = MID_TO_COUNTRY[midStr.substr(2,3)];
       }
+    }
+    if(country) {
+      return short ? country[1] : country[0];
+    } else {
       return '';
     }
+  }
+
+  get midCountry() : string {
+    return this.getMidCountry(false);
+  }
+
+  get midCountryIso() : string {
+    return this.getMidCountry(true);
   }
 
   get mmsiType() : string {
@@ -902,20 +923,108 @@ export default class AisMessage {
     return SHIP_TYPE[this.shipType] || '';
   }
 
-  get dimToBow() : number {
+  _getDimToBow() : number {
     return NaN;
+  }
+
+  get dimToBowStatus() : DimStatus {
+    if(!this._dimToBow) {
+      this._dimToBow = this._getDimToBow() || NaN;
+    }
+    switch(this._dimToBow) {
+      case 0: return 'NA'
+      case 511: return 'HUGE'
+      default: return 'VALID'
+    }
+  }
+
+  get dimToBow() : number {
+    if(!this._dimToBow) {
+      this._dimToBow = this._getDimToBow() || NaN;
+    }
+    if((this._dimToBow === NaN) || (this._dimToBow === 511)) {
+      return NaN;
+    } else {
+      return this._dimToBow;
+    }
+  }
+
+  _getDimToStern() : number {
+    return NaN;
+  }
+
+  get dimToSternStatus() : DimStatus {
+    if(!this._dimToStern) {
+      this._dimToStern = this._getDimToStern() || NaN;
+    }
+    switch(this._dimToStern) {
+      case 0: return 'NA'
+      case 511: return 'HUGE'
+      default: return 'VALID'
+    }
   }
 
   get dimToStern() : number {
+    if(!this._dimToStern) {
+      this._dimToStern = this._getDimToStern() || NaN;
+    }
+    if((this._dimToStern === NaN) || (this._dimToStern === 511)) {
+      return NaN;
+    } else {
+      return this._dimToStern;
+    }
+  }
+
+  _getDimToPort() : number {
     return NaN;
+  }
+
+  get dimToPortStatus() : DimStatus {
+    if(!this._dimToPort) {
+      this._dimToPort = this._getDimToPort() || NaN;
+    }
+    switch(this._dimToPort) {
+      case 0: return 'NA'
+      case 63: return 'HUGE'
+      default: return 'VALID'
+    }
   }
 
   get dimToPort() : number {
+    if(!this._dimToPort) {
+      this._dimToPort = this._getDimToPort() || NaN;
+    }
+    if((this._dimToPort === NaN) || (this._dimToPort === 63)) {
+      return NaN;
+    } else {
+      return this._dimToPort;
+    }
+  }
+
+  _getDimToStbrd() : number {
     return NaN;
   }
 
+  get dimToStbrdStatus() : DimStatus {
+    if(!this._dimToStbrd) {
+      this._dimToStbrd = this._getDimToStbrd() || NaN;
+    }
+    switch(this._dimToStbrd) {
+      case 0: return 'NA'
+      case 63: return 'HUGE'
+      default: return 'VALID'
+    }
+  }
+
   get dimToStbrd() : number {
-    return NaN;
+    if(!this._dimToStbrd) {
+      this._dimToStbrd = this._getDimToStbrd() || NaN;
+    }
+    if((this._dimToStbrd === NaN) || (this._dimToStbrd === 63)) {
+      return NaN;
+    } else {
+      return this._dimToStbrd;
+    }
   }
 
   get epfd() : number {
