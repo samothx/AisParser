@@ -6,7 +6,8 @@
 |channel|string|The VHF channel the message was Transmitted on |A,B or empty |all|
 |repeatInd|number|Wether or not this message should be rebroadcasted | 0,1,2,3 |all|
 |mmsi|number|Maritime Mobile Service Identity |9 digit number|all|
-|class |string|The Class of AIS Device | A, B empty | all |
+|midCountry|string|Country extracted from the MMSI|The country or empty|all|
+|mmsiType|string|The type of Target extracted from the MMSI|Target type or empty|all||class |string|The Class of AIS Device | A, B empty | all |
 |latitude| deg |The latitude of the Sender | -90-90 |1, 2, 3, 4, 18, 19|
 |longitude| deg |The longitude of the Sender | -180-180 |1, 2, 3, 4, 18, 19|
 |posAccuracy|boolean|Position Accuracy, true DGPS Quality < 10m, false >10m|true,false|1, 2, 3, 4, 18, 19|
@@ -37,21 +38,16 @@
 |destination|string|Destination of Vessel|-|5|
 |draught|m|Draught of Target|-|5|
 |heading|deg|True Heading of Target|0-359|1, 2, 3, 18, 19|
-|sog|kn|Speed over Ground|0-101.2|1, 2, 3, 18, 19|
+|sog|kn|Speed over Ground|0-102.1|1, 2, 3, 18, 19|
 |sogStatus|string|Status of Speed over Ground, if status is VALID, then sog contains the Speed |VALID,HIGH,NA|1, 2, 3, 18, 19|
-
-'sogStatus'         : 'string',
-'cog'               : 'deg',
-'utcTsSec'          : 's',
-'utcTsStatus'         : 'string',
-'partNo'            : 'number',
-'vendorId'          : 'string',
-'mothershipMmsi'    : 'string',
-'rotStatus'         : 'string',
-'rot'               : 'deg/min',
-'offPosInd'         : 'string',
-'aidType'           : 'index',
-'aidTypeStr'        : 'string',
-'nameExt'           : 'string',
-'midCountry'        : 'string',
-'mmsiType'          : 'string'
+|cog|deg|Course over Ground|0-359|1, 2, 3, 18, 19|
+|utcTsSec|s|Seconds of UTC Time|0-59|1, 2, 3, 18, 19|
+|utcTsStatus|string|Status of the utcTsSec Paramerter|NA,  MANUAL, ESTIMATED, INOPERATIVE or INVALID|1, 2, 3, 18, 19|
+|vendorId|string|Vendor Name of the AIS equipment|-|24|
+|mothershipMmsi|string|MMSI of Mothership|9 Digit Number|24|
+|rot|deg/min|Rate of Turn|-126-126|1, 2, 3|
+|rotStatus|string|Status of Rate of Turn|'NONE, RIGHT, LEFT, NA|1,2,3|
+|offPosInd|string|Off Position indicator for Aid to Navigation|IN_POS, OFF_POS, NA|21|
+|aidType|index|Type of the Aid to Navigation|0-31|21|
+|aidTypeStr|string|A String associated with the aidType|-|21|
+|nameExt|Name Extension for Aid to Navigation|-|21|
