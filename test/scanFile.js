@@ -38,6 +38,7 @@ class Parser extends Transform {
   _lineCount : number;
   _aisCount : number;
   _failCount : number;
+  _failedMsgs : { [tag:string] : number };
   _oStream : Object;
   _iStream : Object;
   _failStream : Object;
@@ -60,6 +61,7 @@ class Parser extends Transform {
     this._lineCount = 0;
     this._aisCount = 0;
     this._failCount = 0;
+    this._failedMsgs = {};
     this._lineCache = {};
     this._parseDuration = 0;
     this._readDuration = 0;
@@ -182,6 +184,21 @@ class Parser extends Transform {
             console.log('valid:' + msg.valid + ' msg:' + (msg.errMsg || '-'));
             this._failCount ++;
             this._failStream.write(line + '\n');
+            if(msg.valid === 'UNSUPPORTED') {
+              let tag : string;
+              if(isNaN(msg.aisType)) {
+                tag = 'Non AIS';
+              } else {
+                tag = String(msg.aisType);
+              }
+
+              let failed = this._failedMsgs[tag];
+              if(failed) {
+                this._failedMsgs[tag] = ++failed;
+              } else {
+                this._failedMsgs[tag] = 1;
+              }
+            }
           }
         }
       } catch(error) {
@@ -205,9 +222,14 @@ class Parser extends Transform {
   }
 
   getResults() : string {
+    let failed : string = 'Unsupported Msg Types:'
+    let key : string
+    for(key in this._failedMsgs) {
+      failed += ' ' + key + ':' + this._failedMsgs[key] + ',';
+    }
     return 'success, read ' + this._lineCount + ' lines, ' + this._aisCount + ' ais lines of which ' + this._failCount + ' failed\n' +
            'Durations: ' + (this._parseDuration / this._aisCount).toFixed(3) + ' ns per message for parsing, ' +
-           (this._readDuration / (this._aisCount - this._failCount)).toFixed(3) + ' ns per message for reading';
+           (this._readDuration / (this._aisCount - this._failCount)).toFixed(3) + ' ns per message for reading\n' + failed;
   }
 }
 

@@ -45,8 +45,6 @@ const SUPPORTED_FIELDS = [
   'dimToPortStatus',
   'dimToStbrd',
   'dimToStbrdStatus',
-  'length',
-  'width',
   'epfd',
   'epfdStr',
   'etaMonth',

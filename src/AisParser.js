@@ -83,7 +83,7 @@ class AisParser {
     if(sentence.startsWith('!AIVDO') || sentence.startsWith('!AIVDM')) {
       let checksum = (typeof options.checksum !== 'undefined') ? options.checksum : this._options.checksum;
       if(checksum && !this.checksumValid(sentence)) {
-        return AisMessage.fromError('INVALID','Invalid checksum in message: ' + sentence);
+        return AisMessage.fromError('INVALID','Invalid checksum in message: [' + sentence + ']');
       }
 
       let part : Array<string> = sentence.split(',');
@@ -162,7 +162,11 @@ class AisParser {
           case 24:
             return new Ais24Msg(aisType,bitField,part[4]);
           default:
-            return AisMessage.fromError('UNSUPPORTED','Unsupported ais type ' + aisType + ' in message [' + sentence + ']');
+            return AisMessage.fromError(
+              'UNSUPPORTED',
+              'Unsupported ais type ' + aisType + ' in message [' + sentence + ']',
+              aisType,
+              part[4]);
         }
       } catch(error) {
         return AisMessage.fromError('INVALID','Failed to parse message, error:' + error);
