@@ -1,6 +1,6 @@
 {
   "name": "aisparser",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": false,
   "description": "parser for NMEA0183 AIS messages",
   "keywords": [
