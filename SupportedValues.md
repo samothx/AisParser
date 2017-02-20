@@ -2,15 +2,16 @@
 
 | Parameter | Type | Description          |Values      | Messages |
 |:----------|:-----|:---------------------|:-----------|:---------|
+|valid|string|Validity of the result|VALID, INVALID, UNSUPPORTED, INCOMPLETE|all|
 |aisType|number|The message number of the AIS Message| 1-5, 18, 19, 21, or 24|all|
 |channel|string|The VHF channel the message was Transmitted on |A,B or empty |all|
-|repeatInd|number|Wether or not this message should be rebroadcasted | 0,1,2,3 |all|
+|repeatInd|number|Wether or not / how this message should be rebroadcasted | 0,1,2,3 |all|
 |mmsi|number|Maritime Mobile Service Identity |9 digit number|all|
-|midCountry|string|Country extracted from the MMSI|The country or empty|all|
-|mmsiType|string|The type of Target extracted from the MMSI|Target type or empty|all||class |string|The Class of AIS Device | A, B empty | all |
+|midCountry|string|Country extracted from the MMSI|The Country or empty|all|
+|mmsiType|string|The Type of Target extracted from the MMSI|Target type or empty|all||class |string|The Class of AIS Device | A, B empty | all |
 |latitude| deg |The latitude of the Sender | -90-90 |1, 2, 3, 4, 18, 19|
 |longitude| deg |The longitude of the Sender | -180-180 |1, 2, 3, 4, 18, 19|
-|posAccuracy|boolean|Position Accuracy, true DGPS Quality < 10m, false >10m|true,false|1, 2, 3, 4, 18, 19|
+|posAccuracy|boolean|Position Accuracy, true = DGPS Quality < 10m, false >10m|true,false|1, 2, 3, 4, 18, 19|
 |navStatus|index|Navigational Status of AIS Target|0-15|1,2,3|
 |navStatusStr|string|A String associated with Nav Status|-|1,2,3|
 |utcYear|year|Message Type 4 Base Station Time Reference|1-999, 0=N/A|4|
@@ -50,4 +51,4 @@
 |offPosInd|string|Off Position indicator for Aid to Navigation|IN_POS, OFF_POS, NA|21|
 |aidType|index|Type of the Aid to Navigation|0-31|21|
 |aidTypeStr|string|A String associated with the aidType|-|21|
-|nameExt|Name Extension for Aid to Navigation|-|21|
+|nameExt|string|Name Extension for Aid to Navigation|-|21|
