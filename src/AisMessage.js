@@ -694,7 +694,7 @@ export default class AisMessage {
     }
     switch(firstDigit) {
       case '0' : return 'Ship group, coast station, or group of coast stations';
-      case '1' : return 'For use by SAR aircraft'
+      case '1' : return 'SAR aircraft'
       case '2' :
       case '3' :
       case '4' :
@@ -790,7 +790,7 @@ export default class AisMessage {
     }
   }
 
-  _getRawHeading() : number {
+  _getRaw() : number {
     return 511;
   }
 
