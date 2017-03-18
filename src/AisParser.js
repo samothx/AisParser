@@ -77,102 +77,104 @@ class AisParser {
     return chkSumStr === sentence.substr(idx + 1);
   }
 
-  // !AIVDM,1,1,,B,14`c;d002grD>PH50hr7RVE000SG,0*74
   parse(sentence : string,options : ParseOptions = {}) : AisMessage {
-    /* checksum not working yet */
-    if(sentence.startsWith('!AIVDO') || sentence.startsWith('!AIVDM')) {
-      let checksum = (typeof options.checksum !== 'undefined') ? options.checksum : this._options.checksum;
-      if(checksum && !this.checksumValid(sentence)) {
-        return AisMessage.fromError('INVALID','Invalid checksum in message: [' + sentence + ']');
+    let checksum = (typeof options.checksum !== 'undefined') ? options.checksum : this._options.checksum;
+    if(checksum && !this.checksumValid(sentence)) {
+      return AisMessage.fromError('INVALID','Invalid checksum in message: [' + sentence + ']');
+    }
+    return this.parseArray(sentence.split(','))
+  }
+
+  // !AIVDM,1,1,,B,14`c;d002grD>PH50hr7RVE000SG,0*74
+  parseArray(part : Array<string>) : AisMessage {
+    let parts : number = part.length
+
+    if(parts !== 7) {
+      return AisMessage.fromError('INVALID','Invalid count (!=7) of comma separated elements in message: [' + String(part) + ']');
+    } else {
+      if((part[0] !== '!AIVDM') && (part[0] !== '!AIVDO')) {
+        return AisMessage.fromError('UNSUPPORTED','not a supported AIS message:[' + String(part) + ']');
       }
+    }
 
-      let part : Array<string> = sentence.split(',');
-      let parts : number = part.length;
-      if(parts !== 7) {
-        return AisMessage.fromError('INVALID','Invalid count (!=7) of comma separated elements in message: [' + sentence + ']');
-      }
+    let msgCount : number = Number(part[1]);
+    let msgIdx : number = Number(part[2]);
+    let msgId : string = part[3];
+    let padBit : number = Number(part[6].substr(0,1));
+    let aisStr : string = part[5];
 
-      let msgCount : number = Number(part[1]);
-      let msgIdx : number = Number(part[2]);
-      let msgId : string = part[3];
-      let padBit : number = Number(part[6].substr(0,1));
-      let aisStr : string = part[5];
-
-      if(msgCount > 1) {
-        if(msgIdx === msgCount) {
-          let msgParts = this._context[msgId];
+    if(msgCount > 1) {
+      if(msgIdx === msgCount) {
+        let msgParts = this._context[msgId];
+        if(!msgParts) {
+          return AisMessage.fromError('INVALID','missing prior message(s) in partial message:[' + String(part) + ']');
+        }
+        if(msgIdx !== (msgParts.idx + 1)) {
+          delete this._context[msgId];
+          return AisMessage.fromError('INVALID','sequence violation (skipped or missing message) in partial message:[' + String(part) + ']');
+        }
+        aisStr = msgParts.aisStr + aisStr;
+        delete this._context[msgId];
+      } else {
+        if(padBit !== 0) {
+          return AisMessage.fromError('UNSUPPORTED','padbit!=0 not supported in partial message:[' + String(part) + ']');
+        }
+        let msgParts = this._context[msgId];
+        if(msgIdx === 1) {
+          if(typeof msgParts !== 'undefined') {
+            delete this._context[msgId];
+            return AisMessage.fromError('INVALID','a message with this sequence and index already exists in partial message:[' + String(part) + ']');
+          }
+          this._context[msgId] = { idx : msgIdx, aisStr: aisStr };
+          return AisMessage.fromError('INCOMPLETE','');
+        } else {
           if(!msgParts) {
-            return AisMessage.fromError('INVALID','missing prior message(s) in partial message:[' + sentence + ']');
+            return AisMessage.fromError('INVALID','missing prior message in partial message:[' + String(part) + ']');
           }
           if(msgIdx !== (msgParts.idx + 1)) {
             delete this._context[msgId];
-            return AisMessage.fromError('INVALID','sequence violation (skipped or missing message) in partial message:[' + sentence + ']');
+            return AisMessage.fromError('INVALID','sequence violation (skipped or missing message) in partial message:[' + String(part) + ']');
           }
-          aisStr = msgParts.aisStr + aisStr;
-          delete this._context[msgId];
-        } else {
-          if(padBit !== 0) {
-            return AisMessage.fromError('UNSUPPORTED','padbit!=0 not supported in partial message:[' + sentence + ']');
-          }
-          let msgParts = this._context[msgId];
-          if(msgIdx === 1) {
-            if(typeof msgParts !== 'undefined') {
-              delete this._context[msgId];
-              return AisMessage.fromError('INVALID','a message with this sequence and index already exists in partial message:[' + sentence + ']');
-            }
-            this._context[msgId] = { idx : msgIdx, aisStr: aisStr };
-            return AisMessage.fromError('INCOMPLETE','');
-          } else {
-            if(!msgParts) {
-              return AisMessage.fromError('INVALID','missing prior message in partial message:[' + sentence + ']');
-            }
-            if(msgIdx !== (msgParts.idx + 1)) {
-              delete this._context[msgId];
-              return AisMessage.fromError('INVALID','sequence violation (skipped or missing message) in partial message:[' + sentence + ']');
-            }
-            msgParts.idx = msgIdx;
-            msgParts.aisStr += aisStr;
-            return AisMessage.fromError('INCOMPLETE','');
-          }
+          msgParts.idx = msgIdx;
+          msgParts.aisStr += aisStr;
+          return AisMessage.fromError('INCOMPLETE','');
         }
-      } else {
-        if(msgIdx !== 1) {
-          return AisMessage.fromError('INVALID','invalid message index !=1 in non partial message:[' + sentence + ']');
-        }
-      }
-
-      try {
-        let bitField : AisBitField = new AisBitField(aisStr,padBit);
-        let aisType : number = bitField.getInt(0,6,true);
-        switch(aisType) {
-          case 1:
-          case 2:
-          case 3:
-            return new AisCNBMsg(aisType,bitField,part[4]);
-          case 4:
-            return new Ais04Msg(aisType,bitField,part[4]);
-          case 5:
-            return new Ais05Msg(aisType,bitField,part[4]);
-          case 18:
-            return new Ais18Msg(aisType,bitField,part[4]);
-          case 19:
-            return new Ais19Msg(aisType,bitField,part[4]);
-          case 21:
-            return new Ais21Msg(aisType,bitField,part[4]);
-          case 24:
-            return new Ais24Msg(aisType,bitField,part[4]);
-          default:
-            return AisMessage.fromError(
-              'UNSUPPORTED',
-              'Unsupported ais type ' + aisType + ' in message [' + sentence + ']',
-              aisType,
-              part[4]);
-        }
-      } catch(error) {
-        return AisMessage.fromError('INVALID','Failed to parse message, error:' + error);
       }
     } else {
-      return AisMessage.fromError('UNSUPPORTED','not a supported AIS message:[' + sentence + ']');
+      if(msgIdx !== 1) {
+        return AisMessage.fromError('INVALID','invalid message index !=1 in non partial message:[' + String(part) + ']');
+      }
+    }
+
+    try {
+      let bitField : AisBitField = new AisBitField(aisStr,padBit);
+      let aisType : number = bitField.getInt(0,6,true);
+      switch(aisType) {
+        case 1:
+        case 2:
+        case 3:
+          return new AisCNBMsg(aisType,bitField,part[4]);
+        case 4:
+          return new Ais04Msg(aisType,bitField,part[4]);
+        case 5:
+          return new Ais05Msg(aisType,bitField,part[4]);
+        case 18:
+          return new Ais18Msg(aisType,bitField,part[4]);
+        case 19:
+          return new Ais19Msg(aisType,bitField,part[4]);
+        case 21:
+          return new Ais21Msg(aisType,bitField,part[4]);
+        case 24:
+          return new Ais24Msg(aisType,bitField,part[4]);
+        default:
+          return AisMessage.fromError(
+            'UNSUPPORTED',
+            'Unsupported ais type ' + aisType + ' in message [' + String(part) + ']',
+            aisType,
+            part[4]);
+      }
+    } catch(error) {
+      return AisMessage.fromError('INVALID','Failed to parse message, error:' + error);
     }
   }
 }
