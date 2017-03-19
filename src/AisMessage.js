@@ -790,7 +790,7 @@ export default class AisMessage {
     }
   }
 
-  _getRaw() : number {
+  _getRawHeading() : number {
     return 511;
   }
 
