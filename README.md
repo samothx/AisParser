@@ -56,8 +56,15 @@ The function takes one string parameter:
 
 ### Function parse(message,options)
 The Function takes two parameters:
-- The parameter message supplies the AIS message to be parsed.
+- The parameter message supplies the NMEA0183 AIS message to be parsed.
 - The second parameter can be left out. It has the same content as the constructors option parameter. When given it overrides the options given in the constructor.
+
+#### Return Value
+The function returns a result object that can be used to retrieve the status of the parse process and the messages values when parsing was successful.
+
+### Function parseArray(array)
+The function takes a preprocessed message as parameter. The array can be derived from the original message by splitting the
+the message (eg. using message.split(',')) and is targeted at environments where NMEA0183 messages have already preprocessed handing them to the AIS parser. This function does not compute a checksum.
 
 #### Return Value
 The function returns a result object that can be used to retrieve the status of the parse process and the messages values when parsing was successful.
