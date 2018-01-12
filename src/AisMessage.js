@@ -32,7 +32,6 @@ export type ROT = {
   speed : number;
 }
 
-const DEBUG = false;
 const MOD_NAME = 'AisMessage';
 const INVALID_LON = 0x6791AC0;
 const INVALID_LAT = 0x3412140;

@@ -22,7 +22,6 @@ import AisMessage from './AisMessage';
 import type {SuppValues} from './AisMessage';
 
 const MOD_NAME = 'Ais21Msg';
-const DEBUG = false;
 /*
 |==============================================================================
 |Field    |Len |Description            |Member       |T|Units

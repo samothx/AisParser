@@ -1,6 +1,6 @@
 {
   "name": "aisparser",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": false,
   "description": "parser for NMEA0183 AIS messages",
   "keywords": [
@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-preset-es2015": "^6.22.0",
-    "flow-bin": "^0.38.0"
+    "babel-preset-env": "^1.6.1",
+    "flow-bin": "^0.61.0"
   },
   "homepage": "https://github.com/samothx/AisParser#readme",
   "directories": {

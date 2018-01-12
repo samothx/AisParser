@@ -21,7 +21,6 @@ import AisBitField from './AisBitField';
 import AisMessage from './AisMessage';
 import type {SuppValues} from './AisMessage';
 const MOD_NAME = 'AisCNBMsg';
-const DEBUG = false;
 
 const SUPPORTED_FIELDS = [
   'aisType',

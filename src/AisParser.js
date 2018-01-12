@@ -36,7 +36,6 @@ export type ParseOptions = { checksum? : boolean; };
 
 export type Context = { [id : string] : { idx : number, aisStr: string } };
 
-const DEBUG = false;
 const MOD_NAME = 'AisParser';
 
 class AisParser {
@@ -48,7 +47,7 @@ class AisParser {
     this._context = {};
   }
 
-  checksumValid(sentence : string) : boolean {
+  static checksumValid(sentence : string) : boolean {
     if(!(sentence.startsWith('!AIVDO') || sentence.startsWith('!AIVDM'))) {
       return false;
     }

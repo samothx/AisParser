@@ -22,7 +22,6 @@ import AisMessage from './AisMessage';
 import type {SuppValues} from './AisMessage';
 
 const MOD_NAME = 'Ais24Msg';
-const DEBUG = false;
 
 const SUPPORTED_FIELDS_A = [
   'aisType',
