@@ -17,6 +17,7 @@
  * along with this program.  If not, see <https://www.apache.org/licenses/LICENSE-2.0/>.
  */
 
+const DEBUG = false
 const MOD_NAME = 'AisBitField';
 const AIS_CHR_TBL : Array<string> = [
     '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
@@ -55,7 +56,6 @@ export default class AisBitField {
   _bits : number;
 
   constructor(str : string, padBits : number) {
-    // let DEBUG = false;
     if(DEBUG) console.log(MOD_NAME + '.constructor(' + str + ',' + padBits + ')');
     if(str) {
       this._aisStr = str;
@@ -106,7 +106,6 @@ export default class AisBitField {
   }
 
   getInt(start : number,len : number,unsigned : boolean) : number {
-    let DEBUG = false;
     if(DEBUG) console.log(MOD_NAME + '.getInt(' + start + ',' + len + ',' + unsigned.toString() + ')');
 
     if(len <= 0) {

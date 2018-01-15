@@ -37,6 +37,7 @@ export type ParseOptions = { checksum? : boolean; };
 export type Context = { [id : string] : { idx : number, aisStr: string } };
 
 const MOD_NAME = 'AisParser';
+const DEBUG = false
 
 class AisParser {
   _context : Context;
@@ -78,7 +79,7 @@ class AisParser {
 
   parse(sentence : string,options : ParseOptions = {}) : AisMessage {
     let checksum = (typeof options.checksum !== 'undefined') ? options.checksum : this._options.checksum;
-    if(checksum && !this.checksumValid(sentence)) {
+    if(checksum && !AisParser.checksumValid(sentence)) {
       return AisMessage.fromError('INVALID','Invalid checksum in message: [' + sentence + ']');
     }
     return this.parseArray(sentence.split(','))
