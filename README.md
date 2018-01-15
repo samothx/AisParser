@@ -44,7 +44,7 @@ When supplied currently only one parameter ```checksum``` of type boolean is sup
 ```var parser = new AisParser({ checksum : true })```
 
 ### Function checksumValid(message)
-The function calculates and compares the checksum and returns true if the value matches or false if not. The function also does some basic checks and returns false if the message is obviously not valid otherwise.
+checksumValid is a static function of the module, it calculates and compares the checksum and returns true if the value matches or false if not. The function also does some basic checks and returns false if the message is obviously not valid otherwise.
 
 #### Parameters
 The function takes one string parameter:
@@ -52,7 +52,7 @@ The function takes one string parameter:
 
 
 #### Example:
-```var msgOk = parser.checksumValid('!AIVDM,1,1,,B,14`c;d002grD>PH50hr7RVE000SG,0*74')```
+```var msgOk = AisParser.checksumValid('!AIVDM,1,1,,B,14`c;d002grD>PH50hr7RVE000SG,0*74')```
 
 ### Function parse(message,options)
 The Function takes two parameters:
