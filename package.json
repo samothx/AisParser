@@ -1,6 +1,6 @@
 {
   "name": "aisparser",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "private": false,
   "description": "parser for NMEA0183 AIS messages",
   "keywords": [
@@ -20,8 +20,8 @@
     "node": ">=6"
   },
   "scripts": {
-    "install": "cd src;babel -d ../lib *.js;cd ..",
-    "prepublish": "cd src;babel -d ../lib *.js;cd ..",
+    "transpile": "cd src;babel -d ../lib *.js;cd ..",
+    "prepublishOnly": "cd src;babel -d ../lib *.js;cd ..",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "devDependencies": {
