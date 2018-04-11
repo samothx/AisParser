@@ -8,7 +8,7 @@ ADD 	ssh /root/.ssh
 
 ADD 	testdata.tgz /test/testdata.tgz
 RUN 	ssh-keyscan -t rsa 172.17.0.1 >> /root/.ssh/known_hosts && chown -R root.root /root/.ssh && chmod 600 /root/.ssh/* && \
-	tar -xzf /test/testdata.tgz -C /test && \
-	rm testdata.tgz
+	    tar -xzf /test/testdata.tgz -C /test && \
+	    rm /test/testdata.tgz
 
 VOLUME ["usr/local/share/.cache/yarn"]
