@@ -1,5 +1,0 @@
-# See man 5 aliases for format
-postmaster: root
-hostmaster: root
-thomas: thomas@tele-conference.de
-root: thomas@tele-conference.de
