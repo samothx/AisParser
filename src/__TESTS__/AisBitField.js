@@ -1,7 +1,7 @@
 //@flow
 import AisBitField from '../AisBitField'
-import fs from 'fs'
-import readline from 'readline'
+// import fs from 'fs'
+// import readline from 'readline'
 
 const AIS_CHR_TBL : Array<string> = [
     '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
@@ -43,22 +43,23 @@ function createCorrectRandomData() : TestData {
 let idx : number = 0
 for(;idx < 10;idx ++) {
     let testData: TestData = createCorrectRandomData()
-    let bitField : AisBitField
+    let bitField : ?AisBitField
     test('Create with random data:' + idx, () => {
         bitField = new AisBitField(testData.aisStr, testData.padBits)
         expect(bitField).toBeDefined()
     })
 
     if(bitField) {
+        let bf = bitField
         let idx1: number = 0
-        let max: number = (Maths.floor(testData.bits / 6) - 1) * 6
-        for (; idx1 < max:idx1++) {
-            let maxChars : number = Maths.floor((testdata.bits - idx1) / 6)
+        let max: number = (Math.floor(testData.bits / 6) - 1) * 6
+        for (; idx1 < max;idx1++) {
+            let maxChars : number = Math.floor((testData.bits - idx1) / 6)
             let idx2: number = 0
             for (; idx2 > maxChars; idx2++) {
                 let length :number = idx2 * 6
-                test('bitfield(' + idx1 + ',' + length + ') of ' + testdata.bits + ' bits',()=>{
-                    let res = resbitField.getString(idx1,length)
+                test('bitfield(' + idx1 + ',' + length + ') of ' + testData.bits + ' bits',()=>{
+                    let res = bf.getString(idx1,length)
                     expect(res.length).toBe(idx2)
                 })
             }
