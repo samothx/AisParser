@@ -45,11 +45,13 @@ for(;idx < 10;idx ++) {
     let testData: TestData = createCorrectRandomData()
     let bitField : ?AisBitField
     test('Create with random data:' + idx, () => {
-        bitField = new AisBitField(testData.aisStr, testData.padBits)
-        expect(bitField).toBeDefined()
+        let bf = new AisBitField(testData.aisStr, testData.padBits)
+        expect(bf).toBeDefined()
     })
 
+    bitField = new AisBitField(testData.aisStr, testData.padBits)
     if(bitField) {
+        console.log()
         let bf = bitField
         let idx1: number = 0
         let max: number = (Math.floor(testData.bits / 6) - 1) * 6
