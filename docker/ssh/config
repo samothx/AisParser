@@ -1,0 +1,5 @@
+Host gitta
+	User gitolite
+	Hostname 172.17.0.1
+	port 22
+	IdentityFile ~/.ssh/id_rsa_git

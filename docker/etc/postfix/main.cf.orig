@@ -1,0 +1,71 @@
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+
+# Debian specific:  Specifying a file name will cause the first
+# line of that file to be used as the name.  The Debian default
+# is /etc/mailname.
+#myorigin = /etc/mailname
+
+smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+# Uncomment the next line to generate "delayed mail" warnings
+#delay_warning_time = 4h
+
+myhostname = hyperion.tele-conference.de
+
+readme_directory = no
+
+# TLS parameters
+smtpd_tls_cert_file=/etc/letsencrypt/live/mta.tele-conference.de/fullchain.pem
+smtpd_tls_key_file=/etc/letsencrypt/live/mta.tele-conference.de/privkey.pem
+smtpd_use_tls=yes
+smtp_tls_security_level = may
+smtp_tls_loglevel = 1
+smtpd_tls_loglevel = 1
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtpd_tls_security_level=may
+smtpd_tls_protocols = !SSLv2, !SSLv3
+
+# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
+# information on enabling SSL in the smtp client.
+policyd-spf_time_limit = 3600
+smtpd_helo_required     = yes
+smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination, reject_rbl_client zen.spamhaus.org=127.0.0.[2..11], check_policy_service inet:127.0.0.1:10023, check_policy_service unix:private/policyd-spf 
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+
+# Milter configuration
+# OpenDKIM
+milter_default_action = accept
+milter_protocol = 2
+smtpd_milters = local:/opendkim/opendkim.sock
+non_smtpd_milters = local:/opendkim/opendkim.sock
+
+
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = /etc/mailname
+mydestination = $myhostname, localhost.rs.hosteurope.de, , localhost
+relayhost = 
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all
+
+
+virtual_mailbox_domains = hash:/etc/postfix/vdomain
+virtual_mailbox_base = /var/mail/vmail
+virtual_mailbox_maps = hash:/etc/postfix/vmailbox
+virtual_minimum_uid = 2222
+virtual_uid_maps = static:2222
+virtual_gid_maps = static:2222
+virtual_alias_maps = hash:/etc/postfix/virtual
+virtual_transport = virtual
+
+
+compatibility_level = 2

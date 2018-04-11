@@ -1,0 +1,2 @@
+# dict-type	so-name (pathname)	dict-function	mkmap-function
+sqlite	postfix-sqlite.so.1.0.1	dict_sqlite_open
