@@ -6,7 +6,7 @@ RUN 	npm install --global yarn
 ADD 	.npmrc /root/.npmrc
 ADD 	ssh /root/.ssh
 
-ADD 	testdata.tgz /test/testdata.tgz
+ADD 	testdata.tgz /test
 
 RUN 	ssh-keyscan -t rsa 172.17.0.1 >> /root/.ssh/known_hosts && chown -R root.root /root/.ssh && chmod 600 /root/.ssh/*
 WORKDIR /test
