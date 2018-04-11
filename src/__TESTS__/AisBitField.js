@@ -4,7 +4,7 @@ import fs from 'fs'
 
 
 function initTestdata() {
-    fs.access('../')
+    fs.accessSync('')
 }
 
 beforeAll(() => {

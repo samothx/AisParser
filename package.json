@@ -20,13 +20,13 @@
     "node": ">=6"
   },
   "scripts": {
-    "build" : "cd src;babel -d ../lib *.js;cd ..",
+    "build": "cd src;babel -d ../lib *.js;cd ..",
     "transpile": "cd src;babel -d ../lib *.js;cd ..",
     "prepublishOnly": "cd src;babel -d ../lib *.js;cd ..",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "devDependencies": {
-    "babel-cli" : "^6.26.0",
+    "babel-cli": "^6.26.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "flow-bin": "^0.61.0"
