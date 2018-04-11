@@ -7,8 +7,10 @@ ADD 	.npmrc /root/.npmrc
 ADD 	ssh /root/.ssh
 
 ADD 	testdata.tgz /test/testdata.tgz
+
 RUN 	ssh-keyscan -t rsa 172.17.0.1 >> /root/.ssh/known_hosts && chown -R root.root /root/.ssh && chmod 600 /root/.ssh/*
-RUN	    tar -xzf /test/testdata.tgz -C /test
-RUN	    rm /test/testdata.tgz
+WORKDIR /test
+RUN	tar -xzf testdata.tgz 
+RUN	rm testdata.tgz
 
 VOLUME ["usr/local/share/.cache/yarn"]
