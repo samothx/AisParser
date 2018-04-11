@@ -44,8 +44,8 @@ let idx : number = 0
 for(;idx < 10;idx ++) {
     let testData: TestData = createCorrectRandomData()
     let bitField : ?AisBitField
-    test('Create with random data:' + idx + '<' + testData.aisStr + ',' + testData.padBits + '>', () => {
-        let bitField = new AisBitField(testData.aisStr, testData.padBits)
+    test('Create with random data:' + idx + ':{' + testData.aisStr + ',' + testData.padBits + '}', () => {
+        bitField = new AisBitField(testData.aisStr, testData.padBits)
         expect(bitField).toBeDefined()
     })
 
