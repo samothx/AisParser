@@ -20,9 +20,9 @@
     "node": ">=6"
   },
   "scripts": {
-    "build": "cd src;babel -d ../lib *.js;cd ..",
-    "transpile": "cd src;babel -d ../lib *.js;cd ..",
-    "prepublishOnly": "cd src;babel -d ../lib *.js;cd ..",
+    "build": "make",
+    "transpile": "make",
+    "prepublishOnly": "make",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "devDependencies": {
