@@ -1,7 +1,7 @@
 PATH  := node_modules/.bin:$(PATH)
 # TODO: use the shell that is available bash / ash or install bash in dockerfile
 
-SRC_FILES := $(shell find src/ -type f)
+SRC_FILES := $(shell find src/ -type f | grep -v __tests__)
 LIB_FILES := $(patsubst src/%.js, lib/%.js, $(SRC_FILES))
 BABEL_OPTS := --plugins transform-flow-strip-types --presets env
 
