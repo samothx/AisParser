@@ -44,14 +44,13 @@ let idx : number = 0
 for(;idx < 10;idx ++) {
     let testData: TestData = createCorrectRandomData()
     let bitField : ?AisBitField
-    test('Create with random data:' + idx, () => {
-        let bf = new AisBitField(testData.aisStr, testData.padBits)
-        expect(bf).toBeDefined()
+    test('Create with random data:' + testData.aisStr + ',' + testData.padBits + ':' + idx, () => {
+        let bitField = new AisBitField(testData.aisStr, testData.padBits)
+        expect(bitField).toBeDefined()
     })
 
-    bitField = new AisBitField(testData.aisStr, testData.padBits)
     if(bitField) {
-        console.log()
+        console.log('string tests on bitField:')
         let bf = bitField
         let idx1: number = 0
         let max: number = (Math.floor(testData.bits / 6) - 1) * 6
