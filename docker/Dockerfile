@@ -1,4 +1,4 @@
-FROM 	node:8-alpine
+FROM node:8-alpine
 
 RUN 	apk update && apk add openssh-client make git
 RUN 	npm install --global yarn
