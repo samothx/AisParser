@@ -20,6 +20,7 @@
     "node": ">=6"
   },
   "scripts": {
+    "build" : "cd src;babel -d ../lib *.js;cd ..",
     "transpile": "cd src;babel -d ../lib *.js;cd ..",
     "prepublishOnly": "cd src;babel -d ../lib *.js;cd ..",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
