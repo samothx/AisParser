@@ -157,12 +157,12 @@ export default class AisBitField {
   }
 
   getString(start : number,len : number) : string {
-    if(len <= 0) {
-      return '';
+    if(((len % 6) != 0) || ((start + len) >= this._bits) || (start < 0)) {
+      throw(MOD_NAME + '.getString() invalid indexes encountered: start:' + start + ' len:' + len + ' bits:' + this._bits);
     }
 
-    if(((len % 6) != 0) || ((start + len) > this._bits) || (start < 0)) {
-      throw(MOD_NAME + '.getString() invalid indexes encountered: start:' + start + ' len:' + len + ' bits:' + this._bits);
+    if(len === 0) {
+       return '';
     }
 
     let bitIdx : number = start % 6;

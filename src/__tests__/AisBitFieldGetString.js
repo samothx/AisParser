@@ -41,6 +41,7 @@ function validString(str : string) : string {
 
 let rand = null
 
+
 function createRandomTestData(): TestData {
     // Char count between 5 and 40
     if(!rand) {
@@ -68,18 +69,24 @@ function createRandomTestData(): TestData {
     return result
 }
 
+function createInvalidTestData(): TestData {
+    let tmp = createRandomTestData()
+    tmp.aisStr = tmp.aisStr.substr(0,2) + 'X' + tmp.aisStr.substr(3)
+    return tmp
+}
 
 /*beforeEach(()=>{
     curr = createRandomTestData()
 })
 */
 
-
+let invalid : TestData = createInvalidTestData()
 let curr : TestData = createRandomTestData()
+let params : TestData = createRandomTestData()
+
+
 let idx : number = 0
 for(;idx < 50;idx ++) {
-
-
     test('test AisBitfield.getString with: {' + curr.aisStr + '} padBits:' + curr.padBits + ' bits:' + curr.bits + ' start:' + curr.start + ' numBits:' + curr.numBits, () => {
         expect(curr).toBeDefined()
         let bf: AisBitField = new AisBitField(curr.aisStr, curr.padBits)
@@ -94,3 +101,63 @@ for(;idx < 50;idx ++) {
 
     curr = createRandomTestData()
 }
+
+test('Test with invalid params on {' + params.aisStr + '} padBits:' + params.padBits + ' bits:' + params.bits + ' start: -1 numBits: 10',()=> {
+    let bf: AisBitField = new AisBitField(params.aisStr, params.padBits)
+
+    expect(bf).toBeDefined()
+
+    function invalid0() {
+        bf.getString(-1, 10)
+    }
+
+    expect(invalid0).toThrow(/invalid indexes encountered/);
+})
+
+test('Test with invalid params on {' + params.aisStr + '} padBits:' + params.padBits + ' bits:' + params.bits + ' start: 0 numBits: ' +  ((Math.floor(params.bits / 6) + 1) * 6),()=> {
+    let bf: AisBitField = new AisBitField(params.aisStr, params.padBits)
+
+    expect(bf).toBeDefined()
+
+    function invalid0() {
+        bf.getString(0, (Math.floor(params.bits / 6) + 1) * 6)
+    }
+
+    expect(invalid0).toThrow(/invalid indexes encountered/);
+})
+
+
+test('Test with invalid params on {' + params.aisStr + '} padBits:' + params.padBits + ' bits:' + params.bits + ' start: 4 numBits: ' +  ((Math.floor(params.bits / 6) + 1) * 6),()=> {
+    let bf: AisBitField = new AisBitField(params.aisStr, params.padBits)
+
+    expect(bf).toBeDefined()
+
+    function invalid0() {
+        bf.getString(4, (Math.floor(params.bits / 6) + 1) * 6)
+    }
+
+    expect(invalid0).toThrow(/invalid indexes encountered/);
+})
+
+test('Test with invalid params on {' + params.aisStr + '} padBits:' + params.padBits + ' bits:' + params.bits + ' start: 4 numBits: 11',()=> {
+    let bf: AisBitField = new AisBitField(params.aisStr, params.padBits)
+
+    expect(bf).toBeDefined()
+
+    function invalid0() {
+        bf.getString(4,11)
+    }
+
+    expect(invalid0).toThrow(/invalid indexes encountered/);
+})
+
+
+test('Test with invalid chars on {' + invalid.aisStr + '} padBits:' + invalid.padBits + ' bits:' + invalid.bits + ' start: 5 numBits: 24',()=>{
+    expect(invalid).toBeDefined()
+    let bf: AisBitField = new AisBitField(invalid.aisStr, invalid.padBits)
+    expect(bf).toBeDefined()
+    function invalid0() {
+            bf.getString(5, 24)
+    }
+    expect(invalid0).toThrow(/invalid character encountered/)
+})
