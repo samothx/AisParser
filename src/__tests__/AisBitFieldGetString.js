@@ -61,7 +61,7 @@ function createRandomTestData(): TestData {
     let idx: number = 0
     for (; idx < count; idx++) {
         // one of the legal characters
-        result.aisStr += AIS_IN_CHR_TBL[rand.intBetween(0,AIS_IN_CHR_TBL.length)]
+        result.aisStr += AIS_IN_CHR_TBL[rand.intBetween(0,AIS_IN_CHR_TBL.length - 1)]
     }
 
     result.start = rand.intBetween(0,result.bits - 6)
