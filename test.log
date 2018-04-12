@@ -1,0 +1,33 @@
+
+> aisparser@0.0.13 test /home/thomas/develop/nodejs/AisParser
+> jest
+
+FAIL src/__tests__/AisBitField.js
+  ● Test suite failed to run
+
+    ReferenceError: idx is not defined
+
+      57 |     let idx1: number = 0
+      58 |     let max: number = (Math.floor(testData.bits / 6) - 1) * 6
+    > 59 |     for (; idx1 < max; idx1++) {
+      60 |         //console.log('  start at: ' + idx1)
+      61 |         let maxChars: number = Math.floor((testData.bits - idx1) / 6)
+      62 |         let idx2: number = 0
+      
+      at Object.<anonymous> (src/__tests__/AisBitField.js:59:35)
+
+Test Suites: 1 failed, 1 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        1.302s
+Ran all test suites.
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! aisparser@0.0.13 test: `jest`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the aisparser@0.0.13 test script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/thomas/.npm/_logs/2018-04-11T18_53_49_010Z-debug.log

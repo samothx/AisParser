@@ -162,7 +162,7 @@ export default class AisBitField {
     }
 
     if(((len % 6) != 0) || ((start + len) > this._bits) || (start < 0)) {
-      throw(MOD_NAME + '.getString() invalid invalid indexes encountered:' + start + ' ' + len);
+      throw(MOD_NAME + '.getString() invalid indexes encountered: start:' + start + ' len:' + len + ' bits:' + this._bits);
     }
 
     let bitIdx : number = start % 6;

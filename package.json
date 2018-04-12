@@ -31,7 +31,8 @@
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "flow-bin": "^0.61.0",
-    "jest": "^22.4.3"
+    "jest": "^22.4.3",
+    "random-seed": "^0.3.0"
   },
   "homepage": "https://github.com/samothx/AisParser#readme",
   "directories": {
