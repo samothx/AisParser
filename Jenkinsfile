@@ -2,6 +2,7 @@ pipeline {
     agent {
         dockerfile {
             dir 'docker'
+	    args '-v yarn_cache:usr/local/share/.cache/yarn'
         }
     }
 
@@ -13,14 +14,14 @@ pipeline {
 
         stage('Build') {
             steps {		
-                sh 'npm install'
-                sh 'npm run-script build'
+                sh 'yarn install'
+                sh 'yarn run build'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'npm test'
+                sh 'yarn run test'
             }
         }
     }
