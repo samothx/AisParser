@@ -37,7 +37,8 @@ function  isValidString(str: string): string {
 }
 
 function createTestData(): TestData {
-    let count = 5 + rand.intBetween(5, 100)
+    // enough bits to read a 32 bit integer or a 6 character string - 7 * 6 - 5 = 37 bits minimum
+    let count = rand.intBetween(7, 100)
     let tmp : string = ''
     let idx: number = 0
     for (; idx < count; idx++) {
@@ -58,7 +59,6 @@ function createTestData(): TestData {
 
 
 function createStringTestData(): TestData {
-    // Char count between 5 and 40
     let result : TestData = createTestData()
     result.start = rand.intBetween(0, result.bits - 6)
     result.numBits = rand.intBetween(0, (result.bits - result.start) / 6) * 6
@@ -87,9 +87,18 @@ function createInvalidStringTestData(): TestData {
     return result
 }
 
+function createIntTestData(): TestData {
+    let result : TestData = createTestData()
+    result.numBits = rand.intBetween(1, 32)
+    result.start = rand.intBetween(0, result.bits - result.numBits)
+    return result
+}
+
+
 
 module.exports = {
     isValidString: isValidString,
     createStringTestData: createStringTestData,
-    createInvalidStringTestData: createInvalidStringTestData
+    createInvalidStringTestData: createInvalidStringTestData,
+    createIntTestData: createIntTestData
 }

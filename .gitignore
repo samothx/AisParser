@@ -1,3 +1,5 @@
+!/test/ais*.log
+/test/*.log
 docs
 stuff
 node_modules
