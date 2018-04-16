@@ -1,7 +1,7 @@
 pipeline {
     agent {
 	docker {
-            image 'samothx/node-dev:latest
+            image 'samothx/node-dev:latest'
 	    args '-v yarn_cache:usr/local/share/.cache/yarn'
         }
     }
