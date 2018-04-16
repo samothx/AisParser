@@ -1,8 +1,0 @@
-FROM node:8-alpine
-
-RUN 	apk update && apk add make git
-RUN 	npm install --global yarn
-
-ADD 	testdata.tgz /test
-
-VOLUME ["usr/local/share/.cache/yarn"]
