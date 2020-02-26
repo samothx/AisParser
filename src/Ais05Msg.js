@@ -162,7 +162,7 @@ export default class Ais05Msg extends AisMessage {
   }
 
   get etaHour() : number {
-    return this._bitField.getInt(273,5,true) || NaN;
+    return this._bitField.getInt(283,5,true) || NaN;
   }
 
   get etaMinute() : number {
