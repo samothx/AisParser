@@ -26,6 +26,7 @@ import Ais18Msg from './Ais18Msg';
 import Ais19Msg from './Ais19Msg';
 import Ais21Msg from './Ais21Msg';
 import Ais24Msg from './Ais24Msg';
+import Ais27Msg from './Ais27Msg';
 
 // TODO:  Parser currently rejects multipart messages, if the padbit is != 0 in
 //        any but the last part. In an AisHub scan 2 messages where encountered
@@ -166,6 +167,8 @@ class AisParser {
           return new Ais21Msg(aisType,bitField,part[4]);
         case 24:
           return new Ais24Msg(aisType,bitField,part[4]);
+        case 27:
+          return new Ais27Msg(aisType,bitField,part[4]);
         default:
           return AisMessage.fromError(
             'UNSUPPORTED',
