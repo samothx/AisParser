@@ -81,6 +81,6 @@ export default class Ais14Msg extends AisMessage {
         const textStart = 40;
         const maxTextBits = Math.min(this._bitField.bits - textStart, 968);
         const textLength = maxTextBits - (maxTextBits % 6);
-        return this._formatStr(this._bitField.getString(textStart, textLength).replace(/^@+|@+$/g, ''));
+        return this._formatStr(this._bitField.getString(textStart, textLength).replace(/^@+/, ''));
     }
 }
