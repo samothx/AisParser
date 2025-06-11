@@ -559,7 +559,8 @@ const UNITS = {
   'nameExt'           : 'string',
   'midCountry'        : 'string',
   'midCountryIso'     : 'string',
-  'mmsiType'          : 'string'
+  'mmsiType'          : 'string',
+  'text'              : 'string'
  }
 
 let suppValuesValid = false;
