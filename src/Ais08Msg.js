@@ -91,7 +91,7 @@ export default class Ais8Msg extends AisMessage {
     }
 
     // |57-...  | <=952 |Name                   |text     |s|max of 952 binary data
-    get data() : string {
+    get data() : Uint8Array {
         const dataStart = 57;
         const maxDataBits = Math.min(this._bitField.bits - dataStart, 952);
         return this._bitField.getBytes(dataStart, maxDataBits);
