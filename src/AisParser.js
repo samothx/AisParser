@@ -23,6 +23,7 @@ import AisCNBMsg from './AisCNBMsg';
 import Ais04Msg from './Ais04Msg';
 import Ais05Msg from './Ais05Msg';
 import Ais08Msg from './Ais08Msg';
+import Ais08MsgDac200Fid10 from './Ais08MsgDac200Fid10';
 import Ais14Msg from './Ais14Msg';
 import Ais18Msg from './Ais18Msg';
 import Ais19Msg from './Ais19Msg';
@@ -162,7 +163,11 @@ class AisParser {
         case 5:
           return new Ais05Msg(aisType,bitField,part[4]);
         case 8:
-          return new Ais08Msg(aisType,bitField,part[4]);
+          let sentence = new Ais08Msg(aisType,bitField,part[4]);
+          if (sentence.dac == 200 && sentence.fid == 10) {
+            return new Ais08MsgDac200Fid10(aisType,bitField,part[4]);
+          }
+          return sentence;
         case 14:
           return new Ais14Msg(aisType,bitField,part[4]);
         case 18:

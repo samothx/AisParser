@@ -21,7 +21,7 @@ import AisBitField from './AisBitField';
 import AisMessage from './AisMessage';
 import type { SuppValues } from './AisMessage';
 
-const MOD_NAME = 'Ais8Msg';
+const MOD_NAME = 'Ais8MsgDac200Fid10';
 
 const SUPPORTED_FIELDS = [
     'aisType',
@@ -30,7 +30,16 @@ const SUPPORTED_FIELDS = [
     'mmsi',
     'dac',
     'fid',
-    'data'
+    'vin',
+    'length',
+    'beam',
+    'shipTypeERI',
+    'hazard',
+    'draught',
+    'load',
+    'speedQuality',
+    'courseQuality',
+    'headingQuality',
 ];
 
 let suppValuesValid = false;
@@ -45,19 +54,28 @@ let suppValues: SuppValues = {};
 |38-39   | 2     |spare                    |          |u|not used
 |40-50   | 10    |Designated area code     |dac       |u|
 |50-56   | 6     |Function identifier      |fid       |u|
-|57-...  | <=952 |Application specific data|data      |t|binary data
+|57-105  | 48    |European Vessel ID       |vid       |t|8 six-bit characters
+|106-119 | 13    |Length of ship           |length    |u|
+|120-130 | 10    |Beam of ship             |beam      |u|
+|131-145 | 14    |ERI classification       |shipTypeERI|u|
+|146-149 | 3     |Hazardous cargo          |hazard    |u|
+|150-161 | 11    |Draught                  |draught   |u|
+|162-164 | 2     |Loaded/unloaded          |load      |u|
+|165     | 1     |Quality of speed info    |speedQuality|b|
+|166     | 1     |Quality of course info   |courseQuality|b|
+|167     | 1     |Quality of heading info  |headingQuality|b|
 |==============================================================================
 */
 
-export default class Ais8Msg extends AisMessage {
+export default class Ais8MsgDac200Fid10 extends AisMessage {
     constructor(aisType: number, bitField: AisBitField, channel: string) {
         super(aisType, bitField, channel);
-        if (bitField.bits >= 56 && bitField.bits <= 1008) {
+        if (bitField.bits == 168) {
             this._valid = 'VALID';
         } else {
             this._valid = 'INVALID';
-            this._errMsg = 'invalid bitcount for type 8 msg:' + bitField.bits;
-        }            
+            this._errMsg = 'invalid bitcount for type 8 msg dac 200 fid 10:' + bitField.bits;
+        }
     }
 
     get class(): string {
@@ -90,10 +108,53 @@ export default class Ais8Msg extends AisMessage {
         return this._bitField.getInt(50,6,true);
     }
 
-    // |57-...  | <=952 |Name                   |text     |s|max of 952 binary data
-    get data() : Uint8Array {
-        const dataStart = 57;
-        const maxDataBits = Math.min(this._bitField.bits - dataStart, 952);
-        return this._bitField.getBytes(dataStart, maxDataBits);
+    // |57-105  | 48    |European Vessel ID       |vid       |t|48 six-bit characters
+    get vid() : number {
+        return this._bitField.getString(57, 48)
+    }
+
+    // |106-119 | 13    |Length of ship           |length    |u|
+    get length(): number {
+        return this._bitField.getInt(106, 13, true)
+    }
+
+    // |120-130 | 10    |Beam of ship             |beam      |u|
+    get beam(): number {
+        return this._bitField.getInt(120, 10, true)
+    }
+
+    // |131-145 | 14    |ERI classification       |shipTypeERI|u|
+    get shipTypeERI(): number {
+        return this._bitField.getInt(131, 14, true)
+    }
+
+    // |146-149 | 3     |Hazardous cargo          |hazard    |u|
+    get hazard(): number {
+        return this._bitField.getInt(146, 3, true)
+    }
+
+    // |150-161 | 11    |Draught                  |draught   |u|
+    get draught(): number {
+        return this._bitField.getInt(150, 1, true)
+    }
+
+    // |162-164 | 2     |Loaded/unloaded          |load      |u|
+    get load(): number {
+        return this._bitField.getInt(162, 2, true)
+    }
+
+    // |165     | 1     |Quality of speed info    |speedQuality|b|
+    get speedQuality(): boolean {
+        return this._bitField.getInt(165, 1, true) == 1
+    }
+
+    // |166     | 1     |Quality of course info   |courseQuality|b|
+    get courseQuality(): boolean {
+        return this._bitField.getInt(166, 1, true) == 1
+    }
+
+    // |167     | 1     |Quality of heading info  |headingQuality|b|
+    get headingQuality(): boolean {
+        return this._bitField.getInt(167, 1, true) == 1
     }
 }
