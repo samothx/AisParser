@@ -564,6 +564,15 @@ const UNITS = {
   'dac'               : 'number',
   'fid'               : 'number',
   'data'              : 'binary',
+  'vin'               : 'string',
+  'length'            : 'number',
+  'beam'              : 'number',
+  'shipTypeERI'       : 'index',
+  'hazard'            : 'number',
+  'load'              : 'number',
+  'speedQuality'      : 'boolean',
+  'courseQuality'     : 'boolean',
+  'headingQuality'    : 'boolean',
  }
 
 let suppValuesValid = false;

@@ -43,9 +43,9 @@ let suppValues: SuppValues = {};
 |6-7     | 2     |Repeat Indicator         |repeat    |u|Message repeat count
 |8-37    | 30    |MMSI                     |mmsi      |u|9 decimal digits
 |38-39   | 2     |spare                    |          |u|not used
-|40-50   | 10    |Designated area code     |dac       |u|
-|50-56   | 6     |Function identifier      |fid       |u|
-|57-...  | <=952 |Application specific data|data      |t|binary data
+|40-49   | 10    |Designated area code     |dac       |u|
+|50-55   | 6     |Function identifier      |fid       |u|
+|56-...  | <=952 |Application specific data|data      |t|binary data
 |==============================================================================
 */
 
@@ -80,19 +80,19 @@ export default class Ais8Msg extends AisMessage {
     }
 
 
-    // |40-50   | 10    |Designated area code     |dac       |u|
+    // |40-49   | 10    |Designated area code     |dac       |u|
     get dac() : number {
         return this._bitField.getInt(40,10,true);
     }
 
-    // |50-56   | 6     |Function identifier      |fid       |u|
+    // |50-55   | 6     |Function identifier      |fid       |u|
     get fid() : number {
         return this._bitField.getInt(50,6,true);
     }
 
-    // |57-...  | <=952 |Name                   |text     |s|max of 952 binary data
+    // |56-...  | <=952 |Name                   |text     |s|max of 952 binary data
     get data() : Uint8Array {
-        const dataStart = 57;
+        const dataStart = 56;
         const maxDataBits = Math.min(this._bitField.bits - dataStart, 952);
         return this._bitField.getBytes(dataStart, maxDataBits);
     }
