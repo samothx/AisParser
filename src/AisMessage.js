@@ -560,7 +560,10 @@ const UNITS = {
   'midCountry'        : 'string',
   'midCountryIso'     : 'string',
   'mmsiType'          : 'string',
-  'text'              : 'string'
+  'text'              : 'string',
+  'dac'               : 'number',
+  'fid'               : 'number',
+  'data'              : 'binary',
  }
 
 let suppValuesValid = false;

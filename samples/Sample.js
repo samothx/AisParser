@@ -33,7 +33,8 @@ var sentences = [
   '!AIVDO,1,1,,,B39i>1001FTu;bQAlAMscwe5kP06,0*3E',
   '!AIVDM,1,1,,B,15Bs:H8001JCUE852dB<FP1p2PSe,0*54',
   '!AIVDM,1,1,,B,3DSegB1uh2rCs6b54VuG417b0000,0*7C',
-  '!AIVDM,1,1,,A,>03UoOP0001@4PD=@000000000000,0*5D',
+  '!AIVDM,1,1,,A,>03UoOP0001@4PD=@000000000000,0*22', // type 14
+  '!AIVDM,1,1,,A,803Owpiu2@=tt`oA>kI3OwU@0000,2*48' // type 8
 ]
 
 sentences.forEach(function(sentence) {

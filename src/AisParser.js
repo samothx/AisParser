@@ -22,6 +22,7 @@ import AisMessage from './AisMessage';
 import AisCNBMsg from './AisCNBMsg';
 import Ais04Msg from './Ais04Msg';
 import Ais05Msg from './Ais05Msg';
+import Ais08Msg from './Ais08Msg';
 import Ais14Msg from './Ais14Msg';
 import Ais18Msg from './Ais18Msg';
 import Ais19Msg from './Ais19Msg';
@@ -160,6 +161,8 @@ class AisParser {
           return new Ais04Msg(aisType,bitField,part[4]);
         case 5:
           return new Ais05Msg(aisType,bitField,part[4]);
+        case 8:
+          return new Ais08Msg(aisType,bitField,part[4]);
         case 14:
           return new Ais14Msg(aisType,bitField,part[4]);
         case 18:
