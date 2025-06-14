@@ -544,8 +544,6 @@ const UNITS = {
   'sogStatus'         : 'string',
   'sog'               : 'kn',
   'cog'               : 'deg',
-  'latitude'          : 'deg',
-  'longitude'         : 'deg',
   'utcTsSec'          : 's',
   'utcTsStatus'       : 'string',
   'partNo'            : 'number',
