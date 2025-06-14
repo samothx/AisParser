@@ -42,6 +42,7 @@
   "dependencies": {},
   "author": "Thomas Runte <coding@etnur.net> (http://www.etnur.net)",
   "jest" : {
-    "testPathIgnorePatterns" : ["/node_modules/","/testHelper/"]
+    "testPathIgnorePatterns" : ["/node_modules/","/testHelper/"],
+    "testURL": "http://localhost/"
   }
 }

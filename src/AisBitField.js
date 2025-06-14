@@ -188,4 +188,23 @@ export default class AisBitField {
     }
     return result;
   }
+
+  getBytes(start: number, length: number): Uint8Array {
+    if ((start + length) > this._bits || start < 0 || length < 0) {
+      throw new Error(MOD_NAME + `.getBytes() invalid indexes: start=${start}, length=${length}, totalBits=${this._bits}`);
+    }
+
+    const resultLength = Math.ceil(length / 8);
+    const result = new Uint8Array(resultLength);
+
+    for (let i = 0; i < resultLength; i++) {
+      const bitStart = start + (i * 8);
+      const bitsLeft = length - (i * 8);
+      const bitsToRead = bitsLeft >= 8 ? 8 : bitsLeft;
+
+      result[i] = this.getInt(bitStart, bitsToRead, true);
+    }
+
+    return result;
+  }
 }

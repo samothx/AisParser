@@ -559,7 +559,20 @@ const UNITS = {
   'nameExt'           : 'string',
   'midCountry'        : 'string',
   'midCountryIso'     : 'string',
-  'mmsiType'          : 'string'
+  'mmsiType'          : 'string',
+  'text'              : 'string',
+  'dac'               : 'number',
+  'fid'               : 'number',
+  'data'              : 'binary',
+  'vin'               : 'string',
+  'length'            : 'number',
+  'beam'              : 'number',
+  'shipTypeERI'       : 'index',
+  'hazard'            : 'number',
+  'load'              : 'number',
+  'speedQuality'      : 'boolean',
+  'courseQuality'     : 'boolean',
+  'headingQuality'    : 'boolean',
  }
 
 let suppValuesValid = false;
