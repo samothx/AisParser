@@ -12,7 +12,7 @@ npm run-script transpile
 ## How it works
 The modules approach to parsing AIS messages is 'on demand'. A message is merely stored and some basic checks are done by the **parse** function. When data is requested only as much of the message is parsed as is needed to decode the requested data. For instance when the aisType is read only one byte of the message is actually translated and parsed. So it makes sense to only read the values that are really needed. Although some common values are cached in the result object once they have been requested, most values are not - meaning that they are parsed every time they are requested.
 
-The Module parses AIS messages of types 1,2,3.4.5,18,19,21 and 24. These are the common message types, most other types are related to inter vessel or vessel to shore communication.
+The Module parses AIS messages of types 1,2,3,4,5,8,14,18,19,21 and 24. These are the common message types, most other types are related to inter vessel or vessel to shore communication.
 
 Although the parser has been thoroughly checked against AIS logs from AISHub and AIS recordings from the Panama Canal, the author takes no responsibility for the correctness of returned values. Please always keep a good watch and an eye on the traffic while commanding a vessel.
 
@@ -107,7 +107,7 @@ tar -xzf testdata.tgz
 babel-node scanFile.js output.txt output.csv output.fail plain
 ```
 
-The command will scan the file output1000.txt print all errors to the screen. There will plenty of errors because the file contains about 1000 NMEA messages from the Panama Canal which are not all AIS messages- There are also several unsupported AIS messages in the file. With all supplied test files all errors should be of type UNSUPPORTED and refer to message types other than 1,2,3,4,5,18,19,21,24.
+The command will scan the file output1000.txt print all errors to the screen. There will plenty of errors because the file contains about 1000 NMEA messages from the Panama Canal which are not all AIS messages- There are also several unsupported AIS messages in the file. With all supplied test files all errors should be of type UNSUPPORTED and refer to message types other than 1,2,3,4,5,8,14,18,19,21,24.
 After executing the command the file output1000.csv should contain comma separated values data with the content of the parsed messages. It can be opened with excel or Libreoffice Calc. The file output1000.fail will contain all failed AIS messages.
 The last parameter delivers the type of data to be read. When set to sigk it will try to parse a format delivered by the signalk-node-server that puts a timestamp and a source tag in front of every line.  
 
@@ -129,7 +129,10 @@ var sentences = [
   '!AIVDM,1,1,,B,15?P>b0000rCgTH58DU6KpJj0`0>,0*37',
   '!AIVDO,1,1,,,B39i>1001FTu;bQAlAMscwe5kP06,0*3E',
   '!AIVDM,1,1,,B,15Bs:H8001JCUE852dB<FP1p2PSe,0*54',
-  '!AIVDM,1,1,,B,3DSegB1uh2rCs6b54VuG417b0000,0*7C'
+  '!AIVDM,1,1,,B,3DSegB1uh2rCs6b54VuG417b0000,0*7C',
+  '!AIVDM,1,1,,A,>03UoOP0001@4PD=@000000000000,0*22',
+  '!AIVDM,1,1,,A,803Owpiu2@=tt`oA>kI3OwU@0000,2*48',
+  '!AIVDM,1,1,,B,83aGFF0j2P00000000UPS@J55`00,0*0C'
 ]
 
 sentences.forEach(function(sentence) {

@@ -58,3 +58,7 @@
 |aidType|index|Type of the Aid to Navigation|0-31|21|
 |aidTypeStr|string|A String associated with the aidType|-|21|
 |nameExt|string|Name Extension for Aid to Navigation|-|21|
+|text|string|Safety related text|-|14|
+|dac|number|Designated area code|-|8|
+|fid|number|Function identifier|-|8|
+|data|string|Application specific data|-|8|
