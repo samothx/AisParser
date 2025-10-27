@@ -53,7 +53,7 @@ class AisParser {
   }
 
   static checksumValid(sentence: string): boolean {
-    if (!(sentence.startsWith('!AIVDO') || sentence.startsWith('!AIVDM') || sentence.startsWith('!BSVDM'))) {
+    if (!(sentence.startsWith('!AIVDO') || sentence.startsWith('!AIVDM') || sentence.startsWith('!BSVDM') || sentence.startsWith('!ABVDM') || sentence.startsWith('!B2VDM'))) {
       return false;
     }
 
@@ -96,7 +96,7 @@ class AisParser {
     if (parts !== 7) {
       return AisMessage.fromError('INVALID', 'Invalid count (!=7) of comma separated elements in message: [' + String(part) + ']');
     } else {
-      if ((part[0] !== '!AIVDM') && (part[0] !== '!AIVDO') && (part[0] !== '!BSVDM')) {
+      if ((part[0] !== '!AIVDM') && (part[0] !== '!AIVDO') && (part[0] !== '!BSVDM') && (part[0] !== '!ABVDM') && (part[0] !== '!B2VDM')) {
         return AisMessage.fromError('UNSUPPORTED', 'not a supported AIS message:[' + String(part) + ']');
       }
     }
