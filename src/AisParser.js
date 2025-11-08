@@ -42,6 +42,8 @@ export type Context = { [id: string]: { idx: number, aisStr: string } };
 
 const MOD_NAME = 'AisParser';
 const DEBUG = false
+const VALID_STARTS = ['!AIVDO', '!AIVDM', '!BSVDM', '!ABVDM', '!B2VDM', '!B1VDM', '!ANVDO'];
+
 
 class AisParser {
   _context: Context;
@@ -53,7 +55,7 @@ class AisParser {
   }
 
   static checksumValid(sentence: string): boolean {
-    if (!(sentence.startsWith('!AIVDO') || sentence.startsWith('!AIVDM') || sentence.startsWith('!BSVDM') || sentence.startsWith('!ABVDM') || sentence.startsWith('!B2VDM') || sentence.startsWith('!B1VDM') || sentence.startsWith('!ANVDO'))) {
+    if (!VALID_STARTS.some(prefix => sentence.startsWith(prefix))) {
       return false;
     }
 
@@ -96,7 +98,7 @@ class AisParser {
     if (parts !== 7) {
       return AisMessage.fromError('INVALID', 'Invalid count (!=7) of comma separated elements in message: [' + String(part) + ']');
     } else {
-      if ((part[0] !== '!AIVDM') && (part[0] !== '!AIVDO') && (part[0] !== '!BSVDM') && (part[0] !== '!ABVDM') && (part[0] !== '!B2VDM') && (part[0] !== '!B1VDM') && (part[0] !== '!ANVDO')) {
+      if (!VALID_STARTS.includes(part[0])) {
         return AisMessage.fromError('UNSUPPORTED', 'not a supported AIS message:[' + String(part) + ']');
       }
     }
