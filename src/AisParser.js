@@ -41,8 +41,8 @@ export type ParseOptions = { checksum?: boolean; };
 export type Context = { [id: string]: { idx: number, aisStr: string } };
 
 const MOD_NAME = 'AisParser';
-const DEBUG = false
-const VALID_STARTS = ['!AIVDO', '!AIVDM', '!BSVDM', '!ABVDM', '!B2VDM', '!B1VDM', '!ANVDO'];
+const DEBUG = false;
+const VALID_STARTS = ['!AIVDO', '!AIVDM', '!BSVDM', '!ABVDM', '!B2VDM', '!B1VDM', '!ANVDO', '!BSVDO'];
 
 
 class AisParser {
