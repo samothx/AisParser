@@ -2,7 +2,8 @@
 
 /*
  * AisParser: A parser for NMEA0183 AIS messages.
- * Copyright (C) 2017 Thomas Runte <coding@etnur.net>.
+ * Copyright (C) 2017-2024 Thomas Runte <coding@etnur.net>.
+ * Copyright (C) 2025 Davide Gessa  <gessadavide@gmail.com>.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Apache License Version 2.0 as published by
@@ -24,6 +25,7 @@ import Ais04Msg from './Ais04Msg';
 import Ais05Msg from './Ais05Msg';
 import Ais08Msg from './Ais08Msg';
 import Ais08MsgDac200Fid10 from './Ais08MsgDac200Fid10';
+import Ais08MsgDac1Fid31 from './Ais08MsgDac1Fid31';
 import Ais14Msg from './Ais14Msg';
 import Ais18Msg from './Ais18Msg';
 import Ais19Msg from './Ais19Msg';
@@ -171,6 +173,8 @@ class AisParser {
           let sentence = new Ais08Msg(aisType, bitField, part[4]);
           if (sentence.dac == 200 && sentence.fid == 10) {
             return new Ais08MsgDac200Fid10(aisType, bitField, part[4]);
+          } else if (sentence.dac == 1 && sentence.fid == 31) {
+            return new Ais08MsgDac1Fid31(aisType, bitField, part[4]);
           }
           return sentence;
         case 14:

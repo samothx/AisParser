@@ -2,7 +2,7 @@
 
 /*
  * AisParser: A parser for NMEA0183 AIS messages.
- * Copyright (C) 2017 Thomas Runte <coding@etnur.net>.
+ * Copyright (C) 2025 Davide Gessa <gessadavide@gmail.com>.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Apache License Version 2.0 as published by
