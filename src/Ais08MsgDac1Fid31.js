@@ -21,6 +21,10 @@ import AisBitField from './AisBitField';
 import AisMessage from './AisMessage';
 import type { SuppValues } from './AisMessage';
 
+export type ValueTrend = 'STEADY' | 'DECREASING' | 'INCREASING' | 'NA';
+export type PrecipitationType = 'RESERVED' | 'RAIN' | 'THUNDERSTORM' | 'FREEZING' | 'SNOW' | 'NA';
+
+
 const MOD_NAME = 'Ais8MsgDac1Fid31';
 
 const SUPPORTED_FIELDS = [
@@ -154,173 +158,335 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
 
 
     // |40-49   | 10    |Designated area code     |dac       |u|
-    get dac() : number {
-        return this._bitField.getInt(40,10,true);
+    get dac(): number {
+        return this._bitField.getInt(40, 10, true);
     }
 
     // |50-55   | 6     |Function identifier      |fid       |u|
-    get fid() : number {
-        return this._bitField.getInt(50,6,true);
+    get fid(): number {
+        return this._bitField.getInt(50, 6, true);
     }
 
+
     // |56-80   | 25    |Longitude                |longitude |I4| Longitude in 1/1000 min, ±180 deg by 2's complement; 181 = not available
-    get longitude(): number {
-        return this._bitField.getSignedInt(56, 25, true);
+    _getRawLon(): number {
+        return this._bitField.getInt(56, 25, false) * 10;
     }
 
     // |81-104  | 24    |Latitude                 |latitude |I4| Latitude in 1/1000 min, ±90 deg by 2's complement; 91 = not available
-    get latitude(): number {
-        return this._bitField.getSignedInt(81, 24, true);
+    _getRawLat(): number {
+        return this._bitField.getInt(81, 24, false) * 10;
     }
 
+    // // |56-80   | 25    |Longitude                |longitude |I4| Longitude in 1/1000 min, ±180 deg by 2's complement; 181 = not available
+    // get longitude(): number {
+    //     return this._bitField.getInt(56, 25, false);
+    // }
+
+    // // |81-104  | 24    |Latitude                 |latitude |I4| Latitude in 1/1000 min, ±90 deg by 2's complement; 91 = not available
+    // get latitude(): number {
+    //     return this._bitField.getInt(81, 24, false);
+    // }
+
     // |105     | 1     |Position Accuracy        |posAccuracy |u| 1 = < 10m, 0 = > 10m
-    get posAccuracy(): number {
-        return this._bitField.getInt(105, 1, true);
+    get posAccuracy(): boolean {
+        return this._bitField.getInt(105, 1, true) === 1;
     }
 
     // |106-110 | 5     |Day (UTC)                |utcDay |u| 1-31; 0 = not available
     get utcDay(): number {
-        return this._bitField.getInt(106, 5, true);
+        return this._bitField.getInt(106, 5, true) || NaN;
     }
 
     // |111-115 | 5     |Hour (UTC)               |utcHour |u| 0-23; 24 = not available
     get utcHour(): number {
-        return this._bitField.getInt(111, 5, true);
+        let val = this._bitField.getInt(111, 5, true);
+        if (val >= 24) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |116-121 | 6     |Minute (UTC)             |utcMinute |u| 0-59; 60 = not available
     get utcMinute(): number {
-        return this._bitField.getInt(116, 6, true);
+        let val = this._bitField.getInt(116, 6, true);
+        if (val >= 60) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |122-128 | 7     |Average Wind Speed       |avgWindSpeed |u| 0-125 knots; 127 = not available
     get avgWindSpeed(): number {
-        return this._bitField.getInt(122, 7, true);
+        let val = this._bitField.getInt(122, 7, true);
+        if (val >= 127) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |129-135 | 7     |Wind Gust                |avgGustSpeed |u| 0-125 knots; 127 = not available
     get avgGustSpeed(): number {
-        return this._bitField.getInt(129, 7, true);
+        let val = this._bitField.getInt(129, 7, true);
+        if (val >= 127) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |136-144 | 9     |Wind Direction           |avgWindDirection |u| 0-359 deg; 360 = not available
     get avgWindDirection(): number {
-        return this._bitField.getInt(136, 9, true);
+        let val = this._bitField.getInt(136, 9, true);
+        if (val >= 360) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |145-153 | 9     |Wind Gust Direction      |avgGustDirection |u| 0-359 deg; 360 = not available
     get avgGustDirection(): number {
-        return this._bitField.getInt(145, 9, true);
+        let val = this._bitField.getInt(145, 9, true);
+        if (val >= 360) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |154-164 | 11    |Air Temperature          |airTemperature |I4| In 0.1 °C steps, -60.0 to +60.0°C; -1024 = not available
     get airTemperature(): number {
-        return this._bitField.getSignedInt(154, 11, true);
+        let val = this._bitField.getInt(154, 11, false);
+        if (val == -1024) {
+            return NaN;
+        } else {
+            return val / 10.0;
+        }
     }
 
     // |165-171 | 7     |Relative Humidity        |relativeHumidity |u| 0-100%; 101 = not available
     get relativeHumidity(): number {
-        return this._bitField.getInt(165, 7, true);
+        let val = this._bitField.getInt(165, 7, true);
+        if (val >= 101) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |172-181 | 10    |Dew Point                |dewPoint |I4| -20.0 to +50.0 °C; 501 = not available
     get dewPoint(): number {
-        return this._bitField.getSignedInt(172, 10, true);
+        let val = this._bitField.getInt(172, 10, false);
+        if (val >= 501) {
+            return NaN;
+        } else {
+            return val / 10.0;
+        }
     }
 
     // |182-190 | 9     |Air Pressure             |airPressure |u| 800-1200 hPa; 511 = not available
     get airPressure(): number {
-        return this._bitField.getInt(182, 9, true);
+        let val = this._bitField.getInt(182, 9, true);
+        if (val >= 511) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |191-192 | 2     |Air Pressure Tendency    |airPressureTendency |u| 0=steady, 1=decreasing, 2=increasing, 3=not available
-    get airPressureTendency(): number {
-        return this._bitField.getInt(191, 2, true);
+    get airPressureTendency(): ValueTrend {
+        let val = this._bitField.getInt(191, 2, true);
+        switch (val) {
+            case 0:
+                return 'STEADY';
+            case 1:
+                return 'DECREASING';
+            case 2:
+                return 'INCREASING';
+            default:
+                return 'NA';
+        }
     }
 
     // |193-200 | 8     |Horizontal Visibility    |horizontalVisibility |u| 0-126 (0.1NM); 127 = not available
     get horizontalVisibility(): number {
-        return this._bitField.getInt(193, 8, true);
+        let val = this._bitField.getInt(193, 8, true);
+        if (val >= 127) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |201-212 | 12    |Water Level (incl. tide) |waterLevel |u| 0-4000 (add -10.0); 4001 = not available
     get waterLevel(): number {
-        return this._bitField.getInt(201, 12, true);
+        let val = this._bitField.getInt(201, 12, true);
+        if (val >= 4001) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
+
     // |213-214 | 2     |Water Level Trend        |waterLevelTrend |u| 0=steady, 1=decreasing, 2=increasing, 3=not available
-    get waterLevelTrend(): number {
-        return this._bitField.getInt(213, 2, true);
+    get waterLevelTrend(): ValueTrend {
+        let val = this._bitField.getInt(213, 2, true);
+        switch (val) {
+            case 0:
+                return 'STEADY';
+            case 1:
+                return 'DECREASING';
+            case 2:
+                return 'INCREASING';
+            default:
+                return 'NA';
+        }
     }
 
     // |215-222 | 8     |Surface Current Speed    |curr1Speed |u| 0-251 (0.1kt); 251+ = not available
     get curr1Speed(): number {
-        return this._bitField.getInt(215, 8, true);
+        let val = this._bitField.getInt(215, 8, true);
+        if (val >= 251) {
+            return NaN;
+        } else {
+            return val / 10.0;
+        }
     }
 
     // |223-231 | 9     |Surface Current Direction|curr1Direction |u| 0-359 deg; 360 = not available
     get curr1Direction(): number {
-        return this._bitField.getInt(223, 9, true);
+        let val = this._bitField.getInt(223, 9, true);
+        if (val >= 360) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |232-239 | 8     |Current Speed #2         |curr2Speed |u| Same encoding as curr1Speed
     get curr2Speed(): number {
-        return this._bitField.getInt(232, 8, true);
+        let val = this._bitField.getInt(232, 8, true);
+        if (val >= 251) {
+            return NaN;
+        } else {
+            return val / 10.0;
+        }
     }
 
     // |240-248 | 9     |Current Direction #2     |curr2Direction |u| Same encoding as curr1Direction
     get curr2Direction(): number {
-        return this._bitField.getInt(240, 9, true);
+        let val = this._bitField.getInt(240, 9, true);
+        if (val >= 360) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |249-253 | 5     |Current Measuring Lv #2  |curr2Level |u| 0-30 m, 31 = not available
     get curr2Level(): number {
-        return this._bitField.getInt(249, 5, true);
+        let val = this._bitField.getInt(249, 5, true);
+        if (val >= 31) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |254-261 | 8     |Current Speed #3         |curr3Speed |u| Same encoding as curr1Speed
     get curr3Speed(): number {
-        return this._bitField.getInt(254, 8, true);
+        let val = this._bitField.getInt(254, 8, true);
+        if (val >= 251) {
+            return NaN;
+        } else {
+            return val / 10.0;
+        }
     }
 
     // |262-270 | 9     |Current Direction #3     |curr3Direction |u| Same encoding as curr1Direction
     get curr3Direction(): number {
-        return this._bitField.getInt(262, 9, true);
+        let val = this._bitField.getInt(262, 9, true);
+        if (val >= 360) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |271-275 | 5     |Current Measuring Lv #3  |curr3Level |u| 0-30 m, 31 = not available
     get curr3Level(): number {
-        return this._bitField.getInt(271, 5, true);
+        let val = this._bitField.getInt(271, 5, true);
+        if (val >= 31) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |276-283 | 8     |Significant Wave Height  |sigWaveHeight |u| 0-251 (0.1m); 251+ = not available
     get sigWaveHeight(): number {
-        return this._bitField.getInt(276, 8, true);
+        let val = this._bitField.getInt(276, 8, true);
+        if (val >= 251) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |284-289 | 6     |Wave Period              |wavePeriod |u| 0-60 s; 61+ = not available
     get wavePeriod(): number {
-        return this._bitField.getInt(284, 6, true);
+        let val = this._bitField.getInt(284, 6, true);
+        if (val >= 61) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |290-298 | 9     |Wave Direction           |waveDirection |u| 0-359 deg; 360+ = not available
     get waveDirection(): number {
-        return this._bitField.getInt(290, 9, true);
+        let val = this._bitField.getInt(290, 9, true);
+        if (val >= 360) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |299-306 | 8     |Swell Height             |swellHeight |u| 0-251 (0.1m); 251+ = not available
     get swellHeight(): number {
-        return this._bitField.getInt(299, 8, true);
+        let val = this._bitField.getInt(299, 8, true);
+        if (val >= 251) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |307-312 | 6     |Swell Period             |swellPeriod |u| 0-60 s; 61+ = not available
     get swellPeriod(): number {
-        return this._bitField.getInt(307, 6, true);
+        let val = this._bitField.getInt(307, 6, true);
+        if (val >= 61) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |313-321 | 9     |Swell Direction          |swellDirection |u| 0-359 deg; 360+ = not available
     get swellDirection(): number {
-        return this._bitField.getInt(313, 9, true);
+        let val = this._bitField.getInt(313, 9, true);
+        if (val >= 360) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |322-325 | 4     |Sea State                |seaState |u| Beaufort code
@@ -330,21 +496,52 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
 
     // |326-335 | 10    |Water Temperature        |waterTemperature |I4| -10.0 to +50.0°C (0.1°C); 501 = not available
     get waterTemperature(): number {
-        return this._bitField.getSignedInt(326, 10, true);
+        let val = this._bitField.getInt(326, 10, false);
+        if (val >= 501) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |336-338 | 3     |Precipitation Type       |precipitationType |u| 0=reserved, 1=rain, …, 5=snow
-    get precipitationType(): number {
-        return this._bitField.getInt(336, 3, true);
+    get precipitationType(): PrecipitationType {
+        let val = this._bitField.getInt(336, 3, true);
+        switch (val) {
+            case 0:
+                return 'RESERVED';
+            case 1:
+                return 'RAIN';
+            case 2:
+                return 'THUNDERSTORM';
+            case 3:
+                return 'FREEZING';
+            case 4:
+                return 'FREEZING';
+            case 5:
+                return 'SNOW';
+            default:
+                return 'NA';
+        }
     }
 
     // |339-347 | 9     |Salinity                 |salinity |u| 0-500 (0.1 ppt), 510 = not available
     get salinity(): number {
-        return this._bitField.getInt(339, 9, true);
+        let val = this._bitField.getInt(339, 9, true);
+        if (val >= 510) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 
     // |348-349 | 2     |Ice                      |ice |u| 0=no, 1=yes, 2=reserved, 3=not available
     get ice(): number {
-        return this._bitField.getInt(348, 2, true);
+        let val = this._bitField.getInt(348, 2, true);
+        if (val >= 3) {
+            return NaN;
+        } else {
+            return val;
+        }
     }
 }

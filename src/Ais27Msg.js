@@ -107,7 +107,7 @@ export default class Ais27Msg extends AisMessage {
     }
 
     get posAccuracy(): boolean {
-        return this._bitField.getInt(38, 1, true);
+        return this._bitField.getInt(38, 1, true) === 1;
     }
 
     _getRawLat(): number {
