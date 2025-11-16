@@ -291,11 +291,14 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
     // |182-190 | 9     |Air Pressure             |airPressure |u| 800-1200 hPa; 511 = not available
     get airPressure(): number {
         let val = this._bitField.getInt(182, 9, true);
-        // TODO: this should be fixed with an indexed value
-        if (val >= 403) {
+        if (val == 0) {
+            return 799;
+        } else if (val == 402) {
+            return 1201;
+        } else if (val >= 403) {
             return NaN;
         } else {
-            return val;
+            return 800 + val;
         }
     }
 
