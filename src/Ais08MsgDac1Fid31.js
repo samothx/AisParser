@@ -291,7 +291,8 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
     // |182-190 | 9     |Air Pressure             |airPressure |u| 800-1200 hPa; 511 = not available
     get airPressure(): number {
         let val = this._bitField.getInt(182, 9, true);
-        if (val >= 511) {
+        // TODO: this should be fixed with an indexed value
+        if (val >= 403) {
             return NaN;
         } else {
             return val;
@@ -319,7 +320,7 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
         if (val >= 127) {
             return NaN;
         } else {
-            return val;
+            return val / 10.0;
         }
     }
 
@@ -329,7 +330,7 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
         if (val >= 4001) {
             return NaN;
         } else {
-            return val;
+            return val / 100.0 - 10;
         }
     }
 
@@ -435,7 +436,7 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
         if (val >= 251) {
             return NaN;
         } else {
-            return val;
+            return val / 10.0;
         }
     }
 
@@ -465,7 +466,7 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
         if (val >= 251) {
             return NaN;
         } else {
-            return val;
+            return val / 10.0;
         }
     }
 
@@ -491,7 +492,10 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
 
     // |322-325 | 4     |Sea State                |seaState |u| Beaufort code
     get seaState(): number {
-        return this._bitField.getInt(322, 4, true);
+        let val = this._bitField.getInt(322, 4, true);
+        if (val >= 13)
+            return NaN;
+        return val;
     }
 
     // |326-335 | 10    |Water Temperature        |waterTemperature |I4| -10.0 to +50.0°C (0.1°C); 501 = not available
@@ -500,7 +504,7 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
         if (val >= 501) {
             return NaN;
         } else {
-            return val;
+            return val / 10.0;
         }
     }
 
@@ -531,7 +535,7 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
         if (val >= 510) {
             return NaN;
         } else {
-            return val;
+            return val / 10.0;
         }
     }
 
