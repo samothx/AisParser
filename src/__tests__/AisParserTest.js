@@ -18,7 +18,7 @@ test('testing real data ', () => {
         expect(msg.aisType).toBe(rad.aisType)
 
         for (let j in msg.supportedValues) {
-            // console.log(j, msg[j])
+            // console.log(j, msg[j]);
             expect(msg[j]).toBeDefined()
         }
     }

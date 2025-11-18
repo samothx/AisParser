@@ -50,6 +50,16 @@ const AIS_REAL_DATA: Array<any> = [
         channel: 'B',
         aisType: 18,
         valid: 'VALID'
+    }, {
+        aisStr: '!AIVDM,1,1,,B,83`f<F@0GP:?>G1?6600,0*47',
+        channel: 'B',
+        aisType: 8,
+        valid: 'VALID'
+    // }, {
+    //     aisStr: '!BSVDM,1,1,,A,83=Go200GBH<5CCB5==1>PeP5<>5CdB?BF9;dDB?>859=d6E7<5>,0*69',
+    //     channel: 'A',
+    //     aisType: 8,
+    //     valid: 'VALID'
     }
 ]
 
