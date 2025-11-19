@@ -603,7 +603,10 @@ const UNITS = {
   'precipitationType': 'index',
   'salinity': 'ppt',
   'ice': 'index',
-  'msgLinkageId': 'number'
+  'msgLinkageId': 'number',
+  'retransmitted': 'boolean',
+  'destinationMMSI': 'number',
+  'sequence': 'number'
 }
 
 let suppValuesValid = false;

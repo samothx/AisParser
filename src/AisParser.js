@@ -26,6 +26,7 @@ import Ais05Msg from './Ais05Msg';
 import Ais08Msg from './Ais08Msg';
 import Ais08MsgDac200Fid10 from './Ais08MsgDac200Fid10';
 import Ais08MsgDac1Fid21 from './Ais08MsgDac1Fid21';
+import Ais08MsgDac1Fid29 from './Ais08MsgDac1Fid29';
 import Ais08MsgDac1Fid30 from './Ais08MsgDac1Fid30';
 import Ais08MsgDac1Fid31 from './Ais08MsgDac1Fid31';
 import Ais14Msg from './Ais14Msg';
@@ -173,12 +174,19 @@ class AisParser {
           return new Ais05Msg(aisType, bitField, part[4]);
         case 8:
           let sentence = new Ais08Msg(aisType, bitField, part[4]);
+
+          // This Msg has dac and fid in another position
+          let d1f30 = new Ais08MsgDac1Fid30(aisType, bitField, part[4]);
+          if (d1f30._valid === 'VALID' && d1f30.dac == 1 && d1f30.fid == 30) {
+            return d1f30;
+          }
+
           if (sentence.dac == 200 && sentence.fid == 10) {
             return new Ais08MsgDac200Fid10(aisType, bitField, part[4]);
           } else if (sentence.dac == 1 && sentence.fid == 21) {
             return new Ais08MsgDac1Fid21(aisType, bitField, part[4]);
-          } else if (sentence.dac == 1 && sentence.fid == 30) {
-            return new Ais08MsgDac1Fid30(aisType, bitField, part[4]);
+          } else if (sentence.dac == 1 && sentence.fid == 29) {
+            return new Ais08MsgDac1Fid29(aisType, bitField, part[4]);
           } else if (sentence.dac == 1 && sentence.fid == 31) {
             return new Ais08MsgDac1Fid31(aisType, bitField, part[4]);
           } else {
