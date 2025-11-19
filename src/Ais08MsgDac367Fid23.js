@@ -136,12 +136,12 @@ export default class Ais8MsgDac367Fid23 extends AisMessage {
 
     // |75-99 | 25 |Longitude |lon |I4| Long in 1/1000 min, +-180 deg as per 2's complement (e => +, w => -, 181 not available)
     _getRawLon(): number {
-        return this._bitField.getInt(75, 25, false);
+        return this._bitField.getInt(75, 25, false) * 10;
     }
 
     // |100-123 | 24 |Latitude |lat |I4| Lat in 1/1000 min, +-90 deg as per 2's complement (n => +, s => -, 91 not available)
     _getRawLat(): number {
-        return this._bitField.getInt(100, 24, false);
+        return this._bitField.getInt(100, 24, false) * 10;
     }
 
     // |124-132 | 9  |Air Pressure |air_pressure |u |0=799 hPa/less, 1–401=800–1200 hPa, 402=1201+/N/A=511

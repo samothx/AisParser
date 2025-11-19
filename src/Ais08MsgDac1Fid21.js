@@ -147,12 +147,12 @@ export default class Ais8MsgDac1Fid31 extends AisMessage {
 
     // |177-201 | 25    |Longitude                |lon       |I4| Long in 1/1000 min, 2's complement
     _getRawLon(): number {
-        return this._bitField.getInt(177, 25, false);
+        return this._bitField.getInt(177, 25, false) * 10;
     }
 
     // |202-225 | 24    |Latitude                 |lat       |I4| Lat in 1/1000 min, 2's complement
     _getRawLat(): number {
-        return this._bitField.getInt(202, 24, false);
+        return this._bitField.getInt(202, 24, false) * 10;
     }
 
     // |226-230 | 5     |Day (UTC)                |day       |u|1-31; 0 = N/A
