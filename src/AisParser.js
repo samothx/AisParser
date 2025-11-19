@@ -24,6 +24,7 @@ import AisCNBMsg from './AisCNBMsg';
 import Ais04Msg from './Ais04Msg';
 import Ais05Msg from './Ais05Msg';
 import Ais08Msg from './Ais08Msg';
+import Ais08MsgDac367Fid23 from './Ais08MsgDac367Fid23';
 import Ais08MsgDac200Fid10 from './Ais08MsgDac200Fid10';
 import Ais08MsgDac1Fid21 from './Ais08MsgDac1Fid21';
 import Ais08MsgDac1Fid29 from './Ais08MsgDac1Fid29';
@@ -183,6 +184,8 @@ class AisParser {
 
           if (sentence.dac == 200 && sentence.fid == 10) {
             return new Ais08MsgDac200Fid10(aisType, bitField, part[4]);
+          } else if (sentence.dac == 367 && sentence.fid == 23) {
+            return new Ais08MsgDac367Fid23(aisType, bitField, part[4]);
           } else if (sentence.dac == 1 && sentence.fid == 21) {
             return new Ais08MsgDac1Fid21(aisType, bitField, part[4]);
           } else if (sentence.dac == 1 && sentence.fid == 29) {

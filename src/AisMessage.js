@@ -606,7 +606,8 @@ const UNITS = {
   'msgLinkageId': 'number',
   'retransmitted': 'boolean',
   'destinationMMSI': 'number',
-  'sequence': 'number'
+  'sequence': 'number',
+  'version': 'number'
 }
 
 let suppValuesValid = false;

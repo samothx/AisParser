@@ -65,11 +65,11 @@ const AIS_REAL_DATA: Array<any> = [
         channel: 'A',
         aisType: 8,
         valid: 'INVALID'
-    // }, {
-    //     aisStr: '!AIVDM,2,2,0,B,QvUvmEEEOP@,2*64',
-    //     channel: 'A',
-    //     aisType: 8,
-    //     valid: 'VALID'
+    }, {
+        aisStr: '!AIVDM,1,1,,A,85N7GVQKmi=r6?n1@d`dEeP`10iT,0*48',
+        channel: 'A',
+        aisType: 8,
+        valid: 'VALID'
     }
 ]
 
