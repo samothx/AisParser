@@ -55,8 +55,18 @@ const AIS_REAL_DATA: Array<any> = [
         channel: 'B',
         aisType: 8,
         valid: 'VALID'
+    }, {
+        aisStr: '!BSVDM,1,1,,A,83=Go200GBH<5CCB5==1>PeP5<>5CdB?BF9;dDB?>859=d6E7<5>,0*69',
+        channel: 'A',
+        aisType: 8,
+        valid: 'VALID'
+    }, {
+        aisStr: '!AIVDM,2,2,7,A,se7p,0*40',
+        channel: 'A',
+        aisType: 8,
+        valid: 'INVALID'
     // }, {
-    //     aisStr: '!BSVDM,1,1,,A,83=Go200GBH<5CCB5==1>PeP5<>5CdB?BF9;dDB?>859=d6E7<5>,0*69',
+    //     aisStr: '!AIVDM,2,2,0,B,QvUvmEEEOP@,2*64',
     //     channel: 'A',
     //     aisType: 8,
     //     valid: 'VALID'

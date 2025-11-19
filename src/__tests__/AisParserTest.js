@@ -15,6 +15,8 @@ test('testing real data ', () => {
         let msg: AisMessage = parser.parse(rad.aisStr)
         expect(msg).toBeDefined()
         expect(msg.valid).toBe(rad.valid)
+        if (msg.valid != 'VALID')
+            continue;
         expect(msg.aisType).toBe(rad.aisType)
 
         for (let j in msg.supportedValues) {
