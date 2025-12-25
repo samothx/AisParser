@@ -14,7 +14,14 @@ test('testing real data ', () => {
     while (rad = getRealAisData()) {
         let msg: AisMessage = parser.parse(rad.aisStr)
         expect(msg).toBeDefined()
-        expect(msg.valid).toBe('VALID')
+        expect(msg.valid).toBe(rad.valid)
+        if (msg.valid != 'VALID')
+            continue;
         expect(msg.aisType).toBe(rad.aisType)
+
+        for (let j in msg.supportedValues) {
+            // console.log(j, msg[j]);
+            expect(msg[j]).toBeDefined()
+        }
     }
 })

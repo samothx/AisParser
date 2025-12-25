@@ -21,7 +21,7 @@ import AisBitField from './AisBitField';
 import AisMessage from './AisMessage';
 import type { SuppValues } from './AisMessage';
 
-const MOD_NAME = 'Ais8Msg';
+const MOD_NAME = 'Ais8MsgDac1Fid29';
 
 const SUPPORTED_FIELDS = [
     'aisType',
@@ -30,7 +30,8 @@ const SUPPORTED_FIELDS = [
     'mmsi',
     'dac',
     'fid',
-    'data'
+    'msgLinkageId',
+    'text'
 ];
 
 let suppValuesValid = false;
@@ -45,19 +46,22 @@ let suppValues: SuppValues = {};
 |38-39   | 2     |spare                    |          |u|not used
 |40-49   | 10    |Designated area code     |dac       |u|
 |50-55   | 6     |Function identifier      |fid       |u|
-|56-...  | <=952 |Application specific data|data      |t|binary data
+|56-65   | 10    |Message linkage id       |          |u|
+|66-...  | <=155 |Free text                |text      |t|6 bit ascii
+
+
 |==============================================================================
 */
 
-export default class Ais8Msg extends AisMessage {
+export default class Ais8MsgDac1Fid29 extends AisMessage {
     constructor(aisType: number, bitField: AisBitField, channel: string) {
         super(aisType, bitField, channel);
-        if (bitField.bits >= 56 && bitField.bits <= 1008) {
+        if (bitField.bits >= 72 && bitField.bits <= 1032) {
             this._valid = 'VALID';
         } else {
             this._valid = 'INVALID';
-            this._errMsg = 'invalid bitcount for type 8 msg:' + bitField.bits;
-        }            
+            this._errMsg = 'invalid bitcount for type 8 msg dac 1 fid 29:' + bitField.bits;
+        }
     }
 
     get class(): string {
@@ -81,19 +85,25 @@ export default class Ais8Msg extends AisMessage {
 
 
     // |40-49   | 10    |Designated area code     |dac       |u|
-    get dac() : number {
-        return this._bitField.getInt(40,10,true);
+    get dac(): number {
+        return this._bitField.getInt(40, 10, true);
     }
 
     // |50-55   | 6     |Function identifier      |fid       |u|
-    get fid() : number {
-        return this._bitField.getInt(50,6,true);
+    get fid(): number {
+        return this._bitField.getInt(50, 6, true);
     }
 
-    // |56-...  | <=952 |Name                   |text     |s|max of 952 binary data
-    get data() : Uint8Array {
-        const dataStart = 56;
-        const maxDataBits = Math.min(this._bitField.bits - dataStart, 952);
-        return this._bitField.getBytes(dataStart, maxDataBits);
+    // |56-65   | 10    |Message linkage id       |          |u|
+    get msgLinkageId(): number {
+        return this._bitField.getInt(56, 10, true);
+    }
+
+    // |66-...  | <=155 |Free text                |text      |t|6 bit ascii
+    get text() : string {
+        const textStart = 66;
+        const maxTextBits = Math.min(this._bitField.bits - textStart, 155);
+        const textLength = maxTextBits - (maxTextBits % 6);
+        return this._formatStr(this._bitField.getString(textStart, textLength).replace(/^@+/, ''));
     }
 }

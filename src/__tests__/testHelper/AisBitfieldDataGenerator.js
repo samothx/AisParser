@@ -23,20 +23,54 @@ export type TestData = {
 
 export type RealData = {
     aisStr: string,
-    channel : string,
-    aisType : number,
-    valid : boolean
+    channel: string,
+    aisType: number,
+    valid: boolean
 }
 
-const AIS_REAL_DATA : Array<any> = [
-    {   aisStr : '!AIVDM,1,1,,B,14`c;d002grD>PH50hr7RVE000SG,0*74',
-        channel : 'B',
-        aisType : 1,
-        valid: true },
-    {   aisStr : '!AIVDM,1,1,,B,34hwN60Oh3rCwib56`qJtbL<0000,0*12',
-        channel : 'B',
-        aisType : 3,
-        valid: true }
+const AIS_REAL_DATA: Array<any> = [
+    {
+        aisStr: '!AIVDM,1,1,,B,14`c;d002grD>PH50hr7RVE000SG,0*74',
+        channel: 'B',
+        aisType: 1,
+        valid: 'VALID'
+    },
+    {
+        aisStr: '!AIVDM,1,1,,B,34hwN60Oh3rCwib56`qJtbL<0000,0*12',
+        channel: 'B',
+        aisType: 3,
+        valid: 'VALID'
+    }, {
+        aisStr: '!AIVDM,1,1,,B,8Njjo600GhI5KaCNf234j9ITFPFU5uFagwl?wnSwe7wvlOwwsAwwnSGmwvh0,0*73',
+        channel: 'B',
+        aisType: 8,
+        valid: 'VALID'
+    }, {
+        aisStr: '!AIVDO,1,1,,,B39i>1001FTu;bQAlAMscwe5kP06,0*3E',
+        channel: 'B',
+        aisType: 18,
+        valid: 'VALID'
+    }, {
+        aisStr: '!AIVDM,1,1,,B,83`f<F@0GP:?>G1?6600,0*47',
+        channel: 'B',
+        aisType: 8,
+        valid: 'VALID'
+    }, {
+        aisStr: '!BSVDM,1,1,,A,83=Go200GBH<5CCB5==1>PeP5<>5CdB?BF9;dDB?>859=d6E7<5>,0*69',
+        channel: 'A',
+        aisType: 8,
+        valid: 'VALID'
+    }, {
+        aisStr: '!AIVDM,2,2,7,A,se7p,0*40',
+        channel: 'A',
+        aisType: 8,
+        valid: 'INVALID'
+    }, {
+        aisStr: '!AIVDM,1,1,,A,85N7GVQKmi=r6?n1@d`dEeP`10iT,0*48',
+        channel: 'A',
+        aisType: 8,
+        valid: 'VALID'
+    }
 ]
 
 /*
@@ -150,7 +184,7 @@ let realDataIdx = 0
 
 
 
-function  isValidString(str: string): string {
+function isValidString(str: string): string {
     let idx: number = 0
     for (; idx < str.length; idx++) {
         if (AIS_OUT_CHR_TBL.indexOf(str.charAt(idx)) < 0) {
@@ -165,7 +199,7 @@ function  isValidString(str: string): string {
 function createTestData(): TestData {
     // enough bits to read a 32 bit integer or a 6 character string - 7 * 6 - 5 = 37 bits minimum
     let count = rand.intBetween(7, 100)
-    let tmp : string = ''
+    let tmp: string = ''
     let idx: number = 0
     for (; idx < count; idx++) {
         // one of the legal characters
@@ -185,28 +219,28 @@ function createTestData(): TestData {
 
 
 function createStringTestData(): TestData {
-    let result : TestData = createTestData()
+    let result: TestData = createTestData()
     result.start = rand.intBetween(0, result.bits - 6)
     result.numBits = rand.intBetween(0, (result.bits - result.start) / 6) * 6
     return result
 }
 
 function createInvalidStringTestData(): TestData {
-    let result : TestData = createTestData()
+    let result: TestData = createTestData()
 
-    let failIdx = rand.intBetween(0,result.aisStr.length - 1)
-    result.numBits = rand.intBetween(1,result.aisStr.length - 1) * 6
+    let failIdx = rand.intBetween(0, result.aisStr.length - 1)
+    result.numBits = rand.intBetween(1, result.aisStr.length - 1) * 6
     result.aisStr = result.aisStr.substr(0, failIdx) + 'X' + result.aisStr.substr(failIdx + 1)
 
     let stMin = failIdx * 6 - result.numBits - 1
-    if(stMin < 0) {
+    if (stMin < 0) {
         stMin = 0
     }
 
     let stMax = failIdx * 6 - 1
 
-    result.start = rand.intBetween(stMin,stMax)
-    if((result.start + result.numBits) >= result.bits) {
+    result.start = rand.intBetween(stMin, stMax)
+    if ((result.start + result.numBits) >= result.bits) {
         result.start = result.bits - result.numBits
     }
 
@@ -214,14 +248,14 @@ function createInvalidStringTestData(): TestData {
 }
 
 function createIntTestData(): TestData {
-    let result : TestData = createTestData()
+    let result: TestData = createTestData()
     result.numBits = rand.intBetween(1, 32)
     result.start = rand.intBetween(0, result.bits - result.numBits)
     return result
 }
 
-function getRealAisData() : ?RealData {
-    if(realDataIdx < AIS_REAL_DATA.length) {
+function getRealAisData(): ?RealData {
+    if (realDataIdx < AIS_REAL_DATA.length) {
         return AIS_REAL_DATA[realDataIdx++]
     }
 }
@@ -232,5 +266,5 @@ module.exports = {
     createStringTestData: createStringTestData,
     createInvalidStringTestData: createInvalidStringTestData,
     createIntTestData: createIntTestData,
-    getRealAisData : getRealAisData
+    getRealAisData: getRealAisData
 }
