@@ -3,7 +3,7 @@
 /*
  * AisParser: A parser for NMEA0183 AIS messages.
  * Copyright (C) 2017-2024 Thomas Runte <coding@etnur.net>.
- * Copyright (C) 2025 Davide Gessa  <gessadavide@gmail.com>.
+ * Copyright (C) 2025-2026 Davide Gessa  <gessadavide@gmail.com>.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Apache License Version 2.0 as published by
@@ -23,6 +23,7 @@ import AisMessage from './AisMessage';
 import AisCNBMsg from './AisCNBMsg';
 import Ais04Msg from './Ais04Msg';
 import Ais05Msg from './Ais05Msg';
+import Ais09Msg from './Ais09Msg';
 import Ais08Msg from './Ais08Msg';
 import Ais08MsgDac367Fid23 from './Ais08MsgDac367Fid23';
 import Ais08MsgDac367Fid24 from './Ais08MsgDac367Fid24';
@@ -174,6 +175,8 @@ class AisParser {
           return new Ais04Msg(aisType, bitField, part[4]);
         case 5:
           return new Ais05Msg(aisType, bitField, part[4]);
+        case 9:
+          return new Ais09Msg(aisType, bitField, part[4]);
         case 8:
           let sentence = new Ais08Msg(aisType, bitField, part[4]);
 

@@ -3,6 +3,7 @@
 /*
  * AisParser: A parser for NMEA0183 AIS messages.
  * Copyright (C) 2017 Thomas Runte <coding@etnur.net>.
+ * Copyright (C) 2026 Davide Gssa <gessadavide@gmail.com>.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Apache License Version 2.0 as published by
@@ -607,7 +608,13 @@ const UNITS = {
   'retransmitted': 'boolean',
   'destinationMMSI': 'number',
   'sequence': 'number',
-  'version': 'number'
+  'version': 'number',
+  'altitude': 'm',
+  'altitudeStatus': 'string',
+  'altitudeSensor': 'number',
+  'dte': 'boolean',
+  'assignedMode': 'boolean',
+  'raim': 'boolean'
 }
 
 let suppValuesValid = false;
