@@ -3,7 +3,7 @@
 | Parameter | Type | Description          |Values      | Messages |
 |:----------|:-----|:---------------------|:-----------|:---------|
 |valid|string|Validity of the result|VALID, INVALID, UNSUPPORTED, INCOMPLETE|all|
-|aisType|number|The message number of the AIS Message| 1-5, 18, 19, 21, or 24|all|
+|aisType|number|The message number of the AIS Message| 1-5, 9, 18, 19, 21, or 24|all|
 |channel|string|The VHF channel the message was Transmitted on |A,B or empty |all|
 |repeatInd|number|Wether or not / how this message should be rebroadcasted | 0,1,2,3 |all|
 |mmsi|number|Maritime Mobile Service Identity |9 digit number|all|
@@ -11,9 +11,9 @@
 |midCountryIso|string|ISO String of the Country extracted from the MMSI|The ISO String or empty|all|
 |mmsiType|string|The Type of Target extracted from the MMSI|Target type or empty|all|
 |class |string|The Class of AIS Device | A, B empty | all |
-|latitude| deg |The latitude of the Sender | -90-90 |1, 2, 3, 4, 18, 19|
-|longitude| deg |The longitude of the Sender | -180-180 |1, 2, 3, 4, 18, 19|
-|posAccuracy|boolean|Position Accuracy, true = DGPS Quality < 10m, false >10m|true,false|1, 2, 3, 4, 18, 19|
+|latitude| deg |The latitude of the Sender | -90-90 |1, 2, 3, 4, 9, 18, 19|
+|longitude| deg |The longitude of the Sender | -180-180 |1, 2, 3, 4, 9, 18, 19|
+|posAccuracy|boolean|Position Accuracy, true = DGPS Quality < 10m, false >10m|true,false|1, 2, 3, 4, 9, 18, 19|
 |navStatus|index|Navigational Status of AIS Target|0-15|1,2,3|
 |navStatusStr|string|A String associated with Nav Status|-|1,2,3|
 |utcYear|year|Message Type 4 Base Station Time Reference|1-999, 0=N/A|4|
@@ -45,11 +45,11 @@
 |destination|string|Destination of Vessel|-|5|
 |draught|m|Draught of Target|-|5|
 |heading|deg|True Heading of Target|0-359|1, 2, 3, 18, 19|
-|sog|kn|Speed over Ground|0-102.1|1, 2, 3, 18, 19|
-|sogStatus|string|Status of Speed over Ground, if status is VALID, then sog contains the Speed |VALID,HIGH,NA|1, 2, 3, 18, 19|
-|cog|deg|Course over Ground|0-359|1, 2, 3, 18, 19|
-|utcTsSec|s|Seconds of UTC Time|0-59|1, 2, 3, 18, 19|
-|utcTsStatus|string|Status of the utcTsSec Paramerter|NA,  MANUAL, ESTIMATED, INOPERATIVE or INVALID|1, 2, 3, 18, 19|
+|sog|kn|Speed over Ground|0-102.1|1, 2, 3, 9, 18, 19|
+|sogStatus|string|Status of Speed over Ground, if status is VALID, then sog contains the Speed |VALID,HIGH,NA|1, 2, 3, 9, 18, 19|
+|cog|deg|Course over Ground|0-359|1, 2, 3, 9, 18, 19|
+|utcTsSec|s|Seconds of UTC Time|0-59|1, 2, 3, 9, 18, 19|
+|utcTsStatus|string|Status of the utcTsSec Paramerter|NA,  MANUAL, ESTIMATED, INOPERATIVE or INVALID|1, 2, 3, 9, 18, 19|
 |vendorId|string|Vendor Name of the AIS equipment|-|24|
 |mothershipMmsi|string|MMSI of Mothership|9 Digit Number|24|
 |rot|deg/min|Rate of Turn|-126-126|1, 2, 3|
@@ -62,3 +62,9 @@
 |dac|number|Designated area code|-|8|
 |fid|number|Function identifier|-|8|
 |data|string|Application specific data|-|8|
+|altitude|m|Altitude of SAR aircraft|0-4094|9|
+|altitudeStatus|string|Status of altitude|VALID, HIGH, NA|9|
+|altitudeSensor|number|Altitude sensor type|0=GNSS, 1=barometric|9|
+|dte|boolean|Data terminal ready|true,false|9|
+|assignedMode|boolean|Assigned mode flag|true,false|9|
+|raim|boolean|RAIM flag in use|true,false|9|
