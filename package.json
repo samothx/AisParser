@@ -27,11 +27,12 @@
     "test": "jest"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "flow-bin": "^0.61.0",
-    "jest": "^22.4.3",
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.9",
+    "@babel/plugin-transform-flow-strip-types": "^7.26.5",
+    "@babel/preset-env": "^7.26.9",
+    "flow-bin": "^0.297.0",
+    "jest": "^30.2.0",
     "random-seed": "^0.3.0"
   },
   "homepage": "https://github.com/samothx/AisParser#readme",
@@ -41,8 +42,10 @@
   },
   "dependencies": {},
   "author": "Thomas Runte <coding@etnur.net> (http://www.etnur.net)",
-  "jest" : {
-    "testPathIgnorePatterns" : ["/node_modules/","/testHelper/"],
-    "testURL": "http://localhost/"
+  "jest": {
+    "testPathIgnorePatterns": ["/node_modules/", "/testHelper/"],
+    "testEnvironmentOptions": {
+      "url": "http://localhost/"
+    }
   }
 }

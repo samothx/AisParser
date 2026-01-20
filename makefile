@@ -3,7 +3,7 @@ PATH  := node_modules/.bin:$(PATH)
 
 SRC_FILES := $(shell find src/ -type f | grep -v __tests__)
 LIB_FILES := $(patsubst src/%.js, lib/%.js, $(SRC_FILES))
-BABEL_OPTS := --plugins transform-flow-strip-types --presets env
+BABEL_OPTS := --plugins @babel/plugin-transform-flow-strip-types --presets @babel/preset-env
 
 .PHONY: all
 
