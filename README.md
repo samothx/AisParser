@@ -1,4 +1,8 @@
 # AisParser
+
+[![Tests](https://github.com/dakk/AisParser/actions/workflows/test.yml/badge.svg)](https://github.com/dakk/AisParser/actions/workflows/test.yml)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 A Parser for NMEA0183  AIS messages.
 
 ## Installation
@@ -12,7 +16,7 @@ npm run-script transpile
 ## How it works
 The modules approach to parsing AIS messages is 'on demand'. A message is merely stored and some basic checks are done by the **parse** function. When data is requested only as much of the message is parsed as is needed to decode the requested data. For instance when the aisType is read only one byte of the message is actually translated and parsed. So it makes sense to only read the values that are really needed. Although some common values are cached in the result object once they have been requested, most values are not - meaning that they are parsed every time they are requested.
 
-The Module parses AIS messages of types 1,2,3,4,5,8,14,18,19,21 and 24. These are the common message types, most other types are related to inter vessel or vessel to shore communication.
+The Module parses AIS messages of types 1,2,3,4,5,8,9,14,18,19,21 and 24. These are the common message types, most other types are related to inter vessel or vessel to shore communication.
 
 Although the parser has been thoroughly checked against AIS logs from AISHub and AIS recordings from the Panama Canal, the author takes no responsibility for the correctness of returned values. Please always keep a good watch and an eye on the traffic while commanding a vessel.
 
