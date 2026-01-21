@@ -1,6 +1,18 @@
 # AisParser
 A Parser for NMEA0183  AIS messages.
 
+## Project status / handover
+
+**Project status:**  
+I am no longer actively developing or maintaining this project. The project is related to systems used on commercial and pleasure vessels and 
+I have sold my boat, I don't spend much time sailing any more and I am not otherwise involved with this topic, so it is no longer relevant for me personally.
+
+Further development has been handed over to **[dakk](https://github.com/dakk)**, who continues the work independently in his own fork:
+
+➡️ https://github.com/dakk/AisParser
+
+Please refer to the linked fork for ongoing development, updates, and support.
+
 ## Installation
 The parser is written using [flow](https://flowtype.org/). It can be run from the src directory with babel-node or in the transpiled version from the index.js file or the lib directory. If you are using the NPM package ( add "aisparser" :">=0.0.12" to your package.json dependencies) you do not have to worry about transpiling, it has been done for you allready. If you are using the github package you will need to take care of transpiling by calling the following commands:
 ```
