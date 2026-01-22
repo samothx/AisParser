@@ -5,18 +5,16 @@
 
 A Parser for NMEA0183  AIS messages.
 
-## Installation
-The parser is written using [flow](https://flowtype.org/). It can be run from the src directory with babel-node or in the transpiled version from the index.js file or the lib directory. If you are using the NPM package ( add "aisparser" :">=0.0.12" to your package.json dependencies) you do not have to worry about transpiling, it has been done for you allready. If you are using the github package you will need to take care of transpiling by calling the following commands:
+```bash
+npm i aisparser
 ```
-cd <package-dir>
-npm install
-npm run-script transpile
-```
+
+
 
 ## How it works
 The modules approach to parsing AIS messages is 'on demand'. A message is merely stored and some basic checks are done by the **parse** function. When data is requested only as much of the message is parsed as is needed to decode the requested data. For instance when the aisType is read only one byte of the message is actually translated and parsed. So it makes sense to only read the values that are really needed. Although some common values are cached in the result object once they have been requested, most values are not - meaning that they are parsed every time they are requested.
 
-The Module parses AIS messages of types 1,2,3,4,5,8,9,14,18,19,21 and 24. These are the common message types, most other types are related to inter vessel or vessel to shore communication.
+The Module parses AIS messages of types 1,2,3,4,5,8,9,14,18,19,21,24 and 27. These are the common message types, most other types are related to inter vessel or vessel to shore communication.
 
 Although the parser has been thoroughly checked against AIS logs from AISHub and AIS recordings from the Panama Canal, the author takes no responsibility for the correctness of returned values. Please always keep a good watch and an eye on the traffic while commanding a vessel.
 
@@ -116,6 +114,7 @@ After executing the command the file output1000.csv should contain comma separat
 The last parameter delivers the type of data to be read. When set to sigk it will try to parse a format delivered by the signalk-node-server that puts a timestamp and a source tag in front of every line.  
 
 ## Usage: (as in samples/Sample.js)
+
 ```javascript
 var AisParser = require('../index');
 
