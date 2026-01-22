@@ -1,5 +1,6 @@
 # AisParser
 
+[![npm version](https://img.shields.io/npm/v/aisparser.svg)](https://www.npmjs.com/package/aisparser)
 [![Tests](https://github.com/dakk/AisParser/actions/workflows/test.yml/badge.svg)](https://github.com/dakk/AisParser/actions/workflows/test.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
